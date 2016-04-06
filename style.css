@@ -1,0 +1,46 @@
+.count {
+  width: 3em;
+}
+
+.ressourceinput {
+  display: inline-block;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.input {
+  float: left;
+  width: 22em;
+  background-color: #dddddd;
+  padding: 5px;
+}
+
+.output {
+  float: right;
+  width: calc(100% - 22em - 30px);
+  background-color: #dddddd;
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.goal > .goal {
+  padding-left: 2em;
+}
+
+.outputh1 {
+  margin-bottom: 1em;
+  font-size: large;
+}
+
+.goals > .goal {
+  margin-bottom: 1em;
+}
+
+.makerspace {
+  display: inline-block;
+  width: 2em;
+}
+
+.icon {
+  vertical-align: middle;
+}
