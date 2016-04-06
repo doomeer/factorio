@@ -191,7 +191,7 @@ let laser_turret =
   res "Laser Turret" am2 20.
     [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
 let processing_unit =
-  res "Processing Unit" am2 30.
+  res "Processing Unit" am2 15.
     [ 20., electronic_circuit; 2., advanced_circuit; 0.5, sulfuric_acid ]
 
 (* Modules *)
