@@ -22,6 +22,7 @@
 (******************************************************************************)
 
 open Factorio
+open Recipes
 open Html
 
 type gui_ressource =
