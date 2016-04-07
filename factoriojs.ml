@@ -63,7 +63,23 @@ let ft float = text (fs float)
 let special_icons =
   let list =
     [
+      raw_wood.name, "Raw-wood";
+      alien_artifact.name, "Alien-artifact";
+      heavy_oil.name, "Heavy-oil";
+      engine_unit.name, "Engine-unit";
+      electric_engine_unit.name, "Electric-engine-unit";
+      flying_robot_frame.name, "Flying-robot-frame";
+      alien_science_pack.name, "Alien-science-pack";
+      empty_barrel.name, "Barrel-empty";
+      transport_belt.name, "Basic-transport-belt";
+      underground_belt.name, "Basic-transport-belt-to-ground";
+      fast_underground_belt.name, "Fast-transport-belt-to-ground";
+      express_underground_belt.name, "Express-transport-belt-to-ground";
+      splitter.name, "Basic-splitter";
       inserter.name, "Inserter-icon";
+      efficiency_module.name, "Effectivity-module";
+      efficiency_module_2.name, "Effectivity-module-2";
+      efficiency_module_3.name, "Effectivity-module-3";
       low_density_structure.name, "Rocket-structure";
       electric_mining_drill.name, "Basic-mining-drill";
     ]
@@ -76,14 +92,32 @@ let special_hrefs =
   let list =
     [
       (* No uppercase. *)
+      raw_wood.name, "Raw_wood";
+      alien_artifact.name, "Alien_artifact";
       iron_ore.name, "Iron_ore";
       copper_ore.name, "Copper_ore";
       copper_cable.name, "Copper_cable";
       plastic_bar.name, "Plastic_bar";
+      heavy_oil.name, "Heavy_oil";
+      engine_unit.name, "Engine_unit";
+      electric_engine_unit.name, "Electric_engine_unit";
+      flying_robot_frame.name, "Flying_robot_frame";
+      alien_science_pack.name, "Alien_science_pack";
+      empty_barrel.name, "Empty_barrel";
       fast_inserter.name, "Fast_inserter";
       smart_inserter.name, "Smart_inserter";
       basic_accumulator.name, "Basic_accumulator";
+      efficiency_module.name, "Efficiency_module";
+      productivity_module.name, "Productivity_module";
+      efficiency_module_2.name, "Efficiency_module_2";
+      efficiency_module_3.name, "Efficiency_module_3";
+      productivity_module_2.name, "Productivity_module_2";
+      productivity_module_3.name, "Productivity_module_3";
       speed_module.name, "Speed_module";
+      speed_module_2.name, "Speed_module_2";
+      speed_module_3.name, "Speed_module_3";
+      logistic_robot.name, "Logistic_robot";
+      construction_robot.name, "Construction_robot";
       low_density_structure.name, "Low_density_structure";
       rocket_control_unit.name, "Rocket_control_unit";
       solid_fuel.name, "Solid_fuel";
@@ -93,8 +127,10 @@ let special_hrefs =
       assembling_machine_1.name, "Assembling_machine";
       assembling_machine_2.name, "Assembling_machine_2";
       assembling_machine_3.name, "Assembling_machine_3";
-      (* Special. *)
-      basic_transport_belt.name, "Transport_Belt";
+      underground_belt.name, "Underground_belt";
+      fast_underground_belt.name, "Fast_underground_belt";
+      express_underground_belt.name, "Express_underground_belt";
+      long_handed_inserter.name, "Long_handed_inserter";
     ]
   in
   let table = Hashtbl.create 16 in

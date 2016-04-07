@@ -48,9 +48,9 @@ let chemical_plant = maker "Chemical Plant" 1.25
 let drill = [ burner_mining_drill; electric_mining_drill ]
 let am1 = [ assembling_machine_1; assembling_machine_2; assembling_machine_3 ]
 let am2 = [ assembling_machine_2; assembling_machine_3 ]
-(* I commented out electric furnaces because their crafting time is the same
-   as for steel furnaces. *)
-let furnace = [ stone_furnace; steel_furnace(*; electric_furnace *) ]
+(* I commented out steel furnaces because their crafting time is the same
+   as for electric furnaces. *)
+let furnace = [ stone_furnace(* ; steel_furnace *); electric_furnace ]
 let chemical_plant = [ chemical_plant ]
 
 (******************************************************************************)
@@ -103,53 +103,54 @@ let chemical_plant = [ chemical_plant ]
 (* I use Petroleum Gas for Rocket Fuel but this is obviously non optimal,
    it's just for simplification's sake. *)
 
-(* Red Potions *)
+(* The order in this file follows the order in the Resources page of
+   the Wiki, except when this would mess the dependencies. *)
 
+(* Resources *)
+
+let raw_wood =
+  res "Raw Wood" [] 1. ~style: Global
+    []
+let coal =
+  res "Coal" drill 2. ~style: Global
+    []
 let iron_ore =
   res "Iron Ore" drill 2.
     []
 let copper_ore =
   res "Copper Ore" drill 2.
     []
+let stone =
+  res "Stone" drill 2.
+    []
+let alien_artifact =
+  res "Alien Artifact" [] 1. ~style: Global
+    []
+let water =
+  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 60. ~style: Global
+    []
+let crude_oil =
+  res "Crude Oil" [ maker "Pumpjack" 1. ] 1.
+    []
+
+(* Intermediate Products *)
+
+let wood =
+  res "Wood" am1 0.5 ~count: 2.
+    [ 1., raw_wood ]
 let iron_plate =
   res "Iron Plate" furnace 3.5 ~style: Global
     [ 1., iron_ore ]
 let copper_plate =
   res "Copper Plate" furnace 3.5 ~style: Global
     [ 1., copper_ore ]
-let iron_gear_wheel =
-  res "Iron Gear Wheel" am1 0.5
-    [ 2., iron_plate ]
-let science_pack_1 =
-  res "Science Pack 1" am1 5.
-    [ 1., copper_plate; 1., iron_gear_wheel ]
+let steel_plate =
+  res "Steel Plate" furnace 17.5
+    [ 5., iron_plate ]
+let stone_brick =
+  res "Stone Brick" furnace 3.5
+    [ 1., stone ]
 
-(* Green Potions *)
-
-let basic_transport_belt =
-  res "Basic Transport Belt" am1 0.5 ~count: 2.
-    [ 1., iron_plate; 1., iron_gear_wheel ]
-let copper_cable =
-  res "Copper Cable" am1 0.5 ~count: 2.
-    [ 1., copper_plate ]
-let electronic_circuit =
-  res "Electronic Circuit" am1 0.5
-    [ 1., iron_plate; 3., copper_cable ]
-let inserter =
-  res "Inserter" am2 0.5
-    [ 1., iron_plate; 1., iron_gear_wheel; 1., electronic_circuit ]
-let science_pack_2 =
-  res "Science Pack 2" am1 6.
-    [ 1., inserter; 1., basic_transport_belt ]
-
-(* Blue Potions *)
-
-let crude_oil =
-  res "Crude Oil" [ maker "Pumpjack" 1. ] 1.
-    []
-let water =
-  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 60. ~style: Global
-    []
 let petroleum_gas_basic =
   res "Petroleum Gas" [ maker "Basic Oil Processing" 1. ] 5.
     ~count: 4. ~style: Global
@@ -175,30 +176,163 @@ let sulfur =
 let sulfuric_acid =
   res "Sulfuric Acid" chemical_plant 1. ~count: 5.
     [ 1., iron_plate; 5., sulfur; 10., water ]
-let battery =
-  res "Battery" chemical_plant 5.
-    [ 1., iron_plate; 1., copper_plate; 2., sulfuric_acid ]
-let coal =
-  res "Coal" drill 2. ~style: Global
-    []
 let plastic_bar =
   res "Plastic Bar" chemical_plant 1. ~count: 2.
     [ 1., coal; 3., petroleum_gas ]
+let battery =
+  res "Battery" chemical_plant 5.
+    [ 1., iron_plate; 1., copper_plate; 2., sulfuric_acid ]
+let iron_stick =
+  res "Iron Stick" am1 0.5 ~count: 2.
+    [ 1., iron_plate ]
+let iron_gear_wheel =
+  res "Iron Gear Wheel" am1 0.5
+    [ 2., iron_plate ]
+let copper_cable =
+  res "Copper Cable" am1 0.5 ~count: 2.
+    [ 1., copper_plate ]
+let electronic_circuit =
+  res "Electronic Circuit" am1 0.5
+    [ 1., iron_plate; 3., copper_cable ]
 let advanced_circuit =
   res "Advanced Circuit" am2 8.
     [ 2., electronic_circuit; 2., plastic_bar; 4., copper_cable ]
+let processing_unit =
+  res "Processing Unit" am2 15.
+    [ 20., electronic_circuit; 2., advanced_circuit; 0.5, sulfuric_acid ]
+let pipe =
+  res "Pipe" am1 0.5
+    [ 1., iron_plate ]
+let engine_unit =
+  res "Engine Unit" am2 20.
+    [ 1., steel_plate; 1., iron_gear_wheel; 2., pipe ]
+let heavy_oil =
+  res "Heavy Oil" chemical_plant 1.
+    [] (* TODO *)
+let lubricant =
+  res "Lubricant" chemical_plant 1.
+    [ 1., heavy_oil ]
+let electric_engine_unit =
+  res "Electric Engine Unit" am2 20.
+    [ 1., engine_unit; 2., electronic_circuit; 2., lubricant ]
+let flying_robot_frame =
+  res "Flying Robot Frame" am2 20.
+    [ 1., engine_unit; 2., electronic_circuit; 2., lubricant ]
+let science_pack_1 =
+  res "Science Pack 1" am1 5.
+    [ 1., copper_plate; 1., iron_gear_wheel ]
+let inserter =
+  res "Inserter" am2 0.5
+    [ 1., iron_plate; 1., iron_gear_wheel; 1., electronic_circuit ]
+let transport_belt =
+  res "Transport Belt" am1 0.5 ~count: 2.
+    [ 1., iron_plate; 1., iron_gear_wheel ]
+let science_pack_2 =
+  res "Science Pack 2" am1 6.
+    [ 1., inserter; 1., transport_belt ]
 let fast_inserter =
   res "Fast Inserter" am2 0.5
     [ 1., inserter; 2., iron_plate; 2., electronic_circuit ]
 let smart_inserter =
   res "Smart Inserter" am2 0.5
     [ 1., fast_inserter; 4., electronic_circuit ]
-let steel_plate =
-  res "Steel Plate" furnace 17.5
-    [ 5., iron_plate ]
 let science_pack_3 =
   res "Science Pack 3" am2 12.
     [ 1., battery; 1., advanced_circuit; 1., smart_inserter; 1., steel_plate ]
+let alien_science_pack =
+  res "Alien Science Pack" am1 12. ~count: 10.
+    [ 1., alien_artifact ]
+let empty_barrel =
+  res "Empty Barrel" am1 1.
+    [ 1., steel_plate ]
+let explosives =
+  res "Explosives" am1 5.
+    [ 1., sulfur; 1., coal; 1., water ]
+
+(* Modules *)
+
+let efficiency_module =
+  res "Efficiency Module" am2 15.
+    [ 5., advanced_circuit; 5., electronic_circuit ]
+let efficiency_module_2 =
+  res "Efficiency Module 2" am2 30.
+    [ 5., advanced_circuit; 5., processing_unit; 4., efficiency_module ]
+let efficiency_module_3 =
+  res "Efficiency Module 3" am2 60.
+    [ 5., advanced_circuit; 5., processing_unit; 5., efficiency_module_2;
+      1., alien_artifact ]
+let productivity_module =
+  res "Productivity Module" am2 15.
+    [ 5., advanced_circuit; 5., electronic_circuit ]
+let productivity_module_2 =
+  res "Productivity Module 2" am2 30.
+    [ 5., advanced_circuit; 5., processing_unit; 4., productivity_module ]
+let productivity_module_3 =
+  res "Productivity Module 3" am2 60.
+    [ 5., advanced_circuit; 5., processing_unit; 5., productivity_module_2;
+      1., alien_artifact ]
+let speed_module =
+  res "Speed Module" am2 15.
+    [ 5., advanced_circuit; 5., electronic_circuit ]
+let speed_module_2 =
+  res "Speed Module 2" am2 30.
+    [ 5., advanced_circuit; 5., processing_unit; 4., speed_module ]
+let speed_module_3 =
+  res "Speed Module 3" am2 60.
+    [ 5., advanced_circuit; 5., processing_unit; 4., speed_module_2;
+      1., alien_artifact ]
+
+(* Special *)
+
+let logistic_robot =
+  res "Logistic Robot" am1 0.5
+    [ 1., flying_robot_frame; 2., advanced_circuit ]
+let construction_robot =
+  res "Construction Robot" am1 0.5
+    [ 1., flying_robot_frame; 2., electronic_circuit ]
+let roboport =
+  res "Roboport" am2 15.
+    [ 45., steel_plate; 45., iron_gear_wheel; 45., advanced_circuit ]
+
+(* Transport Belts *)
+
+let underground_belt =
+  res "Underground Belt" am1 1. ~count: 2.
+    [ 5., transport_belt; 10., iron_plate ]
+let splitter =
+  res "Splitter" am2 1.
+    [ 5., electronic_circuit; 5., iron_plate; 4., transport_belt ]
+let fast_transport_belt =
+  res "Fast Transport Belt" am1 0.5
+    [ 1., transport_belt; 5., iron_gear_wheel ]
+let fast_underground_belt =
+  res "Fast Underground Belt" am1 0.5 ~count: 2.
+    [ 20., iron_gear_wheel; 2., underground_belt ]
+let fast_splitter =
+  res "Fast Splitter" am2 2.
+    [ 1., splitter; (* TODO: check this *)
+      10., iron_gear_wheel; 10., electronic_circuit ]
+let express_transport_belt =
+  res "Express Transport Belt" am2 0.5
+    [ 1., fast_transport_belt; 5., iron_gear_wheel; 2., lubricant ]
+let express_underground_belt =
+  res "Express Underground Belt" am1 0.5 ~count: 2.
+    [ 40., iron_gear_wheel; 2., fast_underground_belt ]
+let express_splitter =
+  res "Express Splitter" am2 2.
+    [ 1., fast_splitter; 10., iron_gear_wheel; 10., advanced_circuit;
+      8., lubricant ]
+
+(* Inserters *)
+
+let burner_inserter =
+  res "Burner Inserter" am1 0.5
+    [ 1., iron_plate; 1., iron_gear_wheel ]
+let long_handed_inserter =
+  res "Long Handed Inserter" am2 0.5
+    [ 1., inserter; 1., iron_plate; 1., iron_gear_wheel ]
+
+(* TODO: continue sorting and adding missing recipes from this point. *)
 
 (* Useful Stuff *)
 
@@ -211,15 +345,6 @@ let basic_accumulator =
 let laser_turret =
   res "Laser Turret" am2 20.
     [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
-let processing_unit =
-  res "Processing Unit" am2 15.
-    [ 20., electronic_circuit; 2., advanced_circuit; 0.5, sulfuric_acid ]
-
-(* Modules *)
-
-let speed_module =
-  res "Speed Module" am2 20.
-    [ 5., advanced_circuit; 5., electronic_circuit ]
 
 (* Rocket Parts *)
 
@@ -248,38 +373,147 @@ let rocket_part =
 
 let resources =
   [
+    (* Resources *)
+    raw_wood;
+    coal;
     iron_ore;
     copper_ore;
-    coal;
-    crude_oil;
+    stone;
+    (* raw_fish; *)
+    alien_artifact;
     water;
-    petroleum_gas;
+    crude_oil;
+
+    (* Intermediate Products *)
+    wood;
     iron_plate;
     copper_plate;
     steel_plate;
-    copper_cable;
+    stone_brick;
+    sulfur;
+    plastic_bar;
+    battery;
+    iron_stick;
     iron_gear_wheel;
-    science_pack_1;
-    science_pack_2;
-    science_pack_3;
+    copper_cable;
     electronic_circuit;
     advanced_circuit;
     processing_unit;
+    engine_unit;
+    electric_engine_unit;
+    flying_robot_frame;
+    science_pack_1;
+    science_pack_2;
+    science_pack_3;
+    alien_science_pack;
+    empty_barrel;
+    explosives;
+
+    (* Chemicals *)
+    petroleum_gas;
+    (* light_oil; *)
+    (* heavy_oil; *)
+    sulfuric_acid;
+    lubricant;
+
+    (* Player Equipment *)
+    (* iron_axe; *)
+    (* steel_axe; *)
+
+    (* Weapons *)
+    (* pistol; *)
+    (* submachine_gun; *)
+    (* rocket_launcher; *)
+    (* flamethrower; *)
+    (* land_mine; *)
+    (* shotgun; *)
+    (* combat_shotgun; *)
+    (* basic_grenade; *)
+    (* defender_capsule; *)
+    (* poison_capsule; *)
+    (* slowdown_capsule; *)
+    (* distractor_capsule; *)
+    (* destroyer_capsule; *)
+    (* basic_electric_discharge_defense_remote; *)
+    (* tank; *)
+
+    (* Ammo *)
+    (* regular_magazine; *)
+    (* piercing_rounds_magazine; *)
+    (* shotgun_shells; *)
+    (* piercing_shotgun_shells; *)
+    (* rocket; *)
+    (* explosive_rocket; *)
+    (* flamethrower_ammo; *)
+    (* cannon_shells; *)
+    (* explosive_cannon_shells; *)
+
+    (* Armor *)
+    (* iron_armor; *)
+    (* heavy_armor; *)
+    (* basic_modular_armor; *)
+    (* power_armor; *)
+    (* power_armor_mk2; *)
+
+    (* Modular Armor *)
+    (* night_vision; *)
+    (* battery_mk1; *)
+    (* battery_mk2; *)
+    (* energy_shield; *)
+    (* energy_shield_mk2; *)
+    (* portable_solar_panel; *)
+    (* portable_fusion_reactor; *)
+    (* personal_laser_defense; *)
+    (* discharge_defense; *)
+    (* basic_exoskeleton_equipment; *)
+
+    (* Modules *)
+    efficiency_module;
+    efficiency_module_2;
+    efficiency_module_3;
+    productivity_module;
+    productivity_module_2;
+    productivity_module_3;
     speed_module;
-    basic_transport_belt;
+    speed_module_2;
+    speed_module_3;
+
+    (* Special *)
+    (* car; *)
+    (* red_wire; *)
+    (* green_wire; *)
+    logistic_robot;
+    construction_robot;
+    roboport;
+    (* blueprint; *)
+    (* deconstruction_planner; *)
+    solid_fuel;
+
+    (* Transport Belts *)
+    transport_belt;
+    underground_belt;
+    splitter;
+    fast_transport_belt;
+    fast_underground_belt;
+    fast_splitter;
+    express_transport_belt;
+    express_underground_belt;
+    express_splitter;
+
+    (* Inserters *)
+    burner_inserter;
     inserter;
+    long_handed_inserter;
     fast_inserter;
     smart_inserter;
-    sulfur;
-    sulfuric_acid;
-    battery;
-    plastic_bar;
+
+    (* TODO: continue sorting and adding missing recipes from this point. *)
+
     solar_panel;
     basic_accumulator;
     laser_turret;
     low_density_structure;
     rocket_control_unit;
-    solid_fuel;
     rocket_fuel;
     rocket_part;
   ]
