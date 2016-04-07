@@ -54,21 +54,21 @@ let a ?(class_ = "") ?(href = "") items =
   a##href <- Js.string href;
   (a :> t)
 
+let append_node parent node =
+  let _: Dom.node Js.t = parent##appendChild(node) in
+  ()
+
+let set_items parent (items: t list) =
+  List.iter
+    (fun child -> let _: Dom.node Js.t = parent##removeChild(child) in ())
+    (Dom.list_of_nodeList parent##childNodes);
+  List.iter (append_node parent) items
+
 let div' ?(class_ = "") items =
   let div = Dom_html.(createDiv document) in
-  let append_node node =
-    let _: Dom.node Js.t = div##appendChild(node) in
-    ()
-  in
-  List.iter append_node items;
-  let set_items (items: t list) =
-    List.iter
-      (fun child -> let _: Dom.node Js.t = div##removeChild(child) in ())
-      (Dom.list_of_nodeList div##childNodes);
-    List.iter append_node items;
-  in
+  List.iter (append_node div) items;
   div##className <- Js.string class_;
-  (div :> t), set_items
+  (div :> t), set_items div
 
 let div ?class_ items =
   let div, _ = div' ?class_ items in
@@ -76,19 +76,9 @@ let div ?class_ items =
 
 let span' ?(class_ = "") items =
   let span = Dom_html.(createSpan document) in
-  let append_node node =
-    let _: Dom.node Js.t = span##appendChild(node) in
-    ()
-  in
-  List.iter append_node items;
-  let set_items (items: t list) =
-    List.iter
-      (fun child -> let _: Dom.node Js.t = span##removeChild(child) in ())
-      (Dom.list_of_nodeList span##childNodes);
-    List.iter append_node items;
-  in
+  List.iter (append_node span) items;
   span##className <- Js.string class_;
-  (span :> t), set_items
+  (span :> t), set_items span
 
 let span ?class_ items =
   let span, _ = span' ?class_ items in
@@ -103,8 +93,8 @@ let checkbox_input' ?(class_ = "") ?(on_change = fun _ -> ()) checked =
   let set_checked checked = input##checked <- Js.bool checked in
   (input :> t), set_checked
 
-let checkbox_input ?class_ ?on_change items =
-  let checkbox_input, _ = checkbox_input' ?class_ ?on_change items in
+let checkbox_input ?class_ ?on_change checked =
+  let checkbox_input, _ = checkbox_input' ?class_ ?on_change checked in
   checkbox_input
 
 let text_input' ?(class_ = "") ?(on_change = fun _ -> ()) value =
@@ -116,8 +106,8 @@ let text_input' ?(class_ = "") ?(on_change = fun _ -> ()) value =
   let set_value value = input##value <- Js.string value in
   (input :> t), set_value
 
-let text_input ?class_ ?on_change items =
-  let text_input, _ = text_input' ?class_ ?on_change items in
+let text_input ?class_ ?on_change value =
+  let text_input, _ = text_input' ?class_ ?on_change value in
   text_input
 
 let run html =

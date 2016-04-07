@@ -21,6 +21,8 @@
 (* WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.            *)
 (******************************************************************************)
 
+(** Simple interface to create HTML entities using js_of_ocaml. *)
+
 type t
 
 val alert: string -> unit
