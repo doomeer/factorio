@@ -207,6 +207,51 @@ let gui_goals (goals: summary list) =
   in
   List.map gui_goal goals
 
+let get_resource_request (resource: gui_resource) =
+  (* The user can prefix the resource count with a letter,
+     to automatically convert the count into a number of makers
+     that should be running at full time. *)
+  if resource.count <> "" then
+    let maker =
+      (* Makers are indexed from best to worst. *)
+      let get_maker index =
+        let rec find index = function
+          | [] -> None
+          | hd :: _ when index = 0 -> Some hd
+          | _ :: tl -> find (index - 1) tl
+        in
+        let makers =
+          (* Sort the makers by crafting speed, from best to worst. *)
+          let compare_makers (a: maker) (b: maker) =
+            compare b.crafting_speed a.crafting_speed
+          in
+          List.sort compare_makers resource.resource.makers
+        in
+        find index makers
+      in
+      match resource.count.[0] with
+        | 'a' | 'A' -> get_maker 0
+        | 'b' | 'B' -> get_maker 1
+        | 'c' | 'C' -> get_maker 2
+        | _ -> None
+    in
+    let count =
+      match maker with
+        | None ->
+            parse_float resource.count
+        | Some maker ->
+            let maker_count =
+              parse_float
+                (String.sub resource.count 1
+                   (String.length resource.count - 1))
+            in
+            maker_count *. maker.crafting_speed /.
+            resource.resource.time
+    in
+    count, resource.resource
+  else
+    0., resource.resource
+
 let last_hash = ref ""
 
 let make_hash () =
@@ -216,7 +261,7 @@ let make_hash () =
         | Global -> "g"
         | Local -> ""
     in
-    let count = parse_float resource.count in
+    let count, _ = get_resource_request resource in
     let count = "-" ^ if count = 0. then "" else fs count in
     count^style
   in
@@ -275,9 +320,6 @@ let () =
     let output, set_output = Html.div' ~class_: "output" [] in
     let update () =
       let resources =
-        let get_resource_request (resource: gui_resource) =
-          parse_float resource.count, resource.resource
-        in
         List.map get_resource_request resources
       in
       let meta_resource = res "" [] 0. resources in
@@ -300,6 +342,15 @@ let () =
                    automatically. It means you can share your settings \
                    easily with other people. You can also bookmark them and \
                    even use the Back button.";
+                div ~class_: "outputh1" [ text "Tips" ];
+                p_text
+                  "Instead of entering the requested throughput, \
+                   you can enter a number of machines that should run \
+                   at full speed. To this end, simply prefix the number by \
+                   the letter A to use the fastest machine, B to use the \
+                   second best or C to use the third best. For instance, \
+                   requesting b2 laser turrets means that \
+                   2 blue assembling machines should run at full speed.";
                 div ~class_: "outputh1" [ text "Additional Resources" ];
                 p [
                   text "Source code is available on ";
