@@ -54,24 +54,24 @@ let furnace = [ stone_furnace; steel_furnace(*; electric_furnace *) ]
 let chemical_plant = [ chemical_plant ]
 
 (******************************************************************************)
-(*                                 Ressources                                 *)
+(*                                  Resources                                 *)
 (******************************************************************************)
 
-(* Ressource definitions. Ressources are craftable items, such as potions.
-   Note that makers themselves are craftable and are thus also ressources. *)
+(* Resource definitions. Resources are craftable items, such as potions.
+   Note that makers themselves are craftable and are thus also resources. *)
 
 (* Usage: res name makers crafting_time ingredients
 
    [makers] is a list of makers.
-   [ingredients] is a list of (float, ressource) pairs, where the float
-   is the amount of the ressource which is required.
+   [ingredients] is a list of (float, resource) pairs, where the float
+   is the amount of the resource which is required.
 
    Optional arguments:
    - use [~style: Global] (without the brackets) so that
-     the ressource is global by default;
+     the resource is global by default;
    - use [~count: 2.] for recipes which produce 2 items at a time. *)
 
-(* DON'T FORGET TO ADD THE RESSOURCE TO THE LIST AT THE END OF THIS FILE! *)
+(* DON'T FORGET TO ADD THE RESOURCE TO THE LIST AT THE END OF THIS FILE! *)
 
 (* Coal is only counted to make Plastic Bars, not by Furnaces.
    You can change this by adding the Coal ingredient to the plate recipes. *)
@@ -241,12 +241,12 @@ let rocket_part =
     [ 10., low_density_structure; 10., rocket_fuel; 10., rocket_control_unit ]
 
 (******************************************************************************)
-(*                             List of Ressources                             *)
+(*                              List of Resources                             *)
 (******************************************************************************)
 
-(* These are the ressources that appear in the user interface. *)
+(* These are the resources that appear in the user interface. *)
 
-let ressources =
+let resources =
   [
     iron_ore;
     copper_ore;

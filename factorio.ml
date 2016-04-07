@@ -33,12 +33,12 @@ type style =
   | Global
   | Local
 
-type ressource =
+type resource =
   {
     name: string;
     makers: maker list;
     time: float;
-    ingredients: (float * ressource) list;
+    ingredients: (float * resource) list;
     count: float; (* Usually 1, but sometimes 2 like for Copper Cables. *)
     mutable style: style;
   }
@@ -53,78 +53,78 @@ let res ?(count = 1.) ?(style = Local) name makers time ingredients =
 type summary =
   {
     throughput: float; (* goal count per second *)
-    goal: string; (* goal ressource name *)
+    goal: string; (* goal resource name *)
     makers: (float * string) list; (* count, name *)
     subgoals: summary list;
   }
 
-(* Summarize in a tree style. Don't detail global ressources. *)
-let rec summarize_local throughput (ressource: ressource): summary =
-  match ressource.style with
+(* Summarize in a tree style. Don't detail global resources. *)
+let rec summarize_local throughput (resource: resource): summary =
+  match resource.style with
     | Local ->
         let makers =
           let make_maker (maker: maker) =
             let maker_count =
-              throughput /. ressource.count *.
-              ressource.time /. maker.crafting_speed
+              throughput /. resource.count *.
+              resource.time /. maker.crafting_speed
             in
             maker_count, maker.name
           in
-          List.map make_maker ressource.makers
+          List.map make_maker resource.makers
         in
         let subgoals =
           let make_subgoal (count, ingredient) =
             summarize_local
-              (throughput /. ressource.count *. count)
+              (throughput /. resource.count *. count)
               ingredient
           in
-          List.map make_subgoal ressource.ingredients
+          List.map make_subgoal resource.ingredients
         in
         {
           throughput;
-          goal = ressource.name;
+          goal = resource.name;
           makers;
           subgoals;
         }
     | Global ->
         {
           throughput;
-          goal = ressource.name;
+          goal = resource.name;
           makers = [];
           subgoals = [];
         }
 
-(* Detail global ressources only. *)
-let summarize_global throughput (ressource: ressource) =
+(* Detail global resources only. *)
+let summarize_global throughput (resource: resource) =
   let table = Hashtbl.create 16 in
-  let add throughput ressource =
+  let add throughput resource =
     let previous_throughput =
-      match Hashtbl.find table ressource.name with
+      match Hashtbl.find table resource.name with
         | exception Not_found ->
             0.
         | tp, _ ->
             tp
     in
-    Hashtbl.replace table ressource.name
-      (previous_throughput +. throughput, ressource)
+    Hashtbl.replace table resource.name
+      (previous_throughput +. throughput, resource)
   in
-  let rec search throughput ressource =
+  let rec search throughput resource =
     begin
-      match ressource.style with
+      match resource.style with
         | Local -> ()
-        | Global -> add throughput ressource
+        | Global -> add throughput resource
     end;
     List.iter
       (fun (count, ingredient) ->
-         search (throughput /. ressource.count *. count) ingredient)
-      ressource.ingredients
+         search (throughput /. resource.count *. count) ingredient)
+      resource.ingredients
   in
-  search throughput ressource;
+  search throughput resource;
   let result = ref [] in
   Hashtbl.iter
-    (fun _ (throughput, ressource) ->
+    (fun _ (throughput, resource) ->
        result :=
-         summarize_local throughput { ressource with style = Local }
+         summarize_local throughput { resource with style = Local }
          :: !result)
     table;
   List.rev !result

@@ -25,24 +25,24 @@ open Factorio
 open Recipes
 open Html
 
-type gui_ressource =
+type gui_resource =
   {
-    ressource: ressource;
+    resource: resource;
     mutable count: string;
     mutable set_gui_global: bool -> unit;
     mutable set_gui_count: string -> unit;
   }
 
-let ressources =
-  let make_ressource ressource =
+let resources =
+  let make_resource resource =
     {
-      ressource;
+      resource;
       count = "0";
       set_gui_global = (fun _ -> ());
       set_gui_count = (fun _ -> ());
     }
   in
-  List.map make_ressource ressources
+  List.map make_resource resources
 
 let parse_float string =
   try
@@ -174,17 +174,17 @@ let gui_goals (goals: summary list) =
 let last_hash = ref ""
 
 let make_hash () =
-  let make_ressource_hash (ressource: gui_ressource) =
+  let make_resource_hash (resource: gui_resource) =
     let style =
-      match ressource.ressource.style with
+      match resource.resource.style with
         | Global -> "g"
         | Local -> ""
     in
-    let count = parse_float ressource.count in
+    let count = parse_float resource.count in
     let count = "-" ^ if count = 0. then "" else fs count in
     count^style
   in
-  List.map make_ressource_hash ressources |> String.concat ""
+  List.map make_resource_hash resources |> String.concat ""
 
 let parse_hash hash =
   let len = String.length hash in
@@ -196,7 +196,7 @@ let parse_hash hash =
       c
     )
   in
-  let parse_ressource_hash (ressource: gui_ressource) =
+  let parse_resource_hash (resource: gui_resource) =
     if next () = '-' then (
       let chars = ref [] in
       let global = ref false in
@@ -204,7 +204,7 @@ let parse_hash hash =
       while not !stop do
         match next () with
           | '-' ->
-              (* Go back so that the next ressource can parse this dash. *)
+              (* Go back so that the next resource can parse this dash. *)
               decr i;
               stop := true
           | 'g' ->
@@ -222,15 +222,15 @@ let parse_hash hash =
         in
         (* We parse the float to avoid security issues. *)
         let count = parse_float count |> fs in
-        ressource.count <- count;
-        ressource.set_gui_count count;
-        ressource.ressource.style <- (if !global then Global else Local);
-        ressource.set_gui_global !global
+        resource.count <- count;
+        resource.set_gui_count count;
+        resource.resource.style <- (if !global then Global else Local);
+        resource.set_gui_global !global
     ) else
-      i := -1; (* next always returns '-' for the next ressources *)
-    (* if !i < 0 then alert ("Failed to parse: "^ressource.ressource.name); *)
+      i := -1; (* next always returns '-' for the next resources *)
+    (* if !i < 0 then alert ("Failed to parse: "^resource.resource.name); *)
   in
-  List.iter parse_ressource_hash ressources
+  List.iter parse_resource_hash resources
 
 let () =
   Html.run @@ fun () ->
@@ -238,25 +238,25 @@ let () =
   let gui, update =
     let output, set_output = Html.div' ~class_: "output" [] in
     let update () =
-      let ressources =
-        let get_ressource_request (ressource: gui_ressource) =
-          parse_float ressource.count, ressource.ressource
+      let resources =
+        let get_resource_request (resource: gui_resource) =
+          parse_float resource.count, resource.resource
         in
-        List.map get_ressource_request ressources
+        List.map get_resource_request resources
       in
-      let meta_ressource = res "" [] 0. ressources in
+      let meta_resource = res "" [] 0. resources in
       let remove_zero = List.filter (fun goal -> goal.throughput <> 0.) in
-      let global = summarize_global 1. meta_ressource |> remove_zero in
-      let local = (summarize_local 1. meta_ressource).subgoals |> remove_zero in
+      let global = summarize_global 1. meta_resource |> remove_zero in
+      let local = (summarize_local 1. meta_resource).subgoals |> remove_zero in
       let output =
         match global, local with
           | [], [] ->
               [
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
-                  "Set the number next to each ressource to the \
+                  "Set the number next to each resource to the \
                    requested throughput. The checkbox controls whether \
-                   the ressource is global.";
+                   the resource is global.";
                 div ~class_: "outputh1" [ text "Sharing" ];
                 p_text
                   "See the #---g--g-g-g-g-------------------------- part \
@@ -264,7 +264,7 @@ let () =
                    automatically. It means you can share your settings \
                    easily with other people. You can also bookmark them and \
                    even use the Back button.";
-                div ~class_: "outputh1" [ text "Additional Ressources" ];
+                div ~class_: "outputh1" [ text "Additional Resources" ];
                 p [
                   text "Source code is available on ";
                   a ~href: "https://github.com/doomeer/factorio" [
@@ -298,32 +298,32 @@ let () =
         Html.set_hash hash
       )
     in
-    let ressource_input (ressource: gui_ressource) =
+    let resource_input (resource: gui_resource) =
       let global, set_global =
         checkbox_input'
           ~on_change:
             (fun new_value ->
                let new_value = if new_value then Global else Local in
-               ressource.ressource.style <- new_value; update ())
-          (ressource.ressource.style = Global)
+               resource.resource.style <- new_value; update ())
+          (resource.resource.style = Global)
       in
-      ressource.set_gui_global <- set_global;
+      resource.set_gui_global <- set_global;
       let count, set_count =
         text_input'
           ~class_: "count"
-          ~on_change: (fun new_value -> ressource.count <- new_value; update ())
-          ressource.count
+          ~on_change: (fun new_value -> resource.count <- new_value; update ())
+          resource.count
       in
-      ressource.set_gui_count <- set_count;
-      div ~class_: "ressourceinput" [
+      resource.set_gui_count <- set_count;
+      div ~class_: "resourceinput" [
         global;
         count;
-        gui_icon ressource.ressource.name;
+        gui_icon resource.resource.name;
       ]
     in
     div ~class_: "main" [
       div ~class_: "input" (
-        List.map ressource_input ressources
+        List.map resource_input resources
       );
       output;
     ],
