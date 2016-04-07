@@ -29,7 +29,7 @@ val alert: string -> unit
 
 val text: string -> t
 val text': string -> t * (string -> unit)
-val img: ?class_: string -> ?alt: string -> string -> t
+val img: ?class_: string -> ?alt: string -> ?title: string -> string -> t
 val a: ?class_: string -> ?href: string -> t list -> t
 val p: ?class_: string -> t list -> t
 val p_text: ?class_: string -> string -> t

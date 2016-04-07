@@ -35,12 +35,13 @@ let text' value =
   let set_text value = text##replaceData(0, text##length, Js.string value) in
   (text :> t), set_text
 
-let img ?(class_ = "") ?alt src =
+let img ?(class_ = "") ?alt ?title src =
   let alt = match alt with None -> src | Some alt -> alt in
   let img = Dom_html.(createImg document) in
   img##src <- Js.string src;
   img##alt <- Js.string alt;
   img##className <- Js.string class_;
+  (match title with None -> () | Some title -> img##title <- Js.string title);
   (img :> t)
 
 let a ?(class_ = "") ?(href = "") items =

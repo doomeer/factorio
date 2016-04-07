@@ -131,7 +131,7 @@ let gui_icon alt =
           href
   in
   let href = "http://wiki.factorio.com/index.php?title="^href in
-  a ~href [ img ~class_: "icon" ~alt src ]
+  a ~href [ img ~class_: "icon" ~alt ~title: alt src ]
 
 let gui_goals (goals: summary list) =
   let rec gui_goal (goal: summary) =
