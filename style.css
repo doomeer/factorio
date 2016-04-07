@@ -1,3 +1,16 @@
+p.reset {
+  text-align: center;
+}
+
+a.reset {
+  border-style: outset;
+  border-width: 2px;
+  padding: 2px;
+  text-decoration: none;
+  color: #400000;
+  background-color: #eeeeee;
+}
+
 .count {
   width: 3em;
 }

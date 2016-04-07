@@ -411,6 +411,11 @@ let () =
     div ~class_: "main" [
       div ~class_: "input" (
         List.map resource_input resources
+        @ [
+          p ~class_: "reset" [
+            a ~class_: "reset" ~href: "index.html" [ text "Reset" ];
+          ];
+        ]
       );
       output;
     ],
