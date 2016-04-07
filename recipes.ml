@@ -332,21 +332,120 @@ let long_handed_inserter =
   res "Long Handed Inserter" am2 0.5
     [ 1., inserter; 1., iron_plate; 1., iron_gear_wheel ]
 
-(* TODO: continue sorting and adding missing recipes from this point. *)
+(* Storage *)
 
-(* Useful Stuff *)
+let wooden_chest =
+  res "Wooden Chest" am1 0.5
+    [ 4., wood ]
+let iron_chest =
+  res "Iron Chest" am1 0.5
+    [ 8., iron_plate ]
+let steel_chest =
+  res "Steel Chest" am1 0.5
+    [ 8., iron_plate ]
+let smart_chest =
+  res "Smart Chest" am1 0.5
+    [ 1., steel_chest; 3., electronic_circuit ]
+let active_provider_chest =
+  res "Active Provider Chest" am1 0.5
+    [ 1., smart_chest; 1., advanced_circuit ]
+let passive_provider_chest =
+  res "Passive Provider Chest" am1 0.5
+    [ 1., smart_chest; 1., advanced_circuit ]
+let storage_chest =
+  res "Storage Chest" am1 0.5
+    [ 1., smart_chest; 1., advanced_circuit ]
+let requester_chest =
+  res "Requester Chest" am1 0.5
+    [ 1., smart_chest; 1., advanced_circuit ]
 
+(* Defensive Structures *)
+
+let wall =
+  res "Wall" am1 0.5
+    [ 5., stone_brick ]
+let gun_turret =
+  res "Gun Turret" am2 10.
+    [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
+let laser_turret =
+  res "Laser Turret" am2 20.
+    [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
+
+(* Machines & Furnaces *)
+
+(* Because makers exist with the same name, makers as resources are
+   prefixed with "r_". *)
+let r_stone_furnace =
+  res "Stone Furnace" am1 0.5
+    [ 5., stone ]
+let r_burner_mining_drill =
+  res "Burner Mining Drill" am2 2.
+    [ 1., r_stone_furnace; 3., iron_plate; 3., iron_gear_wheel ]
+let r_electric_mining_drill =
+  res "Electric Mining Drill" am2 2.
+    [ 10., iron_plate; 5., iron_gear_wheel; 3., electronic_circuit ]
+let r_steel_furnace =
+  res "Steel Furnace" am1 3.
+    [ 8., steel_plate; 10., stone_brick ]
+let r_electric_furnace =
+  res "Electric Furnace" am2 5.
+    [ 15., steel_plate; 10., stone_brick; 5., advanced_circuit ]
+let r_assembling_machine_1 =
+  res assembling_machine_1.name am2 0.5
+    [ 3., electronic_circuit; 5., iron_gear_wheel; 9., iron_plate ]
+let r_assembling_machine_2 =
+  res assembling_machine_2.name am2 0.5
+    [ 3., electronic_circuit; 5., iron_gear_wheel; 9., iron_plate;
+      1., r_assembling_machine_1 ]
+let r_assembling_machine_3 =
+  res assembling_machine_3.name am1 0.5
+    [ 1., r_assembling_machine_2; 4., speed_module ]
+let r_lab =
+  res "Lab" am2 5.
+    [ 4., transport_belt; 10., iron_gear_wheel; 10., electronic_circuit ]
+let basic_beacon =
+  res "Basic Beacon" am2 15.
+    [ 20., electronic_circuit; 20., advanced_circuit; 10., steel_plate;
+      10., copper_cable ]
+let radar =
+  res "Radar" am2 0.5
+    [ 5., electronic_circuit; 10., iron_plate; 5., iron_gear_wheel ]
+
+(* Electric Network *)
+
+let small_electric_pole =
+  res "Small Electric Pole" am1 0.5
+    [ 2., wood; 2., copper_cable ]
+let medium_electric_pole =
+  res "medium Electric Pole" am1 0.5
+    [ 2., steel_plate; 2., copper_plate ]
+let big_electric_pole =
+  res "Big Electric Pole" am1 0.5
+    [ 5., steel_plate; 5., copper_plate ]
+let substation =
+  res "Substation" am1 0.5
+    [ 10., steel_plate; 5., advanced_circuit; 5., copper_plate ]
+let boiler =
+  res "Boiler" am1 0.5
+    [ 1., r_stone_furnace; 1., pipe ]
+let steam_engine =
+  res "Steam Engine" am2 0.5
+    [ 5., iron_gear_wheel; 5., pipe; 5., iron_plate ]
 let solar_panel =
   res "Solar Panel" am2 10.
     [ 5., steel_plate; 15., electronic_circuit; 5., copper_plate ]
 let basic_accumulator =
   res "Basic Accumulator" am1 10.
     [ 2., iron_plate; 5., battery ]
-let laser_turret =
-  res "Laser Turret" am2 20.
-    [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
+let lamp =
+  res "Lamp" am2 0.5
+    [ 1., electronic_circuit; 3., iron_stick; 1., iron_plate ]
 
-(* Rocket Parts *)
+(* Railway Network *)
+
+(* Liquid Network *)
+
+(* Rocket Compenents *)
 
 let low_density_structure =
   res "Low Density Structure" am2 30.
@@ -507,13 +606,69 @@ let resources =
     fast_inserter;
     smart_inserter;
 
-    (* TODO: continue sorting and adding missing recipes from this point. *)
+    (* Storage *)
+    wooden_chest;
+    iron_chest;
+    steel_chest;
+    smart_chest;
+    active_provider_chest;
+    passive_provider_chest;
+    storage_chest;
+    requester_chest;
 
+    (* Defensive Structures *)
+    wall;
+    gun_turret;
+    laser_turret;
+    (* Rocket Silo *)
+
+    (* Machines & Furnaces *)
+    r_burner_mining_drill;
+    r_electric_mining_drill;
+    r_stone_furnace;
+    r_steel_furnace;
+    r_electric_furnace;
+    r_assembling_machine_1;
+    r_assembling_machine_2;
+    r_assembling_machine_3;
+    r_lab;
+    basic_beacon;
+    radar;
+
+    (* Electric Network *)
+    small_electric_pole;
+    medium_electric_pole;
+    big_electric_pole;
+    substation;
+    boiler;
+    steam_engine;
     solar_panel;
     basic_accumulator;
-    laser_turret;
+    lamp;
+
+    (* Railway Network *)
+    (* straight_rail; *)
+    (* curved_rail; *)
+    (* train_stop; *)
+    (* rail_signal; *)
+    (* rail_chain_signal; *)
+    (* diesel_locomotive; *)
+    (* cargo_wagon; *)
+
+    (* Liquid Network *)
+    pipe;
+    (* pipe_to_ground; *)
+    (* r_offshore_pump; *)
+    (* storage_tank; *)
+    (* r_oil_refinery; *)
+    (* r_chemical_plant; *)
+    (* r_pumpjack; *)
+    (* r_small_pump; *)
+
+    (* Rocket Components *)
     low_density_structure;
-    rocket_control_unit;
     rocket_fuel;
     rocket_part;
+    rocket_control_unit;
+    (* satellite; *)
   ]

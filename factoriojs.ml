@@ -82,6 +82,13 @@ let special_icons =
       efficiency_module_3.name, "Effectivity-module-3";
       low_density_structure.name, "Rocket-structure";
       electric_mining_drill.name, "Basic-mining-drill";
+      active_provider_chest.name, "Logistic-chest-active-provider";
+      passive_provider_chest.name, "Logistic-chest-passive-provider";
+      storage_chest.name, "Logistic-chest-storage";
+      requester_chest.name, "Logistic-chest-requester";
+      wall.name, "Stone-wall";
+      medium_electric_pole.name, "Medium-electric-pole";
+      lamp.name, "Small-lamp";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -131,6 +138,12 @@ let special_hrefs =
       fast_underground_belt.name, "Fast_underground_belt";
       express_underground_belt.name, "Express_underground_belt";
       long_handed_inserter.name, "Long_handed_inserter";
+      wooden_chest.name, "Wooden_chest";
+      gun_turret.name, "Gun_turret";
+      small_electric_pole.name, "Small_electric_pole";
+      medium_electric_pole.name, "Medium_electric_pole";
+      big_electric_pole.name, "Big_electric_pole";
+      steam_engine.name, "Steam_engine";
     ]
   in
   let table = Hashtbl.create 16 in
