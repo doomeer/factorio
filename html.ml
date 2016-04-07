@@ -64,6 +64,19 @@ let set_items parent (items: t list) =
     (Dom.list_of_nodeList parent##childNodes);
   List.iter (append_node parent) items
 
+let p' ?(class_ = "") items =
+  let p = Dom_html.(createP document) in
+  List.iter (append_node p) items;
+  p##className <- Js.string class_;
+  (p :> t), set_items p
+
+let p ?class_ items =
+  let p, _ = p' ?class_ items in
+  p
+
+let p_text ?class_ string =
+  p ?class_ [ text string ]
+
 let div' ?(class_ = "") items =
   let div = Dom_html.(createDiv document) in
   List.iter (append_node div) items;

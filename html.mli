@@ -31,6 +31,9 @@ val text: string -> t
 val text': string -> t * (string -> unit)
 val img: ?class_: string -> ?alt: string -> string -> t
 val a: ?class_: string -> ?href: string -> t list -> t
+val p: ?class_: string -> t list -> t
+val p_text: ?class_: string -> string -> t
+val p': ?class_: string -> t list -> t * (t list -> unit)
 val div: ?class_: string -> t list -> t
 val div': ?class_: string -> t list -> t * (t list -> unit)
 val span: ?class_: string -> t list -> t

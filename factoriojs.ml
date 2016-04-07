@@ -252,9 +252,33 @@ let () =
         match global, local with
           | [], [] ->
               [
-                text "Set the number next to each ressource to the \
-                      requested throughput. The checkbox controls whether \
-                      the ressource is global.";
+                div ~class_: "outputh1" [ text "Getting Started" ];
+                p_text
+                  "Set the number next to each ressource to the \
+                   requested throughput. The checkbox controls whether \
+                   the ressource is global.";
+                div ~class_: "outputh1" [ text "Sharing" ];
+                p_text
+                  "See the #---g--g-g-g-g-------------------------- part \
+                   in the URL? It encodes your settings and updates \
+                   automatically. It means you can share your settings \
+                   easily with other people. You can also bookmark them and \
+                   even use the Back button.";
+                div ~class_: "outputh1" [ text "Additional Ressources" ];
+                p [
+                  text "Source code is available on ";
+                  a ~href: "https://github.com/doomeer/factorio" [
+                    text "GitHub";
+                  ];
+                  text ".";
+                ];
+                p [
+                  text "See also the ";
+                  a ~href: "https://www.reddit.com/r/factorio/comments/4dmxib/my_factorio_planner_now_has_a_web_interface/" [
+                    text "Reddit post";
+                  ];
+                  text ".";
+                ];
               ]
           | _ :: _, []
           | [], _ :: _ ->
