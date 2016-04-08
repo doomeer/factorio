@@ -298,6 +298,12 @@ let get_resource_request (resource: gui_resource) =
 
 let last_hash = ref ""
 
+type module_settings =
+  {
+    speed_bonus: float;
+    productivity_bonus: float;
+  }
+
 (* If you add a setting, don't forget to:
    - update [make_hash];
    - update [parse_hash];
@@ -313,9 +319,16 @@ type settings =
     mutable assembling_machine_2: bool;
     mutable assembling_machine_3: bool;
     mutable petroleum_gas: [ `basic | `advanced | `cracking ];
+    mutable drill_electric_modules: module_settings;
+    mutable furnace_electric_modules: module_settings;
+    mutable assembling_machine_2_modules: module_settings;
+    mutable assembling_machine_3_modules: module_settings;
+    mutable chemical_plant_modules: module_settings;
     (* update_gui: called to copy the values above into the GUI inputs *)
     mutable update_gui: (unit -> unit) list;
   }
+
+let no_bonuses = { speed_bonus = 0.; productivity_bonus = 0. }
 
 let settings =
   {
@@ -328,6 +341,11 @@ let settings =
     assembling_machine_2 = true;
     assembling_machine_3 = true;
     petroleum_gas = `cracking;
+    drill_electric_modules = no_bonuses;
+    furnace_electric_modules = no_bonuses;
+    assembling_machine_2_modules = no_bonuses;
+    assembling_machine_3_modules = no_bonuses;
+    chemical_plant_modules = no_bonuses;
     update_gui = [];
   }
 
@@ -353,22 +371,63 @@ let rec apply_settings (resource: resource) =
     else
       true (* No setting for this maker, keep it. *)
   in
+  let productivity_bonus = ref 0. in
+  let apply_speed_modules (maker: maker) =
+    let name = maker.name in
+    let apply modules =
+      (* We use the last maker's productivity bonus. *)
+      productivity_bonus := modules.productivity_bonus;
+      {
+        maker with
+          crafting_speed =
+            maker.crafting_speed *.
+            (1. +. modules.speed_bonus /. 100.);
+      }
+    in
+    if name = electric_mining_drill.name then
+      apply settings.drill_electric_modules
+    else if name = electric_furnace.name then
+      apply settings.furnace_electric_modules
+    else if name = assembling_machine_2.name then
+      apply settings.assembling_machine_2_modules
+    else if name = assembling_machine_3.name then
+      apply settings.assembling_machine_3_modules
+    else if name = chemical_plant_.name then
+      apply settings.chemical_plant_modules
+    else
+      maker
+  in
   if resource.name = petroleum_gas.name then
     match settings.petroleum_gas with
       | `basic -> petroleum_gas_basic
       | `advanced -> petroleum_gas_advanced
       | `cracking -> petroleum_gas_cracking
   else
+    (* Need to compute the makers first so that the [productivity_bonus]
+       reference is updated before we use it. *)
+    let makers =
+      List.map
+        apply_speed_modules
+        (List.filter filter_maker resource.makers)
+    in
+    let ingredients =
+      List.map
+        (fun (count, ingredient) -> count, apply_settings ingredient)
+        resource.ingredients
+    in
+    let count = resource.count *. (1. +. !productivity_bonus /. 100.) in
     {
       resource with
-        makers = List.filter filter_maker resource.makers;
-        ingredients =
-          List.map
-            (fun (count, ingredient) -> count, apply_settings ingredient)
-            resource.ingredients;
+        makers;
+        ingredients;
+        count;
     }
 
 let make_hash () =
+  let float prefix f = prefix ^ if f = 0. then "" else fs f in
+  let make_module_hash (modules: module_settings) =
+    float "b" modules.speed_bonus ^ float "b" modules.productivity_bonus
+  in
   let make_resource_hash (resource: gui_resource) =
     let style =
       match resource.resource.style with
@@ -376,8 +435,7 @@ let make_hash () =
         | Local -> ""
     in
     let count, _ = get_resource_request resource in
-    let count = "-" ^ if count = 0. then "" else fs count in
-    count^style
+    float "r" count ^ style
   in
   let bools a b c =
     match a, b, c with
@@ -402,6 +460,11 @@ let make_hash () =
         | `advanced -> "1"
         | `cracking -> "2"
     ) ::
+    make_module_hash settings.drill_electric_modules ::
+    make_module_hash settings.furnace_electric_modules ::
+    make_module_hash settings.assembling_machine_2_modules ::
+    make_module_hash settings.assembling_machine_3_modules ::
+    make_module_hash settings.chemical_plant_modules ::
     List.map make_resource_hash resources
   )
   |> String.concat ""
@@ -429,13 +492,13 @@ let parse_hash hash =
       | _ -> ()
   in
   let parse_resource_hash (resource: gui_resource) =
-    if next () = '-' then (
+    if next () = 'r' then (
       let chars = ref [] in
       let global = ref false in
       let stop = ref false in
       while not !stop do
         match next () with
-          | '-' ->
+          | 'r' ->
               (* Go back so that the next resource can parse this dash. *)
               decr i;
               stop := true
@@ -462,6 +525,38 @@ let parse_hash hash =
       i := -1; (* next always returns '-' for the next resources *)
     (* if !i < 0 then alert ("Failed to parse: "^resource.resource.name); *)
   in
+  let parse_module_bonus () =
+    if next () = 'b' then (
+      let chars = ref [] in
+      let stop = ref false in
+      while not !stop do
+        match next () with
+          | 'b' | 'r' ->
+              (* Go back so that the next parser can parse this character. *)
+              decr i;
+              stop := true
+          | ('0' .. '9' | '.' | '-' as c) ->
+              chars := c :: !chars
+          | _ ->
+              i := -1;
+              stop := true
+      done;
+      if !i >= 0 then
+        let count =
+          String.concat "" (List.map (String.make 1) (List.rev !chars))
+        in
+        parse_float count
+      else
+        0.
+    )
+    else
+      0.
+  in
+  let parse_module_bonuses set =
+    let speed_bonus = parse_module_bonus () in
+    let productivity_bonus = parse_module_bonus () in
+    set { speed_bonus; productivity_bonus }
+  in
   parse_bools
     (fun _ -> ())
     (fun x -> settings.drill_burner <- x)
@@ -481,15 +576,156 @@ let parse_hash hash =
       | '2' -> settings.petroleum_gas <- `cracking
       | _ -> ()
   );
+  parse_module_bonuses
+    (fun x -> settings.drill_electric_modules <- x);
+  parse_module_bonuses
+    (fun x -> settings.furnace_electric_modules <- x);
+  parse_module_bonuses
+    (fun x -> settings.assembling_machine_2_modules <- x);
+  parse_module_bonuses
+    (fun x -> settings.assembling_machine_3_modules <- x);
+  parse_module_bonuses
+    (fun x -> settings.chemical_plant_modules <- x);
   List.iter parse_resource_hash resources;
   List.iter (fun f -> f ()) settings.update_gui
 
 let () =
   Html.run @@ fun () ->
 
+  (* [settings_changed] will be set to [update] once [update] is defined. *)
+  let settings_changed = ref (fun () -> ()) in
+  let settings =
+    let update () = !settings_changed () in
+    let cb get set =
+      let on_change value =
+        if get () <> value then (
+          set value;
+          update ()
+        )
+      in
+      let cb, set_gui = checkbox_input' ~on_change (get ()) in
+      let new_update_gui () = set_gui (get ()) in
+      settings.update_gui <- new_update_gui :: settings.update_gui;
+      cb
+    in
+    let rb name get set =
+      let on_change value =
+        if value then (
+          set ();
+          update ()
+        )
+      in
+      let rb, set_gui = radio_input' ~name ~on_change (get ()) in
+      let new_update_gui () = set_gui (get ()) in
+      settings.update_gui <- new_update_gui :: settings.update_gui;
+      rb
+    in
+    let ti get set =
+      let on_change value =
+        if get () <> value then (
+          set value;
+          update ()
+        )
+      in
+      let cb, set_gui = text_input' ~on_change (get ()) in
+      let new_update_gui () = set_gui (get ()) in
+      settings.update_gui <- new_update_gui :: settings.update_gui;
+      cb
+    in
+    let module_settings ?(help = "") name get set =
+      div ~class_: "setting" [
+        gui_icon name;
+        text " speed bonus: ";
+        ti
+          (fun () -> fs (get ()).speed_bonus)
+          (fun x -> set { (get ()) with speed_bonus = parse_float x });
+        text "% productivity bonus: ";
+        ti
+          (fun () -> fs (get ()).productivity_bonus)
+          (fun x ->
+             set { (get ()) with productivity_bonus = parse_float x });
+        text ("%"^help);
+      ]
+    in
+    [
+      div ~class_: "setting" [
+        text "Drills: ";
+        cb
+          (fun () -> settings.drill_burner)
+          (fun x -> settings.drill_burner <- x);
+        gui_icon "Burner Mining Drill";
+        cb
+          (fun () -> settings.drill_electric)
+          (fun x -> settings.drill_electric <- x);
+        gui_icon "Electric Mining Drill";
+      ];
+      div ~class_: "setting" [
+        text "Furnaces: ";
+        cb
+          (fun () -> settings.furnace_stone)
+          (fun x -> settings.furnace_stone <- x);
+        gui_icon "Stone Furnace";
+        cb
+          (fun () -> settings.furnace_steel)
+          (fun x -> settings.furnace_steel <- x);
+        gui_icon "Steel Furnace";
+        cb
+          (fun () -> settings.furnace_electric)
+          (fun x -> settings.furnace_electric <- x);
+        gui_icon "Electric Furnace";
+      ];
+      div ~class_: "setting" [
+        text "Assembling Machines: ";
+        cb
+          (fun () -> settings.assembling_machine_1)
+          (fun x -> settings.assembling_machine_1 <- x);
+        gui_icon "Assembling Machine 1";
+        cb
+          (fun () -> settings.assembling_machine_2)
+          (fun x -> settings.assembling_machine_2 <- x);
+        gui_icon "Assembling Machine 2";
+        cb
+          (fun () -> settings.assembling_machine_3)
+          (fun x -> settings.assembling_machine_3 <- x);
+        gui_icon "Assembling Machine 3";
+      ];
+      div ~class_: "setting" [
+        text "Petroleum Gas: ";
+        rb "oilprocessing"
+          (fun () -> settings.petroleum_gas = `basic)
+          (fun () -> settings.petroleum_gas <- `basic);
+        gui_icon "Basic Oil Processing";
+        rb "oilprocessing"
+          (fun () -> settings.petroleum_gas = `advanced)
+          (fun () -> settings.petroleum_gas <- `advanced);
+        gui_icon "Advanced Oil Processing";
+        rb "oilprocessing"
+          (fun () -> settings.petroleum_gas = `cracking)
+          (fun () -> settings.petroleum_gas <- `cracking);
+        gui_icon "Advanced Oil Processing + Cracking";
+      ];
+      module_settings "Electric Mining Drill"
+        (fun () -> settings.drill_electric_modules)
+        (fun x -> settings.drill_electric_modules <- x);
+      module_settings "Electric Furnace"
+        (fun () -> settings.furnace_electric_modules)
+        (fun x -> settings.furnace_electric_modules <- x);
+      module_settings "Assembling Machine 2"
+        (fun () -> settings.assembling_machine_2_modules)
+        (fun x -> settings.assembling_machine_2_modules <- x);
+      module_settings "Assembling Machine 3"
+        (fun () -> settings.assembling_machine_3_modules)
+        (fun x -> settings.assembling_machine_3_modules <- x);
+      module_settings "Chemical Plant"
+        ~help: " (not applied to Petroleum Gas)"
+        (fun () -> settings.chemical_plant_modules)
+        (fun x -> settings.chemical_plant_modules <- x);
+    ]
+  in
+
   let gui, update =
-    let output, set_output = Html.div' ~class_: "output" [] in
-    let rec update () =
+    let result, set_result = Html.div' ~class_: "result" [] in
+    let update () =
       let resources =
         List.map get_resource_request resources
       in
@@ -497,91 +733,7 @@ let () =
       let remove_zero = List.filter (fun goal -> goal.throughput <> 0.) in
       let global = summarize_global 1. meta_resource |> remove_zero in
       let local = (summarize_local 1. meta_resource).subgoals |> remove_zero in
-      let settings =
-        let cb get set =
-          let on_change value =
-            if get () <> value then (
-              set value;
-              update ()
-            )
-          in
-          let cb, set_gui = checkbox_input' ~on_change (get ()) in
-          let new_update_gui () = set_gui (get ()) in
-          settings.update_gui <- new_update_gui :: settings.update_gui;
-          cb
-        in
-        let rb name get set =
-          let on_change value =
-            if value then (
-              set ();
-              update ()
-            )
-          in
-          let rb, set_gui = radio_input' ~name ~on_change (get ()) in
-          let new_update_gui () = set_gui (get ()) in
-          settings.update_gui <- new_update_gui :: settings.update_gui;
-          rb
-        in
-        [
-          div ~class_: "setting" [
-            text "Drills: ";
-            cb
-              (fun () -> settings.drill_burner)
-              (fun x -> settings.drill_burner <- x);
-            gui_icon "Burner Mining Drill";
-            cb
-              (fun () -> settings.drill_electric)
-              (fun x -> settings.drill_electric <- x);
-            gui_icon "Electric Mining Drill";
-          ];
-          div ~class_: "setting" [
-            text "Furnaces: ";
-            cb
-              (fun () -> settings.furnace_stone)
-              (fun x -> settings.furnace_stone <- x);
-            gui_icon "Stone Furnace";
-            cb
-              (fun () -> settings.furnace_steel)
-              (fun x -> settings.furnace_steel <- x);
-            gui_icon "Steel Furnace";
-            cb
-              (fun () -> settings.furnace_electric)
-              (fun x -> settings.furnace_electric <- x);
-            gui_icon "Electric Furnace";
-          ];
-          div ~class_: "setting" [
-            text "Assembling Machines: ";
-            cb
-              (fun () -> settings.assembling_machine_1)
-              (fun x -> settings.assembling_machine_1 <- x);
-            gui_icon "Assembling Machine 1";
-            cb
-              (fun () -> settings.assembling_machine_2)
-              (fun x -> settings.assembling_machine_2 <- x);
-            gui_icon "Assembling Machine 2";
-            cb
-              (fun () -> settings.assembling_machine_3)
-              (fun x -> settings.assembling_machine_3 <- x);
-            gui_icon "Assembling Machine 3";
-          ];
-          div ~class_: "setting" [
-            text "Petroleum Gas: ";
-            rb "oilprocessing"
-              (fun () -> settings.petroleum_gas = `basic)
-              (fun () -> settings.petroleum_gas <- `basic);
-            gui_icon "Basic Oil Processing";
-            rb "oilprocessing"
-              (fun () -> settings.petroleum_gas = `advanced)
-              (fun () -> settings.petroleum_gas <- `advanced);
-            gui_icon "Advanced Oil Processing";
-            rb "oilprocessing"
-              (fun () -> settings.petroleum_gas = `cracking)
-              (fun () -> settings.petroleum_gas <- `cracking);
-            gui_icon "Advanced Oil Processing + Cracking";
-          ];
-        ]
-      in
-      let output =
+      let result =
         match global, local with
           | [], [] ->
               [
@@ -604,7 +756,7 @@ let () =
                    other assemblers.";
                 div ~class_: "outputh1" [ text "Share Your Settings" ];
                 p_text
-                  "See the #---g--g-g-g-g-------------------------- part \
+                  "See the part after the # \
                    in the URL? It encodes your settings and updates \
                    automatically. It means you can share your settings \
                    easily with other people. You can also bookmark them and \
@@ -636,22 +788,16 @@ let () =
               ]
           | _ :: _, []
           | [], _ :: _ ->
-              [
-                div ~class_: "settings" settings;
-                div ~class_: "result" (gui_goals (global @ local));
-              ]
+              gui_goals (global @ local)
           | _ :: _, _ :: _ ->
               [
-                div ~class_: "settings" settings;
-                div ~class_: "result" [
-                  div ~class_: "outputh1" [ text "Shared Resources" ];
-                  div ~class_: "goals" (gui_goals global);
-                  div ~class_: "outputh1" [ text "Non-Shared Resources" ];
-                  div ~class_: "goals" (gui_goals local);
-                ]
+                div ~class_: "outputh1" [ text "Shared Resources" ];
+                div ~class_: "goals" (gui_goals global);
+                div ~class_: "outputh1" [ text "Non-Shared Resources" ];
+                div ~class_: "goals" (gui_goals local);
               ]
       in
-      set_output output;
+      set_result result;
       let hash = make_hash () in
       if hash <> !last_hash then (
         last_hash := hash;
@@ -682,7 +828,7 @@ let () =
       ]
     in
     div ~class_: "main" [
-      div ~class_: "input" (
+      div ~class_: "leftcolumn" (
         List.map resource_input resources
         @ [
           p ~class_: "reset" [
@@ -690,10 +836,14 @@ let () =
           ];
         ]
       );
-      output;
+      div ~class_: "rightcolumn" [
+        div ~class_: "settings" settings;
+        div ~class_: "result" [ result ];
+      ];
     ],
     update
   in
+  settings_changed := update;
   last_hash := Html.get_hash ();
   parse_hash !last_hash;
   update ();

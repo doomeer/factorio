@@ -21,14 +21,14 @@ a.reset {
   margin-right: 0.5em;
 }
 
-.input {
+.leftcolumn {
   float: left;
   width: 36em;
   background-color: #dddddd;
   padding: 5px;
 }
 
-.output {
+.rightcolumn {
   float: right;
   width: calc(100% - 36em - 20px);
   margin: 0px;
@@ -40,8 +40,16 @@ a.reset {
   padding: 5px;
 }
 
-.setting input {
+.setting input[type=checkbox] {
   margin-left: 20px;
+}
+
+.setting input[type=radio] {
+  margin-left: 20px;
+}
+
+.setting input[type=text] {
+  width: 3em;
 }
 
 .result {

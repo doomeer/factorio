@@ -41,7 +41,7 @@ let assembling_machine_3 = maker "Assembling Machine 3" 1.25
 let stone_furnace = maker "Stone Furnace" 1.
 let steel_furnace = maker "Steel Furnace" 2.
 let electric_furnace = maker "Electric Furnace" 2.
-let chemical_plant = maker "Chemical Plant" 1.25
+let chemical_plant_ = maker "Chemical Plant" 1.25
 
 (* Shorthands for some commonly-used lists of makers. *)
 
@@ -50,7 +50,7 @@ let am1 = [ assembling_machine_1; assembling_machine_2; assembling_machine_3 ]
 let am2 = [ assembling_machine_2; assembling_machine_3 ]
 let am3 = [ assembling_machine_3 ]
 let furnace = [ stone_furnace; steel_furnace; electric_furnace ]
-let chemical_plant = [ chemical_plant ]
+let chemical_plant = [ chemical_plant_ ]
 
 (******************************************************************************)
 (*                                  Resources                                 *)
