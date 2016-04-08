@@ -23,14 +23,14 @@ a.reset {
 
 .input {
   float: left;
-  width: 22em;
+  width: 36em;
   background-color: #dddddd;
   padding: 5px;
 }
 
 .output {
   float: right;
-  width: calc(100% - 22em - 30px);
+  width: calc(100% - 36em - 30px);
   background-color: #dddddd;
   margin-left: 5px;
   padding: 5px;

@@ -48,6 +48,7 @@ let chemical_plant = maker "Chemical Plant" 1.25
 let drill = [ burner_mining_drill; electric_mining_drill ]
 let am1 = [ assembling_machine_1; assembling_machine_2; assembling_machine_3 ]
 let am2 = [ assembling_machine_2; assembling_machine_3 ]
+let am3 = [ assembling_machine_3 ]
 (* I commented out steel furnaces because their crafting time is the same
    as for electric furnaces. *)
 let furnace = [ stone_furnace(* ; steel_furnace *); electric_furnace ]
@@ -207,8 +208,11 @@ let engine_unit =
   res "Engine Unit" am2 20.
     [ 1., steel_plate; 1., iron_gear_wheel; 2., pipe ]
 let heavy_oil =
-  res "Heavy Oil" chemical_plant 1.
-    [] (* TODO *)
+  res "Heavy Oil" [ maker "Basic Oil Processing" 1. ] 5. ~count: 3.
+    [ 10., crude_oil ]
+let light_oil =
+  res "Light Oil" [ maker "Basic Oil Processing" 1. ] 5. ~count: 3.
+    [ 10., crude_oil ]
 let lubricant =
   res "Lubricant" chemical_plant 1.
     [ 1., heavy_oil ]
@@ -249,6 +253,64 @@ let explosives =
   res "Explosives" am1 5.
     [ 1., sulfur; 1., coal; 1., water ]
 
+(* Weapons *)
+
+let land_mine =
+  res "Land Mine" am1 5.
+    [ 1., steel_plate; 2., explosives ]
+let basic_grenade =
+  res "Basic Grenade" am1 8.
+    [ 10., coal; 5., iron_plate ]
+let piercing_rounds_magazine =
+  res "Piercing Rounds Magazine" am1 3.
+    [ 3., copper_plate; 1., steel_plate ]
+let defender_capsule =
+  res "Defender Capsule" am2 8.
+    [ 3., iron_gear_wheel; 2., electronic_circuit;
+      1., piercing_rounds_magazine ]
+let poison_capsule =
+  res "Poison Capsule" am2 8.
+    [ 3., steel_plate; 3., electronic_circuit; 10., coal ]
+let slowdown_capsule =
+  res "Slowdown Capsule" am2 8.
+    [ 2., steel_plate; 2., electronic_circuit; 5., coal ]
+let distractor_capsule =
+  res "Distractor Capsule" am1 15.
+    [ 3., advanced_circuit; 4., defender_capsule ]
+let speed_module =
+  res "Speed Module" am2 15.
+    [ 5., advanced_circuit; 5., electronic_circuit ]
+let destroyer_capsule =
+  res "Destroyer Capsule" am1 15.
+    [ 1., speed_module; 4., distractor_capsule ]
+
+(* Ammo *)
+
+let regular_magazine =
+  res "Regular Magazine" am1 2.
+    [ 2., iron_plate ]
+let shotgun_shells =
+  res "Shotgun Shells" am1 3.
+    [ 2., copper_plate; 2., iron_plate ]
+let piercing_shotgun_shells =
+  res "Piercing Shotgun Shells" am1 8.
+    [ 2., copper_plate; 2., steel_plate ]
+let rocket =
+  res "Rocket" am2 8.
+    [ 1., electronic_circuit; 2., explosives; 2., iron_plate ]
+let explosive_rocket =
+  res "Explosive Rocket" am1 8.
+    [ 1., rocket; 5., explosives ]
+let flamethrower_ammo =
+  res "Flamethrower Ammo" chemical_plant 3.
+    [ 5., iron_plate; 2.5, light_oil; 2.5, heavy_oil ]
+let cannon_shells =
+  res "Cannon Shells" am2 8.
+    [ 4., steel_plate; 2., plastic_bar; 1., explosives ]
+let explosive_cannon_shells =
+  res "Explosive Cannon Shells" am2 8.
+    [ 4., steel_plate; 2., plastic_bar; 4., explosives ]
+
 (* Modules *)
 
 let efficiency_module =
@@ -271,9 +333,6 @@ let productivity_module_3 =
   res "Productivity Module 3" am2 60.
     [ 5., advanced_circuit; 5., processing_unit; 5., productivity_module_2;
       1., alien_artifact ]
-let speed_module =
-  res "Speed Module" am2 15.
-    [ 5., advanced_circuit; 5., electronic_circuit ]
 let speed_module_2 =
   res "Speed Module 2" am2 30.
     [ 5., advanced_circuit; 5., processing_unit; 4., speed_module ]
@@ -443,7 +502,39 @@ let lamp =
 
 (* Railway Network *)
 
+let straight_rail =
+  res "Straight Rail" am2 0.5 ~count: 2.
+    [ 1., stone; 1., iron_stick; 1., steel_plate ]
+let curved_rail =
+  res "Curved Rail" am2 0.5 ~count: 2.
+    [ 4., stone; 4., iron_stick; 4., steel_plate ]
+
 (* Liquid Network *)
+
+let pipe_to_ground =
+  res "Pipe To Ground" am1 0.5 ~count: 2.
+    [ 10., pipe; 5., iron_plate ]
+let r_offshore_pump =
+  res "Offshore Pump" am2 0.5
+    [ 2., electronic_circuit; 1., pipe; 1., iron_gear_wheel ]
+let storage_tank =
+  res "Storage Tank" am1 3.
+    [ 20., iron_plate; 5., steel_plate ]
+let r_oil_refinery =
+  res "Oil Refinery" am3 20.
+    [ 10., pipe; 15., steel_plate; 10., stone_brick; 10., iron_gear_wheel;
+      10., electronic_circuit ]
+let r_chemical_plant =
+  res "Chemical Plant" am2 10.
+    [ 5., steel_plate; 5., iron_gear_wheel; 5., electronic_circuit;
+      5., pipe ]
+let r_pumpjack =
+  res "Pumpjack" am2 20.
+    [ 15., steel_plate; 10., iron_gear_wheel; 10., electronic_circuit;
+      10., pipe ]
+let small_pump =
+  res "Small Pump" am2 2.
+    [ 1., electric_engine_unit; 1., steel_plate; 1., pipe ]
 
 (* Rocket Compenents *)
 
@@ -510,8 +601,8 @@ let resources =
 
     (* Chemicals *)
     petroleum_gas;
-    (* light_oil; *)
-    (* heavy_oil; *)
+    light_oil;
+    heavy_oil;
     sulfuric_acid;
     lubricant;
 
@@ -524,28 +615,28 @@ let resources =
     (* submachine_gun; *)
     (* rocket_launcher; *)
     (* flamethrower; *)
-    (* land_mine; *)
+    land_mine;
     (* shotgun; *)
     (* combat_shotgun; *)
-    (* basic_grenade; *)
-    (* defender_capsule; *)
-    (* poison_capsule; *)
-    (* slowdown_capsule; *)
-    (* distractor_capsule; *)
-    (* destroyer_capsule; *)
+    basic_grenade;
+    defender_capsule;
+    poison_capsule;
+    slowdown_capsule;
+    distractor_capsule;
+    destroyer_capsule;
     (* basic_electric_discharge_defense_remote; *)
     (* tank; *)
 
     (* Ammo *)
-    (* regular_magazine; *)
-    (* piercing_rounds_magazine; *)
-    (* shotgun_shells; *)
-    (* piercing_shotgun_shells; *)
-    (* rocket; *)
-    (* explosive_rocket; *)
-    (* flamethrower_ammo; *)
-    (* cannon_shells; *)
-    (* explosive_cannon_shells; *)
+    regular_magazine;
+    piercing_rounds_magazine;
+    shotgun_shells;
+    piercing_shotgun_shells;
+    rocket;
+    explosive_rocket;
+    flamethrower_ammo;
+    cannon_shells;
+    explosive_cannon_shells;
 
     (* Armor *)
     (* iron_armor; *)
@@ -647,8 +738,8 @@ let resources =
     lamp;
 
     (* Railway Network *)
-    (* straight_rail; *)
-    (* curved_rail; *)
+    straight_rail;
+    curved_rail;
     (* train_stop; *)
     (* rail_signal; *)
     (* rail_chain_signal; *)
@@ -657,13 +748,13 @@ let resources =
 
     (* Liquid Network *)
     pipe;
-    (* pipe_to_ground; *)
-    (* r_offshore_pump; *)
-    (* storage_tank; *)
-    (* r_oil_refinery; *)
-    (* r_chemical_plant; *)
-    (* r_pumpjack; *)
-    (* r_small_pump; *)
+    pipe_to_ground;
+    r_offshore_pump;
+    storage_tank;
+    r_oil_refinery;
+    r_chemical_plant;
+    r_pumpjack;
+    small_pump;
 
     (* Rocket Components *)
     low_density_structure;

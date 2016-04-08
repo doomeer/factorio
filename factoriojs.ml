@@ -89,6 +89,12 @@ let special_icons =
       wall.name, "Stone-wall";
       medium_electric_pole.name, "Medium-electric-pole";
       lamp.name, "Small-lamp";
+      regular_magazine.name, "Basic-bullet-magazine";
+      piercing_rounds_magazine.name, "Piercing-bullet-magazine";
+      flamethrower_ammo.name, "Flame-thrower-ammo";
+      cannon_shells.name, "Cannon-shell";
+      explosive_cannon_shells.name, "Explosive-cannon-shell";
+      land_mine.name, "Land-mine-research";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -144,6 +150,18 @@ let special_hrefs =
       medium_electric_pole.name, "Medium_electric_pole";
       big_electric_pole.name, "Big_electric_pole";
       steam_engine.name, "Steam_engine";
+      pipe_to_ground.name, "Pipe-to-Ground";
+      shotgun_shells.name, "Shotgun_shells";
+      piercing_shotgun_shells.name, "Piercing_shotgun_shells";
+      explosive_rocket.name, "Explosive_rocket";
+      explosive_cannon_shells.name, "Explosive_cannon_shells";
+      defender_capsule.name, "Defender_capsule";
+      poison_capsule.name, "Poison_capsule";
+      slowdown_capsule.name, "Slowdown_capsule";
+      distractor_capsule.name, "Distractor_capsule";
+      destroyer_capsule.name, "Destroyer_capsule";
+      land_mine.name, "Land_mine";
+      basic_grenade.name, "Basic_grenade";
     ]
   in
   let table = Hashtbl.create 16 in
