@@ -592,6 +592,13 @@ let parse_hash hash =
 let () =
   Html.run @@ fun () ->
 
+  let settings_visible = ref false in
+  let settings_div, set_settings_div = div' ~class_: "settings" [] in
+
+  (* [update_settings_div] will be set after [settings] and [show_settings]
+     are defined. *)
+  let update_settings_div = ref (fun () -> ()) in
+
   (* [settings_changed] will be set to [update] once [update] is defined. *)
   let settings_changed = ref (fun () -> ()) in
   let settings =
@@ -648,6 +655,11 @@ let () =
       ]
     in
     [
+      button
+        ~class_: "setvisible"
+        ~on_click:
+          (fun () -> settings_visible := false; !update_settings_div ())
+        [ text "Hide Advanced Settings" ];
       div ~class_: "setting" [
         text "Drills: ";
         cb
@@ -722,6 +734,25 @@ let () =
         (fun x -> settings.chemical_plant_modules <- x);
     ]
   in
+
+  let show_settings =
+    [
+      button
+        ~class_: "setvisible"
+        ~on_click:
+          (fun () -> settings_visible := true; !update_settings_div ())
+        [ text "Advanced Settings" ];
+    ]
+  in
+
+  update_settings_div := (
+    fun () ->
+      if !settings_visible then
+        set_settings_div settings
+      else
+        set_settings_div show_settings
+  );
+  !update_settings_div ();
 
   let gui, update =
     let result, set_result = Html.div' ~class_: "result" [] in
@@ -831,13 +862,13 @@ let () =
       div ~class_: "leftcolumn" (
         List.map resource_input resources
         @ [
-          p ~class_: "reset" [
-            a ~class_: "reset" ~href: "index.html" [ text "Reset" ];
+          p ~class_: "button" [
+            a ~class_: "button" ~href: "index.html" [ text "Reset" ];
           ];
         ]
       );
       div ~class_: "rightcolumn" [
-        div ~class_: "settings" settings;
+        settings_div;
         div ~class_: "result" [ result ];
       ];
     ],

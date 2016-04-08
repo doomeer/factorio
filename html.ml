@@ -44,7 +44,7 @@ let img ?(class_ = "") ?alt ?title src =
   (match title with None -> () | Some title -> img##title <- Js.string title);
   (img :> t)
 
-let a ?(class_ = "") ?(href = "") items =
+let a ?(class_ = "") ?(href = "") ?(on_click = fun () -> ()) items =
   let a = Dom_html.(createA document) in
   let append_node node =
     let _: Dom.node Js.t = a##appendChild(node) in
@@ -53,7 +53,21 @@ let a ?(class_ = "") ?(href = "") items =
   List.iter append_node items;
   a##className <- Js.string class_;
   a##href <- Js.string href;
+  let on_click _ = on_click (); Js._true in
+  a##onclick <- Dom.handler on_click;
   (a :> t)
+
+let button ?(class_ = "") ?(on_click = fun () -> ()) items =
+  let button = Dom_html.(createButton document) in
+  let append_node node =
+    let _: Dom.node Js.t = button##appendChild(node) in
+    ()
+  in
+  List.iter append_node items;
+  button##className <- Js.string class_;
+  let on_click _ = on_click (); Js._true in
+  button##onclick <- Dom.handler on_click;
+  (button :> t)
 
 let append_node parent node =
   let _: Dom.node Js.t = parent##appendChild(node) in

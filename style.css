@@ -1,14 +1,25 @@
-p.reset {
+p.button {
   text-align: center;
 }
 
-a.reset {
+a.button {
   border-style: outset;
   border-width: 2px;
   padding: 2px;
   text-decoration: none;
   color: #400000;
   background-color: #eeeeee;
+}
+
+button.setvisible {
+  border-style: outset;
+  border-width: 2px;
+  padding: 2px;
+  text-decoration: none;
+  color: #000040;
+  background-color: #eeeeee;
+  margin-left: calc(50% - 15em);
+  width: 30em;
 }
 
 .count {
