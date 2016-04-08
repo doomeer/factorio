@@ -290,7 +290,7 @@ let get_resource_request (resource: gui_resource) =
                    (String.length resource.count - 1))
             in
             maker_count *. maker.crafting_speed /.
-            resource.resource.time
+            resource.resource.time *. resource.resource.count
     in
     count, resource.resource
   else
