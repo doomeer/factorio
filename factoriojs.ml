@@ -258,10 +258,10 @@ let get_resource_request (resource: gui_resource) =
   if resource.count <> "" then
     let maker =
       (* Makers are indexed from best to worst. *)
-      let get_maker index =
+      let get_maker original_index =
         let rec find index = function
           | [] -> None
-          | hd :: _ when index = 0 -> Some hd
+          | hd :: _ when index = 0 -> Some (hd, original_index)
           | _ :: tl -> find (index - 1) tl
         in
         let makers =
@@ -271,7 +271,7 @@ let get_resource_request (resource: gui_resource) =
           in
           List.sort compare_makers resource.resource.makers
         in
-        find index makers
+        find original_index makers
       in
       match resource.count.[0] with
         | 'a' | 'A' -> get_maker 0
@@ -279,22 +279,23 @@ let get_resource_request (resource: gui_resource) =
         | 'c' | 'C' -> get_maker 2
         | _ -> None
     in
-    let count =
+    let count, index =
       match maker with
         | None ->
-            parse_float resource.count
-        | Some maker ->
+            parse_float resource.count, None
+        | Some (maker, index) ->
             let maker_count =
               parse_float
                 (String.sub resource.count 1
                    (String.length resource.count - 1))
             in
             maker_count *. maker.crafting_speed /.
-            resource.resource.time *. resource.resource.count
+            resource.resource.time *. resource.resource.count,
+            Some (index, maker_count)
     in
-    count, resource.resource
+    count, resource.resource, index
   else
-    0., resource.resource
+    0., resource.resource, None
 
 let last_hash = ref ""
 
@@ -434,8 +435,17 @@ let make_hash () =
         | Global -> "g"
         | Local -> ""
     in
-    let count, _ = get_resource_request resource in
-    float "r" count ^ style
+    let count, _, index = get_resource_request resource in
+    (
+      match index with
+        | Some (index, maker_count) when index >= 0 && index < 26 ->
+            let index = String.make 1 (Char.chr (Char.code 'A' + index)) in
+            "r" ^ index ^ float "" maker_count
+        | Some _
+        | None ->
+            float "r" count
+    ) ^
+    style
   in
   let bools a b c =
     match a, b, c with
@@ -496,10 +506,20 @@ let parse_hash hash =
       let chars = ref [] in
       let global = ref false in
       let stop = ref false in
+      let index = ref "" in
+      (
+        (* Try to read the maker index if any. *)
+        let old_i = !i in
+        match next () with
+          | 'A'..'Z' as c ->
+              index := String.make 1 c
+          | _ ->
+              i := old_i
+      );
       while not !stop do
         match next () with
           | 'r' ->
-              (* Go back so that the next resource can parse this dash. *)
+              (* Go back so that the next resource can parse this 'r'. *)
               decr i;
               stop := true
           | 'g' ->
@@ -516,7 +536,7 @@ let parse_hash hash =
           String.concat "" (List.map (String.make 1) (List.rev !chars))
         in
         (* We parse the float to avoid security issues. *)
-        let count = parse_float count |> fs in
+        let count = !index ^ (parse_float count |> fs) in
         resource.count <- count;
         resource.set_gui_count count;
         resource.resource.style <- (if !global then Global else Local);
@@ -760,9 +780,16 @@ let () =
     let result, set_result = Html.div' ~class_: "result" [] in
     let update () =
       let resources =
-        List.map get_resource_request resources
+        List.map
+          (fun x ->
+             let a, b, _ =
+               get_resource_request
+                 { x with resource = apply_settings x.resource }
+             in
+             a, b)
+          resources
       in
-      let meta_resource = res "" [] 0. resources |> apply_settings in
+      let meta_resource = res "" [] 0. resources in
       let remove_zero = List.filter (fun goal -> goal.throughput <> 0.) in
       let global = summarize_global 1. meta_resource |> remove_zero in
       let local = (summarize_local 1. meta_resource).subgoals |> remove_zero in
