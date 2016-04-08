@@ -732,6 +732,8 @@ let () =
         ~help: " (not applied to Petroleum Gas)"
         (fun () -> settings.chemical_plant_modules)
         (fun x -> settings.chemical_plant_modules <- x);
+      text "Note: if you use both blue and yellow machines, \
+            the productivity bonus which is used is the yellow one.";
     ]
   in
 
