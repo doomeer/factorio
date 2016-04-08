@@ -49,9 +49,7 @@ let drill = [ burner_mining_drill; electric_mining_drill ]
 let am1 = [ assembling_machine_1; assembling_machine_2; assembling_machine_3 ]
 let am2 = [ assembling_machine_2; assembling_machine_3 ]
 let am3 = [ assembling_machine_3 ]
-(* I commented out steel furnaces because their crafting time is the same
-   as for electric furnaces. *)
-let furnace = [ stone_furnace(* ; steel_furnace *); electric_furnace ]
+let furnace = [ stone_furnace; steel_furnace; electric_furnace ]
 let chemical_plant = [ chemical_plant ]
 
 (******************************************************************************)

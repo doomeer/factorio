@@ -111,6 +111,25 @@ let checkbox_input ?class_ ?on_change checked =
   let checkbox_input, _ = checkbox_input' ?class_ ?on_change checked in
   checkbox_input
 
+let radio_input' ?(class_ = "") ?(on_change = fun _ -> ()) ?(name = "")
+    checked =
+  let input =
+    Dom_html.(
+      createInput ~name: (Js.string name) ~_type: (Js.string "radio")
+        document
+    )
+  in
+  input##checked <- Js.bool checked;
+  let on_click _ = on_change (Js.to_bool input##checked); Js._true in
+  input##onclick <- Dom.handler on_click;
+  input##className <- Js.string class_;
+  let set_checked checked = input##checked <- Js.bool checked in
+  (input :> t), set_checked
+
+let radio_input ?class_ ?on_change ?name checked =
+  let radio_input, _ = radio_input' ?class_ ?on_change ?name checked in
+  radio_input
+
 let text_input' ?(class_ = "") ?(on_change = fun _ -> ()) value =
   let input = Dom_html.(createInput ~_type: (Js.string "text") document) in
   input##value <- Js.string value;

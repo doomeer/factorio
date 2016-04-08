@@ -162,18 +162,31 @@ let special_hrefs =
       destroyer_capsule.name, "Destroyer_capsule";
       land_mine.name, "Land_mine";
       basic_grenade.name, "Basic_grenade";
+      "Basic Oil Processing", "Basic_oil_processing";
+      "Advanced Oil Processing", "Advanced_oil_processing";
+      "Heavy Oil Cracking", "Oil_processing";
+      "Light Oil Cracking", "Oil_processing";
     ]
   in
   let table = Hashtbl.create 16 in
   List.iter (fun (name, src) -> Hashtbl.add table name src) list;
   table
 
-let gui_icon alt =
-  let src =
-    match Hashtbl.find special_icons alt with
-      | src ->
-          src
-      | exception Not_found ->
+let rec gui_icon alt =
+  if alt = "Advanced Oil Processing + Cracking" then
+    span [
+      gui_icon "Advanced Oil Processing";
+      text "+";
+      gui_icon "Heavy Oil Cracking";
+      text "+";
+      gui_icon "Light Oil Cracking";
+    ]
+  else
+    let src =
+      match Hashtbl.find special_icons alt with
+        | src ->
+            src
+        | exception Not_found ->
           let src = Bytes.of_string alt in
           for i = 0 to Bytes.length src - 1 do
             let chr = Bytes.get src i in
@@ -183,22 +196,22 @@ let gui_icon alt =
               Bytes.set src i (Char.lowercase chr)
           done;
           src
-  in
-  let src = "http://wiki.factorio.com/images/"^src^".png" in
-  let href =
-    match Hashtbl.find special_hrefs alt with
-      | href ->
-          href
-      | exception Not_found ->
-          let href = Bytes.of_string alt in
-          for i = 0 to Bytes.length href - 1 do
-            let chr = Bytes.get href i in
-            if chr = ' ' then Bytes.set href i '_'
-          done;
-          href
-  in
-  let href = "http://wiki.factorio.com/index.php?title="^href in
-  a ~href [ img ~class_: "icon" ~alt ~title: alt src ]
+    in
+    let src = "http://wiki.factorio.com/images/"^src^".png" in
+    let href =
+      match Hashtbl.find special_hrefs alt with
+        | href ->
+            href
+        | exception Not_found ->
+            let href = Bytes.of_string alt in
+            for i = 0 to Bytes.length href - 1 do
+              let chr = Bytes.get href i in
+              if chr = ' ' then Bytes.set href i '_'
+            done;
+            href
+    in
+    let href = "http://wiki.factorio.com/index.php?title="^href in
+    a ~href [ img ~class_: "icon" ~alt ~title: alt src ]
 
 let gui_goals (goals: summary list) =
   let rec gui_goal (goal: summary) =
@@ -285,6 +298,76 @@ let get_resource_request (resource: gui_resource) =
 
 let last_hash = ref ""
 
+(* If you add a setting, don't forget to:
+   - update [make_hash];
+   - update [parse_hash];
+   - update [apply_settings]. *)
+type settings =
+  {
+    mutable drill_burner: bool;
+    mutable drill_electric: bool;
+    mutable furnace_stone: bool;
+    mutable furnace_steel: bool;
+    mutable furnace_electric: bool;
+    mutable assembling_machine_1: bool;
+    mutable assembling_machine_2: bool;
+    mutable assembling_machine_3: bool;
+    mutable petroleum_gas: [ `basic | `advanced | `cracking ];
+    (* update_gui: called to copy the values above into the GUI inputs *)
+    mutable update_gui: (unit -> unit) list;
+  }
+
+let settings =
+  {
+    drill_burner = false;
+    drill_electric = true;
+    furnace_stone = false;
+    furnace_steel = false;
+    furnace_electric = true;
+    assembling_machine_1 = false;
+    assembling_machine_2 = true;
+    assembling_machine_3 = true;
+    petroleum_gas = `cracking;
+    update_gui = [];
+  }
+
+let rec apply_settings (resource: resource) =
+  let filter_maker (maker: maker) =
+    let name = maker.name in
+    if name = burner_mining_drill.name then
+      settings.drill_burner
+    else if name = electric_mining_drill.name then
+      settings.drill_electric
+    else if name = stone_furnace.name then
+      settings.furnace_stone
+    else if name = steel_furnace.name then
+      settings.furnace_steel
+    else if name = electric_furnace.name then
+      settings.furnace_electric
+    else if name = assembling_machine_1.name then
+      settings.assembling_machine_1
+    else if name = assembling_machine_2.name then
+      settings.assembling_machine_2
+    else if name = assembling_machine_3.name then
+      settings.assembling_machine_3
+    else
+      true (* No setting for this maker, keep it. *)
+  in
+  if resource.name = petroleum_gas.name then
+    match settings.petroleum_gas with
+      | `basic -> petroleum_gas_basic
+      | `advanced -> petroleum_gas_advanced
+      | `cracking -> petroleum_gas_cracking
+  else
+    {
+      resource with
+        makers = List.filter filter_maker resource.makers;
+        ingredients =
+          List.map
+            (fun (count, ingredient) -> count, apply_settings ingredient)
+            resource.ingredients;
+    }
+
 let make_hash () =
   let make_resource_hash (resource: gui_resource) =
     let style =
@@ -296,7 +379,32 @@ let make_hash () =
     let count = "-" ^ if count = 0. then "" else fs count in
     count^style
   in
-  List.map make_resource_hash resources |> String.concat ""
+  let bools a b c =
+    match a, b, c with
+      | false, false, false -> "0"
+      | false, false, true -> "1"
+      | false, true, false -> "2"
+      | false, true, true -> "3"
+      | true, false, false -> "4"
+      | true, false, true -> "5"
+      | true, true, false -> "6"
+      | true, true, true -> "7"
+  in
+  (
+    bools false settings.drill_burner settings.drill_electric ::
+    bools settings.furnace_stone settings.furnace_steel
+      settings.furnace_electric ::
+    bools settings.assembling_machine_1 settings.assembling_machine_2
+      settings.assembling_machine_3 ::
+    (
+      match settings.petroleum_gas with
+        | `basic -> "0"
+        | `advanced -> "1"
+        | `cracking -> "2"
+    ) ::
+    List.map make_resource_hash resources
+  )
+  |> String.concat ""
 
 let parse_hash hash =
   let len = String.length hash in
@@ -307,6 +415,18 @@ let parse_hash hash =
       incr i;
       c
     )
+  in
+  let parse_bools a b c =
+    match next () with
+      | '0' -> a false; b false; c false
+      | '1' -> a false; b false; c true
+      | '2' -> a false; b true; c false
+      | '3' -> a false; b true; c true
+      | '4' -> a true; b false; c false
+      | '5' -> a true; b false; c true
+      | '6' -> a true; b true; c false
+      | '7' -> a true; b true; c true
+      | _ -> ()
   in
   let parse_resource_hash (resource: gui_resource) =
     if next () = '-' then (
@@ -342,21 +462,125 @@ let parse_hash hash =
       i := -1; (* next always returns '-' for the next resources *)
     (* if !i < 0 then alert ("Failed to parse: "^resource.resource.name); *)
   in
-  List.iter parse_resource_hash resources
+  parse_bools
+    (fun _ -> ())
+    (fun x -> settings.drill_burner <- x)
+    (fun x -> settings.drill_electric <- x);
+  parse_bools
+    (fun x -> settings.furnace_stone <- x)
+    (fun x -> settings.furnace_steel <- x)
+    (fun x -> settings.furnace_electric <- x);
+  parse_bools
+    (fun x -> settings.assembling_machine_1 <- x)
+    (fun x -> settings.assembling_machine_2 <- x)
+    (fun x -> settings.assembling_machine_3 <- x);
+  (
+    match next () with
+      | '0' -> settings.petroleum_gas <- `basic
+      | '1' -> settings.petroleum_gas <- `advanced
+      | '2' -> settings.petroleum_gas <- `cracking
+      | _ -> ()
+  );
+  List.iter parse_resource_hash resources;
+  List.iter (fun f -> f ()) settings.update_gui
 
 let () =
   Html.run @@ fun () ->
 
   let gui, update =
     let output, set_output = Html.div' ~class_: "output" [] in
-    let update () =
+    let rec update () =
       let resources =
         List.map get_resource_request resources
       in
-      let meta_resource = res "" [] 0. resources in
+      let meta_resource = res "" [] 0. resources |> apply_settings in
       let remove_zero = List.filter (fun goal -> goal.throughput <> 0.) in
       let global = summarize_global 1. meta_resource |> remove_zero in
       let local = (summarize_local 1. meta_resource).subgoals |> remove_zero in
+      let settings =
+        let cb get set =
+          let on_change value =
+            if get () <> value then (
+              set value;
+              update ()
+            )
+          in
+          let cb, set_gui = checkbox_input' ~on_change (get ()) in
+          let new_update_gui () = set_gui (get ()) in
+          settings.update_gui <- new_update_gui :: settings.update_gui;
+          cb
+        in
+        let rb name get set =
+          let on_change value =
+            if value then (
+              set ();
+              update ()
+            )
+          in
+          let rb, set_gui = radio_input' ~name ~on_change (get ()) in
+          let new_update_gui () = set_gui (get ()) in
+          settings.update_gui <- new_update_gui :: settings.update_gui;
+          rb
+        in
+        [
+          div ~class_: "setting" [
+            text "Drills: ";
+            cb
+              (fun () -> settings.drill_burner)
+              (fun x -> settings.drill_burner <- x);
+            gui_icon "Burner Mining Drill";
+            cb
+              (fun () -> settings.drill_electric)
+              (fun x -> settings.drill_electric <- x);
+            gui_icon "Electric Mining Drill";
+          ];
+          div ~class_: "setting" [
+            text "Furnaces: ";
+            cb
+              (fun () -> settings.furnace_stone)
+              (fun x -> settings.furnace_stone <- x);
+            gui_icon "Stone Furnace";
+            cb
+              (fun () -> settings.furnace_steel)
+              (fun x -> settings.furnace_steel <- x);
+            gui_icon "Steel Furnace";
+            cb
+              (fun () -> settings.furnace_electric)
+              (fun x -> settings.furnace_electric <- x);
+            gui_icon "Electric Furnace";
+          ];
+          div ~class_: "setting" [
+            text "Assembling Machines: ";
+            cb
+              (fun () -> settings.assembling_machine_1)
+              (fun x -> settings.assembling_machine_1 <- x);
+            gui_icon "Assembling Machine 1";
+            cb
+              (fun () -> settings.assembling_machine_2)
+              (fun x -> settings.assembling_machine_2 <- x);
+            gui_icon "Assembling Machine 2";
+            cb
+              (fun () -> settings.assembling_machine_3)
+              (fun x -> settings.assembling_machine_3 <- x);
+            gui_icon "Assembling Machine 3";
+          ];
+          div ~class_: "setting" [
+            text "Petroleum Gas: ";
+            rb "oilprocessing"
+              (fun () -> settings.petroleum_gas = `basic)
+              (fun () -> settings.petroleum_gas <- `basic);
+            gui_icon "Basic Oil Processing";
+            rb "oilprocessing"
+              (fun () -> settings.petroleum_gas = `advanced)
+              (fun () -> settings.petroleum_gas <- `advanced);
+            gui_icon "Advanced Oil Processing";
+            rb "oilprocessing"
+              (fun () -> settings.petroleum_gas = `cracking)
+              (fun () -> settings.petroleum_gas <- `cracking);
+            gui_icon "Advanced Oil Processing + Cracking";
+          ];
+        ]
+      in
       let output =
         match global, local with
           | [], [] ->
@@ -400,13 +624,19 @@ let () =
               ]
           | _ :: _, []
           | [], _ :: _ ->
-              gui_goals (global @ local)
+              [
+                div ~class_: "settings" settings;
+                div ~class_: "result" (gui_goals (global @ local));
+              ]
           | _ :: _, _ :: _ ->
               [
-                div ~class_: "outputh1" [ text "Global Goals" ];
-                div ~class_: "goals" (gui_goals global);
-                div ~class_: "outputh1" [ text "Local Goals" ];
-                div ~class_: "goals" (gui_goals local);
+                div ~class_: "settings" settings;
+                div ~class_: "result" [
+                  div ~class_: "outputh1" [ text "Global Goals" ];
+                  div ~class_: "goals" (gui_goals global);
+                  div ~class_: "outputh1" [ text "Local Goals" ];
+                  div ~class_: "goals" (gui_goals local);
+                ]
               ]
       in
       set_output output;

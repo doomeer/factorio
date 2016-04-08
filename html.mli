@@ -41,6 +41,11 @@ val span': ?class_: string -> t list -> t * (t list -> unit)
 val checkbox_input: ?class_: string -> ?on_change: (bool -> unit) -> bool -> t
 val checkbox_input':
   ?class_: string -> ?on_change: (bool -> unit) -> bool -> t * (bool -> unit)
+val radio_input:
+  ?class_: string -> ?on_change: (bool -> unit) -> ?name: string -> bool -> t
+val radio_input':
+  ?class_: string -> ?on_change: (bool -> unit) -> ?name: string ->
+  bool -> t * (bool -> unit)
 val text_input: ?class_: string -> ?on_change: (string -> unit) -> string -> t
 val text_input':
   ?class_: string -> ?on_change: (string -> unit) -> string ->

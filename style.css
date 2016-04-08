@@ -30,9 +30,23 @@ a.reset {
 
 .output {
   float: right;
-  width: calc(100% - 36em - 30px);
+  width: calc(100% - 36em - 20px);
+  margin: 0px;
+  padding: 0px;
+}
+
+.settings {
   background-color: #dddddd;
-  margin-left: 5px;
+  padding: 5px;
+}
+
+.setting input {
+  margin-left: 20px;
+}
+
+.result {
+  background-color: #eeeeee;
+  margin-top: 10px;
   padding: 5px;
 }
 
