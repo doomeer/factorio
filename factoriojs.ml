@@ -588,9 +588,21 @@ let () =
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
-                   requested throughput. The checkbox controls whether \
-                   the resource is global.";
-                div ~class_: "outputh1" [ text "Sharing" ];
+                   requested throughput.";
+                div ~class_: "outputh1" [ text "Shared Resources" ];
+                p_text
+                  "The checkbox controls whether \
+                   the resource is shared. \
+                   For instance, to produce Assembling Machine 1, you \
+                   need iron plates for the machines themselves, but also \
+                   for gears and for electronic circuits. \
+                   Not sharing the plates means having \
+                   three sets of furnaces, one for the circuits, one for \
+                   the gears and one for the machines. \
+                   Sharing the plates means having one set of furnaces \
+                   to produce the plates which you then dispatch to \
+                   other assemblers.";
+                div ~class_: "outputh1" [ text "Share Your Settings" ];
                 p_text
                   "See the #---g--g-g-g-g-------------------------- part \
                    in the URL? It encodes your settings and updates \
@@ -606,7 +618,7 @@ let () =
                    second best or C to use the third best. For instance, \
                    requesting b2 laser turrets means that \
                    2 blue assembling machines should run at full speed.";
-                div ~class_: "outputh1" [ text "Additional Resources" ];
+                div ~class_: "outputh1" [ text "Links" ];
                 p [
                   text "Source code is available on ";
                   a ~href: "https://github.com/doomeer/factorio" [
@@ -632,9 +644,9 @@ let () =
               [
                 div ~class_: "settings" settings;
                 div ~class_: "result" [
-                  div ~class_: "outputh1" [ text "Global Goals" ];
+                  div ~class_: "outputh1" [ text "Shared Resources" ];
                   div ~class_: "goals" (gui_goals global);
-                  div ~class_: "outputh1" [ text "Local Goals" ];
+                  div ~class_: "outputh1" [ text "Non-Shared Resources" ];
                   div ~class_: "goals" (gui_goals local);
                 ]
               ]
