@@ -29,8 +29,13 @@ CLIENTJS = factorio.js
 
 default: $(CLIENTJS)
 
-$(CLIENTJS): factorio.ml factoriojs.ml recipes.ml html.ml _build/$(CLIENT)
-	$(OCAMLBUILD) $(CLIENT)
+$(CLIENTJS): _build/$(CLIENT)
 	js_of_ocaml _build/$(CLIENT) -o $(CLIENTJS)
 
-.PHONY: default
+_build/$(CLIENT): factorio.ml factoriojs.ml recipes.ml html.ml html.mli
+	$(OCAMLBUILD) $(CLIENT)
+
+clean:
+	rm -rf _build
+
+.PHONY: default clean
