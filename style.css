@@ -1,25 +1,31 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+p {
+  line-height: 1.5;
+}
+
 p.button {
   text-align: center;
 }
 
-a.button {
-  border-style: outset;
-  border-width: 2px;
-  padding: 2px;
-  text-decoration: none;
-  color: #400000;
-  background-color: #eeeeee;
+button.setvisible, a.button {
+  font: inherit;
+  color: #fff;
+  background-color: #000;
+  display: block;
+  margin: 0 auto;
+  border: 0;
+  border-radius: 3px;
+  padding: 0.5em 1em;
+  cursor: pointer;
 }
 
-button.setvisible {
-  border-style: outset;
-  border-width: 2px;
-  padding: 2px;
+a.button {
+  width: 100px;
   text-decoration: none;
-  color: #000040;
-  background-color: #eeeeee;
-  margin-left: calc(50% - 15em);
-  width: 30em;
+  line-height: normal;
 }
 
 .count {
@@ -37,6 +43,7 @@ button.setvisible {
   width: 36em;
   background-color: #dddddd;
   padding: 5px;
+  border-radius: 3px;
 }
 
 .rightcolumn {
@@ -48,7 +55,12 @@ button.setvisible {
 
 .settings {
   background-color: #dddddd;
-  padding: 5px;
+  padding: 1em;
+  border-radius: 3px;
+}
+
+.setting {
+  margin: 0.5em 0
 }
 
 .setting input[type=checkbox] {
@@ -67,10 +79,36 @@ button.setvisible {
   background-color: #eeeeee;
   margin-top: 10px;
   padding: 5px;
+  border-radius: 3px;
 }
 
 .goal > .goal {
-  padding-left: 2em;
+  padding: 0.5em;
+  border-left: 1px solid #ccc;
+  margin-left: 2em;
+  position: relative;
+}
+
+.goal > .goal:before {
+  content: " ";
+  display: inline-block;
+  margin-right: 0.5em;
+  margin-left: -0.5em;
+  width: 1em;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+  z-index: 2;
+}
+
+.goal > .goal:last-of-type:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 5px;
+  height: 1000px;
+  background: white;
+  top: 27px;
+  left: -3px;
 }
 
 .outputh1 {
@@ -80,6 +118,15 @@ button.setvisible {
 
 .goals > .goal {
   margin-bottom: 1em;
+  background: #fff;
+  padding: 0.5em;
+  border-radius: 3px;
+  overflow: hidden;
+  font-size: 0.9em;
+}
+
+.goal img {
+  margin: 0 0.2em;
 }
 
 .makerspace {
