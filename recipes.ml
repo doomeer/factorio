@@ -219,7 +219,8 @@ let electric_engine_unit =
     [ 1., engine_unit; 2., electronic_circuit; 2., lubricant ]
 let flying_robot_frame =
   res "Flying Robot Frame" am2 20.
-    [ 1., electric_engine_unit; 2., battery; 1., steel_plate ]
+    [ 1., electric_engine_unit; 2., battery; 1., steel_plate;
+      3., electronic_circuit ]
 let science_pack_1 =
   res "Science Pack 1" am1 5.
     [ 1., copper_plate; 1., iron_gear_wheel ]
