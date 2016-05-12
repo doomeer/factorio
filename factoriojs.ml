@@ -845,6 +845,14 @@ let () =
                   ];
                   text ".";
                 ];
+                div ~class_: "outputh1" [ text "Acknowledgments" ];
+                p [
+                  text
+                    "Thanks to Nick Sheffield for the great style sheet! \
+                     And thanks to everyone who helped finding bugs \
+                     or posted suggestions. This tool greatly improved \
+                     thanks to you.";
+                ];
               ]
           | _ :: _, []
           | [], _ :: _ ->
