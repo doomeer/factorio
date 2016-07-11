@@ -138,3 +138,7 @@ a.button {
   vertical-align: middle;
   width: 32px;
 }
+
+.warning {
+  color: red;
+}

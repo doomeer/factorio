@@ -148,7 +148,7 @@ let steel_plate =
     [ 5., iron_plate ]
 let stone_brick =
   res "Stone Brick" furnace 3.5
-    [ 1., stone ]
+    [ 2., stone ]
 
 let petroleum_gas_basic =
   res "Petroleum Gas" [ maker "Basic Oil Processing" 1. ] 5.
@@ -236,12 +236,12 @@ let science_pack_2 =
 let fast_inserter =
   res "Fast Inserter" am2 0.5
     [ 1., inserter; 2., iron_plate; 2., electronic_circuit ]
-let smart_inserter =
-  res "Smart Inserter" am2 0.5
+let filter_inserter =
+  res "Filter Inserter" am2 0.5
     [ 1., fast_inserter; 4., electronic_circuit ]
 let science_pack_3 =
   res "Science Pack 3" am2 12.
-    [ 1., battery; 1., advanced_circuit; 1., smart_inserter; 1., steel_plate ]
+    [ 1., battery; 1., advanced_circuit; 1., filter_inserter; 1., steel_plate ]
 let alien_science_pack =
   res "Alien Science Pack" am1 12. ~count: 10.
     [ 1., alien_artifact ]
@@ -260,9 +260,12 @@ let land_mine =
 let basic_grenade =
   res "Basic Grenade" am1 8.
     [ 10., coal; 5., iron_plate ]
+let cluster_grenade =
+  res "Cluster Grenade" am2 8.
+    [ 7., basic_grenade; 5., explosives; 5., steel_plate ]
 let piercing_rounds_magazine =
   res "Piercing Rounds Magazine" am1 3.
-    [ 3., copper_plate; 1., steel_plate ]
+    [ 5., copper_plate; 1., steel_plate ]
 let defender_capsule =
   res "Defender Capsule" am2 8.
     [ 3., iron_gear_wheel; 2., electronic_circuit;
@@ -375,7 +378,7 @@ let express_transport_belt =
     [ 1., fast_transport_belt; 5., iron_gear_wheel; 2., lubricant ]
 let express_underground_belt =
   res "Express Underground Belt" am1 0.5 ~count: 2.
-    [ 40., iron_gear_wheel; 2., fast_underground_belt ]
+    [ 40., iron_gear_wheel; 2., fast_underground_belt; 4., lubricant ]
 let express_splitter =
   res "Express Splitter" am2 2.
     [ 1., fast_splitter; 10., iron_gear_wheel; 10., advanced_circuit;
@@ -389,6 +392,12 @@ let burner_inserter =
 let long_handed_inserter =
   res "Long Handed Inserter" am2 0.5
     [ 1., inserter; 1., iron_plate; 1., iron_gear_wheel ]
+let stack_inserter =
+  res "Stack Inserter" am2 0.5
+    [ 15., electronic_circuit; 1., advanced_circuit; 1., fast_inserter ]
+let stack_filter_inserter =
+  res "Stack Filter Inserter" am1 0.5
+    [ 1., stack_inserter; 5., electronic_circuit ]
 
 (* Storage *)
 
@@ -401,21 +410,18 @@ let iron_chest =
 let steel_chest =
   res "Steel Chest" am1 0.5
     [ 8., iron_plate ]
-let smart_chest =
-  res "Smart Chest" am1 0.5
-    [ 1., steel_chest; 3., electronic_circuit ]
 let active_provider_chest =
   res "Active Provider Chest" am1 0.5
-    [ 1., smart_chest; 1., advanced_circuit ]
+    [ 1., steel_chest; 3., electronic_circuit; 1., advanced_circuit ]
 let passive_provider_chest =
   res "Passive Provider Chest" am1 0.5
-    [ 1., smart_chest; 1., advanced_circuit ]
+    [ 1., steel_chest; 3., electronic_circuit; 1., advanced_circuit ]
 let storage_chest =
   res "Storage Chest" am1 0.5
-    [ 1., smart_chest; 1., advanced_circuit ]
+    [ 1., steel_chest; 3., electronic_circuit; 1., advanced_circuit ]
 let requester_chest =
   res "Requester Chest" am1 0.5
-    [ 1., smart_chest; 1., advanced_circuit ]
+    [ 1., steel_chest; 3., electronic_circuit; 1., advanced_circuit ]
 
 (* Defensive Structures *)
 
@@ -425,6 +431,9 @@ let wall =
 let gun_turret =
   res "Gun Turret" am2 10.
     [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
+let flamethrower_turret =
+  res "Flamethrower Turret" am2 20.
+    [ 30., steel_plate; 15., iron_gear_wheel; 10., pipe; 5., engine_unit ]
 let laser_turret =
   res "Laser Turret" am2 20.
     [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
@@ -457,7 +466,7 @@ let r_assembling_machine_2 =
       1., r_assembling_machine_1 ]
 let r_assembling_machine_3 =
   res assembling_machine_3.name am1 0.5
-    [ 1., r_assembling_machine_2; 4., speed_module ]
+    [ 2., r_assembling_machine_2; 4., speed_module ]
 let r_lab =
   res "Lab" am2 5.
     [ 4., transport_belt; 10., iron_gear_wheel; 10., electronic_circuit ]
@@ -504,9 +513,6 @@ let lamp =
 let straight_rail =
   res "Straight Rail" am2 0.5 ~count: 2.
     [ 1., stone; 1., iron_stick; 1., steel_plate ]
-let curved_rail =
-  res "Curved Rail" am2 0.5 ~count: 2.
-    [ 4., stone; 4., iron_stick; 4., steel_plate ]
 
 (* Liquid Network *)
 
@@ -553,6 +559,10 @@ let rocket_fuel =
 let rocket_part =
   res "Rocket Part" [ maker "Rocket Silo" 1. ] 3.
     [ 10., low_density_structure; 10., rocket_fuel; 10., rocket_control_unit ]
+let satellite =
+  res "Satellite" am3 3.
+    [ 100., low_density_structure; 100., solar_panel; 100., basic_accumulator;
+      50., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (******************************************************************************)
 (*                              List of Resources                             *)
@@ -618,6 +628,7 @@ let resources =
     (* shotgun; *)
     (* combat_shotgun; *)
     basic_grenade;
+    cluster_grenade;
     defender_capsule;
     poison_capsule;
     slowdown_capsule;
@@ -694,13 +705,14 @@ let resources =
     inserter;
     long_handed_inserter;
     fast_inserter;
-    smart_inserter;
+    filter_inserter;
+    stack_inserter;
+    stack_filter_inserter;
 
     (* Storage *)
     wooden_chest;
     iron_chest;
     steel_chest;
-    smart_chest;
     active_provider_chest;
     passive_provider_chest;
     storage_chest;
@@ -709,6 +721,7 @@ let resources =
     (* Defensive Structures *)
     wall;
     gun_turret;
+    flamethrower_turret;
     laser_turret;
     (* Rocket Silo *)
 
@@ -738,7 +751,6 @@ let resources =
 
     (* Railway Network *)
     straight_rail;
-    curved_rail;
     (* train_stop; *)
     (* rail_signal; *)
     (* rail_chain_signal; *)
@@ -760,5 +772,5 @@ let resources =
     rocket_fuel;
     rocket_part;
     rocket_control_unit;
-    (* satellite; *)
+    satellite;
   ]

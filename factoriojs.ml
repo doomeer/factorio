@@ -118,7 +118,7 @@ let special_hrefs =
       alien_science_pack.name, "Alien_science_pack";
       empty_barrel.name, "Empty_barrel";
       fast_inserter.name, "Fast_inserter";
-      smart_inserter.name, "Smart_inserter";
+      filter_inserter.name, "Filter_inserter";
       basic_accumulator.name, "Basic_accumulator";
       efficiency_module.name, "Efficiency_module";
       productivity_module.name, "Productivity_module";
@@ -187,15 +187,15 @@ let rec gui_icon alt =
         | src ->
             src
         | exception Not_found ->
-          let src = Bytes.of_string alt in
-          for i = 0 to Bytes.length src - 1 do
-            let chr = Bytes.get src i in
-            if chr = ' ' then
-              Bytes.set src i '-'
-            else if i > 0 then
-              Bytes.set src i (Char.lowercase chr)
-          done;
-          src
+            let src = Bytes.of_string alt in
+            for i = 0 to Bytes.length src - 1 do
+              let chr = Bytes.get src i in
+              if chr = ' ' then
+                Bytes.set src i '-'
+              else if i > 0 then
+                Bytes.set src i (Char.lowercase chr)
+            done;
+            src
     in
     let src = "http://wiki.factorio.com/images/"^src^".png" in
     let href =
@@ -797,6 +797,13 @@ let () =
         match global, local with
           | [], [] ->
               [
+                div ~class_: "outputh1" [ text "Current Version" ];
+                p_text ~class_: "warning"
+                  "Factorio Planner uses recipes from Factorio v0.13.8. \
+                   Note that right now (July 11th 2016), \
+                   the Wiki is less up-to-date than \
+                   Factorio Planner. Also, don't be alarmed, some images \
+                   are missing but they should eventually be fixed.";
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
