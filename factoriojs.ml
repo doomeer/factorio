@@ -96,6 +96,7 @@ let special_icons =
       cannon_shells.name, "Cannon-shell";
       explosive_cannon_shells.name, "Explosive-cannon-shell";
       land_mine.name, "Land-mine-research";
+      cluster_grenade.name, "Cluster_grenade";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -164,6 +165,7 @@ let special_hrefs =
       destroyer_capsule.name, "Destroyer_capsule";
       land_mine.name, "Land_mine";
       basic_grenade.name, "Basic_grenade";
+      cluster_grenade.name, "Cluster_grenade";
       "Basic Oil Processing", "Basic_oil_processing";
       "Advanced Oil Processing", "Advanced_oil_processing";
       "Heavy Oil Cracking", "Oil_processing";
