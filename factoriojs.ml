@@ -97,6 +97,8 @@ let special_icons =
       explosive_cannon_shells.name, "Explosive-cannon-shell";
       land_mine.name, "Land-mine-research";
       cluster_grenade.name, "Cluster_grenade";
+      shotgun_shells.name, "Shotgun-shell";
+      piercing_shotgun_shells.name, "Piercing-shotgun-shell";
     ]
   in
   let table = Hashtbl.create 16 in
