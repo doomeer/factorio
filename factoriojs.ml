@@ -77,6 +77,7 @@ let special_icons =
       express_underground_belt.name, "Express-transport-belt-to-ground";
       splitter.name, "Basic-splitter";
       inserter.name, "Inserter-icon";
+      stack_inserter.name, "Stack_inserter";
       efficiency_module.name, "Effectivity-module";
       efficiency_module_2.name, "Effectivity-module-2";
       efficiency_module_3.name, "Effectivity-module-3";
@@ -119,6 +120,7 @@ let special_hrefs =
       empty_barrel.name, "Empty_barrel";
       fast_inserter.name, "Fast_inserter";
       filter_inserter.name, "Filter_inserter";
+      stack_inserter.name, "Stack_inserter";
       basic_accumulator.name, "Basic_accumulator";
       efficiency_module.name, "Efficiency_module";
       productivity_module.name, "Productivity_module";
