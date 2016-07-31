@@ -77,6 +77,7 @@ let special_icons =
       express_underground_belt.name, "Express-transport-belt-to-ground";
       splitter.name, "Basic-splitter";
       inserter.name, "Inserter-icon";
+      stack_inserter.name, "Stack_inserter";
       efficiency_module.name, "Effectivity-module";
       efficiency_module_2.name, "Effectivity-module-2";
       efficiency_module_3.name, "Effectivity-module-3";
@@ -95,6 +96,9 @@ let special_icons =
       cannon_shells.name, "Cannon-shell";
       explosive_cannon_shells.name, "Explosive-cannon-shell";
       land_mine.name, "Land-mine-research";
+      cluster_grenade.name, "Cluster_grenade";
+      shotgun_shells.name, "Shotgun-shell";
+      piercing_shotgun_shells.name, "Piercing-shotgun-shell";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -119,6 +123,7 @@ let special_hrefs =
       empty_barrel.name, "Empty_barrel";
       fast_inserter.name, "Fast_inserter";
       filter_inserter.name, "Filter_inserter";
+      stack_inserter.name, "Stack_inserter";
       basic_accumulator.name, "Basic_accumulator";
       efficiency_module.name, "Efficiency_module";
       productivity_module.name, "Productivity_module";
@@ -162,6 +167,7 @@ let special_hrefs =
       destroyer_capsule.name, "Destroyer_capsule";
       land_mine.name, "Land_mine";
       basic_grenade.name, "Basic_grenade";
+      cluster_grenade.name, "Cluster_grenade";
       "Basic Oil Processing", "Basic_oil_processing";
       "Advanced Oil Processing", "Advanced_oil_processing";
       "Heavy Oil Cracking", "Oil_processing";
