@@ -77,7 +77,7 @@ let special_icons =
       express_underground_belt.name, "Express-transport-belt-to-ground";
       splitter.name, "Basic-splitter";
       inserter.name, "Inserter-icon";
-      stack_inserter.name, "Stack_inserter";
+      stack_inserter.name, "Stack-inserter";
       stack_filter_inserter.name, "Stack_filter_inserter";
       efficiency_module.name, "Effectivity-module";
       efficiency_module_2.name, "Effectivity-module-2";
