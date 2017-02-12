@@ -541,6 +541,12 @@ let small_pump =
   res "Small Pump" am2 2.
     [ 1., electric_engine_unit; 1., steel_plate; 1., pipe ]
 
+(* Miscellaneous *)
+
+let concrete =
+  res "Concrete" am2 10.
+    [ 5., stone_brick; 1., iron_ore; 10., water ]
+
 (* Rocket Compenents *)
 
 let low_density_structure =
@@ -766,6 +772,9 @@ let resources =
     r_chemical_plant;
     r_pumpjack;
     small_pump;
+
+    (* Miscellaneous *)
+    concrete;
 
     (* Rocket Components *)
     low_density_structure;
