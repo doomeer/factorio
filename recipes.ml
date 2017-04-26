@@ -271,7 +271,7 @@ let high_tech_science_pack =
 
 let regular_magazine =
   res "Regular Magazine" am1 2.
-    [ 2., iron_plate ]
+    [ 4., iron_plate ]
 let piercing_rounds_magazine =
   res "Piercing Rounds Magazine" am1 3.
     [ 1., regular_magazine; 1., steel_plate; 5., copper_plate ]
@@ -420,7 +420,7 @@ let wall =
   res "Wall" am1 0.5
     [ 5., stone_brick ]
 let gun_turret =
-  res "Gun Turret" am2 10.
+  res "Gun Turret" am2 8.
     [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
 let military_science_pack =
   res "Military Science Pack" am2 10. ~count: 2.
@@ -491,10 +491,10 @@ let substation =
     [ 10., steel_plate; 5., advanced_circuit; 5., copper_plate ]
 let boiler =
   res "Boiler" am1 0.5
-    [ 1., r_stone_furnace; 1., pipe ]
+    [ 1., r_stone_furnace; 4., pipe ]
 let steam_engine =
   res "Steam Engine" am2 0.5
-    [ 5., iron_gear_wheel; 5., pipe; 5., iron_plate ]
+    [ 8., iron_gear_wheel; 5., pipe; 10., iron_plate ]
 let solar_panel =
   res "Solar Panel" am2 10.
     [ 5., steel_plate; 15., electronic_circuit; 5., copper_plate ]
