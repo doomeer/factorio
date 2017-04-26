@@ -170,6 +170,10 @@ let special_hrefs =
       land_mine.name, "Land_mine";
       basic_grenade.name, "Basic_grenade";
       cluster_grenade.name, "Cluster_grenade";
+      military_science_pack.name, "Military_science_pack";
+      production_science_pack.name, "Production_science_pack";
+      high_tech_science_pack.name, "High_tech_science_pack";
+      small_pump.name, "Small_pump";
       "Basic Oil Processing", "Basic_oil_processing";
       "Advanced Oil Processing", "Advanced_oil_processing";
       "Heavy Oil Cracking", "Oil_processing";
