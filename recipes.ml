@@ -123,10 +123,10 @@ let stone =
   res "Stone" drill 2.
     []
 let water =
-  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 60. ~style: Global
+  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
     []
 let crude_oil =
-  res "Crude Oil" [ maker "Pumpjack" 1. ] 1.
+  res "Crude Oil" [ maker "Pumpjack" 1. ] 1. ~count: 10.
     []
 
 (* Intermediate Products *)
