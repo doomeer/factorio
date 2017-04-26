@@ -122,9 +122,6 @@ let copper_ore =
 let stone =
   res "Stone" drill 2.
     []
-let alien_artifact =
-  res "Alien Artifact" [] 1. ~style: Global
-    []
 let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 60. ~style: Global
     []
@@ -588,7 +585,6 @@ let resources =
     copper_ore;
     stone;
     (* raw_fish; *)
-    alien_artifact;
     water;
     crude_oil;
 

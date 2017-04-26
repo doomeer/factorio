@@ -64,7 +64,6 @@ let special_icons =
   let list =
     [
       raw_wood.name, "Raw-wood";
-      alien_artifact.name, "Alien-artifact";
       heavy_oil.name, "Heavy-oil";
       engine_unit.name, "Engine-unit";
       electric_engine_unit.name, "Electric-engine-unit";
@@ -114,7 +113,6 @@ let special_hrefs =
     [
       (* No uppercase. *)
       raw_wood.name, "Raw_wood";
-      alien_artifact.name, "Alien_artifact";
       iron_ore.name, "Iron_ore";
       copper_ore.name, "Copper_ore";
       copper_cable.name, "Copper_cable";
@@ -809,11 +807,11 @@ let () =
               [
                 div ~class_: "outputh1" [ text "Current Version" ];
                 p_text ~class_: "warning"
-                  "Factorio Planner uses recipes from Factorio v0.13.8. \
-                   Note that right now (July 11th 2016), \
-                   the Wiki is less up-to-date than \
-                   Factorio Planner. Also, don't be alarmed, some images \
-                   are missing but they should eventually be fixed.";
+                  "Factorio Planner uses recipes from Factorio v0.15.2. \
+                   Note that not all of the new items in the 0.15 update \
+                   have been added yet (particularly uranium products) but
+                   the ratios and production times for existing items should \
+                   be correct.";
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
