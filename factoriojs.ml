@@ -69,7 +69,6 @@ let special_icons =
       engine_unit.name, "Engine-unit";
       electric_engine_unit.name, "Electric-engine-unit";
       flying_robot_frame.name, "Flying-robot-frame";
-      alien_science_pack.name, "Alien-science-pack";
       empty_barrel.name, "Barrel-empty";
       transport_belt.name, "Basic-transport-belt";
       underground_belt.name, "Basic-transport-belt-to-ground";
@@ -100,6 +99,10 @@ let special_icons =
       cluster_grenade.name, "Cluster_grenade";
       shotgun_shells.name, "Shotgun-shell";
       piercing_shotgun_shells.name, "Piercing-shotgun-shell";
+      small_pump.name, "Small-pump";
+      military_science_pack.name, "Military_science_pack";
+      production_science_pack.name, "Production_science_pack";
+      high_tech_science_pack.name, "High_tech_science_pack";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -120,7 +123,6 @@ let special_hrefs =
       engine_unit.name, "Engine_unit";
       electric_engine_unit.name, "Electric_engine_unit";
       flying_robot_frame.name, "Flying_robot_frame";
-      alien_science_pack.name, "Alien_science_pack";
       empty_barrel.name, "Empty_barrel";
       fast_inserter.name, "Fast_inserter";
       filter_inserter.name, "Filter_inserter";
