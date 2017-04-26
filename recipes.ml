@@ -42,6 +42,7 @@ let stone_furnace = maker "Stone Furnace" 1.
 let steel_furnace = maker "Steel Furnace" 2.
 let electric_furnace = maker "Electric Furnace" 2.
 let chemical_plant_ = maker "Chemical Plant" 1.25
+let centrifuge = maker "centrifuge" 0.75
 
 (* Shorthands for some commonly-used lists of makers. *)
 
@@ -122,11 +123,8 @@ let copper_ore =
 let stone =
   res "Stone" drill 2.
     []
-let alien_artifact =
-  res "Alien Artifact" [] 1. ~style: Global
-    []
 let water =
-  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 60. ~style: Global
+  res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
     []
 let crude_oil =
   res "Crude Oil" [ maker "Pumpjack" 1. ] 1.
@@ -152,12 +150,12 @@ let stone_brick =
 
 let petroleum_gas_basic =
   res "Petroleum Gas" [ maker "Basic Oil Processing" 1. ] 5.
-    ~count: 4. ~style: Global
-    [ 10., crude_oil ]
+    ~count: 40. ~style: Global
+    [ 100., crude_oil ]
 let petroleum_gas_advanced =
   res "Petroleum Gas" [ maker "Advanced Oil Processing" 1. ] 5.
-    ~count: 5.5 ~style: Global
-    [ 10., crude_oil; 5., water ]
+    ~count: 55. ~style: Global
+    [ 100., crude_oil; 50., water ]
 let petroleum_gas_cracking =
   (* 1 Heavy Oil becomes 3/4 = 0.75 Light Oil.
      0.75 + 4.5 = 5.25 Light Oil becomes 5.25 * 2 / 3 = 3.5 Petroleum Gas.
@@ -171,16 +169,16 @@ let petroleum_gas_cracking =
 let petroleum_gas = petroleum_gas_basic
 let sulfur =
   res "Sulfur" chemical_plant 1. ~count: 2.
-    [ 3., water; 3., petroleum_gas ]
+    [ 30., water; 30., petroleum_gas ]
 let sulfuric_acid =
-  res "Sulfuric Acid" chemical_plant 1. ~count: 5.
+  res "Sulfuric Acid" chemical_plant 1. ~count: 50.
     [ 1., iron_plate; 5., sulfur; 10., water ]
 let plastic_bar =
   res "Plastic Bar" chemical_plant 1. ~count: 2.
-    [ 1., coal; 3., petroleum_gas ]
+    [ 1., coal; 20., petroleum_gas ]
 let battery =
   res "Battery" chemical_plant 5.
-    [ 1., iron_plate; 1., copper_plate; 2., sulfuric_acid ]
+    [ 1., iron_plate; 1., copper_plate; 20., sulfuric_acid ]
 let iron_stick =
   res "Iron Stick" am1 0.5 ~count: 2.
     [ 1., iron_plate ]
@@ -198,7 +196,7 @@ let advanced_circuit =
     [ 2., electronic_circuit; 2., plastic_bar; 4., copper_cable ]
 let processing_unit =
   res "Processing Unit" am2 15.
-    [ 20., electronic_circuit; 2., advanced_circuit; 0.5, sulfuric_acid ]
+    [ 20., electronic_circuit; 2., advanced_circuit; 5., sulfuric_acid ]
 let pipe =
   res "Pipe" am1 0.5
     [ 1., iron_plate ]
@@ -216,35 +214,23 @@ let lubricant =
     [ 1., heavy_oil ]
 let electric_engine_unit =
   res "Electric Engine Unit" am2 20.
-    [ 1., engine_unit; 2., electronic_circuit; 2., lubricant ]
+    [ 1., engine_unit; 2., electronic_circuit; 15., lubricant ]
 let flying_robot_frame =
   res "Flying Robot Frame" am2 20.
     [ 1., electric_engine_unit; 2., battery; 1., steel_plate;
       3., electronic_circuit ]
-let science_pack_1 =
-  res "Science Pack 1" am1 5.
-    [ 1., copper_plate; 1., iron_gear_wheel ]
-let inserter =
-  res "Inserter" am2 0.5
-    [ 1., iron_plate; 1., iron_gear_wheel; 1., electronic_circuit ]
 let transport_belt =
   res "Transport Belt" am1 0.5 ~count: 2.
     [ 1., iron_plate; 1., iron_gear_wheel ]
-let science_pack_2 =
-  res "Science Pack 2" am1 6.
-    [ 1., inserter; 1., transport_belt ]
+let inserter =
+  res "Inserter" am2 0.5
+    [ 1., iron_plate; 1., iron_gear_wheel; 1., electronic_circuit ]
 let fast_inserter =
   res "Fast Inserter" am2 0.5
     [ 1., inserter; 2., iron_plate; 2., electronic_circuit ]
 let filter_inserter =
   res "Filter Inserter" am2 0.5
     [ 1., fast_inserter; 4., electronic_circuit ]
-let science_pack_3 =
-  res "Science Pack 3" am2 12.
-    [ 1., battery; 1., advanced_circuit; 1., filter_inserter; 1., steel_plate ]
-let alien_science_pack =
-  res "Alien Science Pack" am1 12. ~count: 10.
-    [ 1., alien_artifact ]
 let empty_barrel =
   res "Empty Barrel" am1 1.
     [ 1., steel_plate ]
@@ -323,8 +309,7 @@ let efficiency_module_2 =
     [ 5., advanced_circuit; 5., processing_unit; 4., efficiency_module ]
 let efficiency_module_3 =
   res "Efficiency Module 3" am2 60.
-    [ 5., advanced_circuit; 5., processing_unit; 5., efficiency_module_2;
-      1., alien_artifact ]
+    [ 5., advanced_circuit; 5., processing_unit; 5., efficiency_module_2;]
 let productivity_module =
   res "Productivity Module" am2 15.
     [ 5., advanced_circuit; 5., electronic_circuit ]
@@ -333,15 +318,13 @@ let productivity_module_2 =
     [ 5., advanced_circuit; 5., processing_unit; 4., productivity_module ]
 let productivity_module_3 =
   res "Productivity Module 3" am2 60.
-    [ 5., advanced_circuit; 5., processing_unit; 5., productivity_module_2;
-      1., alien_artifact ]
+    [ 5., advanced_circuit; 5., processing_unit; 5., productivity_module_2; ]
 let speed_module_2 =
   res "Speed Module 2" am2 30.
     [ 5., advanced_circuit; 5., processing_unit; 4., speed_module ]
 let speed_module_3 =
   res "Speed Module 3" am2 60.
-    [ 5., advanced_circuit; 5., processing_unit; 4., speed_module_2;
-      1., alien_artifact ]
+    [ 5., advanced_circuit; 5., processing_unit; 4., speed_module_2; ]
 
 (* Special *)
 
@@ -371,18 +354,17 @@ let fast_underground_belt =
     [ 20., iron_gear_wheel; 2., underground_belt ]
 let fast_splitter =
   res "Fast Splitter" am2 2.
-    [ 1., splitter; (* TODO: check this *)
-      10., iron_gear_wheel; 10., electronic_circuit ]
+    [ 1., splitter; 10., iron_gear_wheel; 10., electronic_circuit ]
 let express_transport_belt =
   res "Express Transport Belt" am2 0.5
-    [ 1., fast_transport_belt; 5., iron_gear_wheel; 2., lubricant ]
+    [ 1., fast_transport_belt; 10., iron_gear_wheel; 20., lubricant ]
 let express_underground_belt =
   res "Express Underground Belt" am1 0.5 ~count: 2.
-    [ 40., iron_gear_wheel; 2., fast_underground_belt; 4., lubricant ]
+    [ 40., iron_gear_wheel; 2., fast_underground_belt; 40., lubricant ]
 let express_splitter =
   res "Express Splitter" am2 2.
     [ 1., fast_splitter; 10., iron_gear_wheel; 10., advanced_circuit;
-      8., lubricant ]
+      80., lubricant ]
 
 (* Inserters *)
 
@@ -394,7 +376,7 @@ let long_handed_inserter =
     [ 1., inserter; 1., iron_plate; 1., iron_gear_wheel ]
 let stack_inserter =
   res "Stack Inserter" am2 0.5
-    [ 15., electronic_circuit; 1., advanced_circuit; 1., fast_inserter ]
+    [ 15., iron_gear_wheel; 15., electronic_circuit; 1., advanced_circuit; 1., fast_inserter ]
 let stack_filter_inserter =
   res "Stack Filter Inserter" am1 0.5
     [ 1., stack_inserter; 5., electronic_circuit ]
@@ -438,6 +420,13 @@ let laser_turret =
   res "Laser Turret" am2 20.
     [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
 
+    (* Miscellaneous *)
+
+let concrete =
+  res "Concrete" am2 10.
+    [ 5., stone_brick; 1., iron_ore; 100., water ]
+
+
 (* Machines & Furnaces *)
 
 (* Because makers exist with the same name, makers as resources are
@@ -470,6 +459,9 @@ let r_assembling_machine_3 =
 let r_lab =
   res "Lab" am2 5.
     [ 4., transport_belt; 10., iron_gear_wheel; 10., electronic_circuit ]
+let r_centrifuge =
+   res "Centrifuge" am2 4.
+     [ 100., concrete; 50.,steel_plate; 100., advanced_circuit; 100., iron_gear_wheel]
 let basic_beacon =
   res "Basic Beacon" am2 15.
     [ 20., electronic_circuit; 20., advanced_circuit; 10., steel_plate;
@@ -494,10 +486,10 @@ let substation =
     [ 10., steel_plate; 5., advanced_circuit; 5., copper_plate ]
 let boiler =
   res "Boiler" am1 0.5
-    [ 1., r_stone_furnace; 1., pipe ]
+    [ 1., r_stone_furnace; 4., pipe ]
 let steam_engine =
   res "Steam Engine" am2 0.5
-    [ 5., iron_gear_wheel; 5., pipe; 5., iron_plate ]
+    [ 8., iron_gear_wheel; 5., pipe; 10., iron_plate ]
 let solar_panel =
   res "Solar Panel" am2 10.
     [ 5., steel_plate; 15., electronic_circuit; 5., copper_plate ]
@@ -537,15 +529,9 @@ let r_pumpjack =
   res "Pumpjack" am2 20.
     [ 15., steel_plate; 10., iron_gear_wheel; 10., electronic_circuit;
       10., pipe ]
-let small_pump =
-  res "Small Pump" am2 2.
-    [ 1., electric_engine_unit; 1., steel_plate; 1., pipe ]
-
-(* Miscellaneous *)
-
-let concrete =
-  res "Concrete" am2 10.
-    [ 5., stone_brick; 1., iron_ore; 10., water ]
+let pump =
+  res "Pump" am2 2.
+    [ 1., engine_unit; 1., steel_plate; 1., pipe ]
 
 (* Rocket Compenents *)
 
@@ -570,6 +556,44 @@ let satellite =
     [ 100., low_density_structure; 100., solar_panel; 100., basic_accumulator;
       50., radar; 100., processing_unit; 50., rocket_fuel ]
 
+(* new in 0.15 *)
+let nuclear_reactor =
+  res "Nuclear reactor" am2 4.
+    [ 500., concrete; 500., steel_plate; 500., advanced_circuit; 500., copper_plate ]
+let heat_pipe =
+  res "Heat pipe" am1 0.5
+    [ 10., steel_plate; 20., copper_plate ]
+let heat_exchanger =
+  res "Heat exchanger" am2 0.5
+    [ 10., steel_plate; 100., copper_plate; 10., pipe ]
+let steam_turbine =
+  res "Steam turbine" am2 0.5
+    [ 50., iron_gear_wheel; 50., copper_plate; 20., pipe ]
+let fluid_wagon =
+  res "Fluid wagon" am2 1.5
+    [ 10., iron_gear_wheel; 16., steel_plate; 8., pipe; 3., storage_tank]
+
+
+(* Science packs *)
+let science_pack_1 =
+  res "Science Pack 1" am1 5.
+    [ 1., copper_plate; 1., iron_gear_wheel ]
+let science_pack_2 =
+  res "Science Pack 2" am1 6.
+    [ 1., inserter; 1., transport_belt ]
+let science_pack_3 =
+  res "Science Pack 3" am2 12.
+    [ 1., advanced_circuit; 1., engine_unit; 1., r_assembling_machine_1 ]
+let military_science_pack =
+  res "Military science pack" am1 10. ~count: 2.
+    [ 1., piercing_rounds_magazine; 1., basic_grenade; 1., gun_turret ]
+let production_science_pack =
+  res "Production science pack" am1 14. ~count: 2.
+    [ 1., r_pumpjack; 1., electric_engine_unit; 1., r_electric_furnace ]
+let high_tech_science_pack =
+  res "High tech science pack" am2 14. ~count: 2.
+    [ 1., battery; 3., processing_unit; 1., speed_module; 30., copper_cable ]
+
 (******************************************************************************)
 (*                              List of Resources                             *)
 (******************************************************************************)
@@ -585,7 +609,6 @@ let resources =
     copper_ore;
     stone;
     (* raw_fish; *)
-    alien_artifact;
     water;
     crude_oil;
 
@@ -610,7 +633,9 @@ let resources =
     science_pack_1;
     science_pack_2;
     science_pack_3;
-    alien_science_pack;
+    military_science_pack;
+    production_science_pack;
+    high_tech_science_pack;
     empty_barrel;
     explosives;
 
@@ -741,6 +766,7 @@ let resources =
     r_assembling_machine_2;
     r_assembling_machine_3;
     r_lab;
+    r_centrifuge;
     basic_beacon;
     radar;
 
@@ -754,9 +780,15 @@ let resources =
     solar_panel;
     basic_accumulator;
     lamp;
+    nuclear_reactor;
+    heat_pipe;
+    heat_exchanger;
+    steam_turbine;
+
 
     (* Railway Network *)
     straight_rail;
+    fluid_wagon;
     (* train_stop; *)
     (* rail_signal; *)
     (* rail_chain_signal; *)
@@ -771,7 +803,7 @@ let resources =
     r_oil_refinery;
     r_chemical_plant;
     r_pumpjack;
-    small_pump;
+    pump;
 
     (* Miscellaneous *)
     concrete;
