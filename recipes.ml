@@ -265,7 +265,7 @@ let speed_module =
     [ 5., advanced_circuit; 5., electronic_circuit ]
 let high_tech_science_pack =
   res "High Tech Science Pack" am2 14. ~count: 2.
-    [ 1., battery; 3., processing_unit; 3., speed_module; 30., copper_cable ]
+    [ 1., battery; 3., processing_unit; 1., speed_module; 30., copper_cable ]
 
 (* Ammo *)
 
