@@ -819,12 +819,8 @@ let () =
           | [], [] ->
               [
                 div ~class_: "outputh1" [ text "Current Version" ];
-                p_text ~class_: "warning"
-                  "Factorio Planner uses recipes from Factorio v0.13.8. \
-                   Note that right now (July 11th 2016), \
-                   the Wiki is less up-to-date than \
-                   Factorio Planner. Also, don't be alarmed, some images \
-                   are missing but they should eventually be fixed.";
+                p_text (* ~class_: "warning" *)
+                  "Recipes were updated to Factorio version 0.15 by s3bash. Thank you!";
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
@@ -877,6 +873,7 @@ let () =
                 p [
                   text
                     "Thanks to Nick Sheffield for the great style sheet! \
+                     Thanks to s3bash for 0.15 recipes! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
                      thanks to you.";
