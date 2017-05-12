@@ -25,9 +25,10 @@ type maker =
   {
     name: string;
     crafting_speed: float;
+    power: float;
   }
 
-let maker name crafting_speed = { name; crafting_speed }
+let maker ?(power = 1.) name crafting_speed = { name; crafting_speed; power }
 
 type style =
   | Global
@@ -41,10 +42,11 @@ type resource =
     ingredients: (float * resource) list;
     count: float; (* Usually 1, but sometimes 2 like for Copper Cables. *)
     mutable style: style;
+    hardness: float;
   }
 
-let res ?(count = 1.) ?(style = Local) name makers time ingredients =
-  { name; makers; time; ingredients; count; style }
+let res ?(count = 1.) ?(style = Local) ?(hardness = 0.) name makers time ingredients =
+  { name; makers; time; ingredients; count; style; hardness }
 
 (******************************************************************************)
 (*                                  Summarize                                 *)
@@ -66,7 +68,7 @@ let rec summarize_local throughput (resource: resource): summary =
           let make_maker (maker: maker) =
             let maker_count =
               throughput /. resource.count *.
-              resource.time /. maker.crafting_speed
+              resource.time /. maker.crafting_speed /. (maker.power -. resource.hardness)
             in
             maker_count, maker.name
           in

@@ -33,8 +33,8 @@ open Factorio
 
 (* Usage: maker name crafting_speed *)
 
-let burner_mining_drill = maker "Burner Mining Drill" 0.7
-let electric_mining_drill = maker "Electric Mining Drill" 1.
+let burner_mining_drill = maker "Burner Mining Drill" 0.35    ~power: 2.5
+let electric_mining_drill = maker "Electric Mining Drill" 0.5 ~power: 3.
 let assembling_machine_1 = maker "Assembling Machine 1" 0.5
 let assembling_machine_2 = maker "Assembling Machine 2" 0.75
 let assembling_machine_3 = maker "Assembling Machine 3" 1.25
@@ -112,16 +112,16 @@ let raw_wood =
   res "Raw Wood" [] 1. ~style: Global
     []
 let coal =
-  res "Coal" drill 2. ~style: Global
+  res "Coal" drill 2. ~style: Global  ~hardness: 0.9
     []
 let iron_ore =
-  res "Iron Ore" drill 2.
+  res "Iron Ore" drill 2. ~hardness: 0.9
     []
 let copper_ore =
-  res "Copper Ore" drill 2.
+  res "Copper Ore" drill 2. ~hardness: 0.9
     []
 let stone =
-  res "Stone" drill 2.
+  res "Stone" drill 2. ~hardness: 0.4
     []
 let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
