@@ -262,7 +262,7 @@ let speed_module =
 (* Ammo *)
 
 let regular_magazine =
-  res "Regular Magazine" am1 2.
+  res "Regular Magazine" am1 1.
     [ 4., iron_plate ]
 let piercing_rounds_magazine =
   res "Piercing Rounds Magazine" am1 3.
