@@ -106,6 +106,7 @@ let special_icons =
       steam_turbine.name, "Steam_turbine";
       heat_exchanger.name, "Heat_exchanger";
       fluid_wagon.name, "Fluid_wagon";
+      pump.name, "Small-pump";
     ]
   in
   let table = Hashtbl.create 16 in
