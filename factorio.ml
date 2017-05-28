@@ -43,10 +43,22 @@ type resource =
     count: float; (* Usually 1, but sometimes 2 like for Copper Cables. *)
     mutable style: style;
     hardness: float;
+    allow_productivity: bool;
   }
 
-let res ?(count = 1.) ?(style = Local) ?(hardness = 0.) name makers time ingredients =
-  { name; makers; time; ingredients; count; style; hardness }
+let res ?(count = 1.) ?(style = Local) ?(hardness = 0.)
+    ?(allow_productivity = false)
+    name makers time ingredients =
+  {
+    name;
+    makers;
+    time;
+    ingredients;
+    count;
+    style;
+    hardness;
+    allow_productivity;
+  }
 
 (******************************************************************************)
 (*                                  Summarize                                 *)

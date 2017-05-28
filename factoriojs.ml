@@ -439,7 +439,10 @@ let rec apply_settings (resource: resource) =
         (fun (count, ingredient) -> count, apply_settings ingredient)
         resource.ingredients
     in
-    let count = resource.count *. (1. +. !productivity_bonus /. 100.) in
+    let productivity_bonus =
+      if resource.allow_productivity then !productivity_bonus else 0.
+    in
+    let count = resource.count *. (1. +. productivity_bonus /. 100.) in
     {
       resource with
         makers;
@@ -821,6 +824,10 @@ let () =
           | [], [] ->
               [
                 div ~class_: "outputh1" [ text "Current Version" ];
+                p_text
+                  "Productivity bonus is now only applied to resources which \
+                   allow it. If you think a resource should support \
+                   productivity modules but does not, please tell me.";
                 p_text (* ~class_: "warning" *)
                   "Recipes were updated to Factorio version 0.15 by s3bash, \
                    dwahler and DeCristoforis. Many thanks to all of you!";
