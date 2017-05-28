@@ -327,7 +327,7 @@ let speed_module_2 =
     [ 5., advanced_circuit; 5., processing_unit; 4., speed_module ]
 let speed_module_3 =
   res "Speed Module 3" am2 60.
-    [ 5., advanced_circuit; 5., processing_unit; 4., speed_module_2 ]
+    [ 5., advanced_circuit; 5., processing_unit; 5., speed_module_2 ]
 
 (* Special *)
 
