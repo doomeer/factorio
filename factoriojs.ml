@@ -101,6 +101,7 @@ let special_icons =
       military_science_pack.name, "Military_science_pack";
       high_tech_science_pack.name, "High_tech_science_pack";
       production_science_pack.name, "Production_science_pack";
+      space_science_pack.name, "Space_science_pack";
       nuclear_reactor.name, "Nuclear_reactor";
       heat_pipe.name, "Heat_pipe";
       steam_turbine.name, "Steam_turbine";

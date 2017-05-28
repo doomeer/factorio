@@ -44,6 +44,9 @@ let electric_furnace = maker "Electric Furnace" 2.
 let chemical_plant_ = maker "Chemical Plant" 1.25
 let centrifuge = maker "centrifuge" 0.75
 
+(* For space science packs. *)
+let rocket_silo = maker "Rocket Silo" 0.001
+
 (* Shorthands for some commonly-used lists of makers. *)
 
 let drill = [ burner_mining_drill; electric_mining_drill ]
@@ -599,6 +602,10 @@ let production_science_pack =
 let high_tech_science_pack =
   res "High tech science pack" am2 14. ~count: 2.
     [ 1., battery; 3., processing_unit; 1., speed_module; 30., copper_cable ]
+let space_science_pack =
+  (* TODO: we could replace the 1. by the time it takes to launch a rocket. *)
+  res "Space Science Pack" [ rocket_silo ] 1. ~count: 1000.
+    [ 100., rocket_part; 1., satellite ]
 
 (******************************************************************************)
 (*                              List of Resources                             *)
@@ -642,6 +649,7 @@ let resources =
     military_science_pack;
     production_science_pack;
     high_tech_science_pack;
+    space_science_pack;
     empty_barrel;
     explosives;
 
