@@ -607,6 +607,7 @@ let high_tech_science_pack =
 let space_science_pack =
   (* TODO: we could replace the 1. by the time it takes to launch a rocket. *)
   res "Space Science Pack" [ rocket_silo ] 1. ~count: 1000.
+    ~allow_productivity: true
     [ 100., rocket_part; 1., satellite ]
 
 (******************************************************************************)

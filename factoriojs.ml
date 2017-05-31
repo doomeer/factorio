@@ -348,6 +348,7 @@ type settings =
     mutable assembling_machine_2_modules: module_settings;
     mutable assembling_machine_3_modules: module_settings;
     mutable chemical_plant_modules: module_settings;
+    mutable rocket_silo_modules: module_settings;
     (* update_gui: called to copy the values above into the GUI inputs *)
     mutable update_gui: (unit -> unit) list;
   }
@@ -370,6 +371,7 @@ let settings =
     assembling_machine_2_modules = no_bonuses;
     assembling_machine_3_modules = no_bonuses;
     chemical_plant_modules = no_bonuses;
+    rocket_silo_modules = no_bonuses;
     update_gui = [];
   }
 
@@ -418,6 +420,8 @@ let rec apply_settings (resource: resource) =
       apply settings.assembling_machine_3_modules
     else if name = chemical_plant_.name then
       apply settings.chemical_plant_modules
+    else if name = rocket_silo.name then
+      apply settings.rocket_silo_modules
     else
       maker
   in
@@ -501,6 +505,7 @@ let make_hash () =
     make_module_hash settings.assembling_machine_2_modules ::
     make_module_hash settings.assembling_machine_3_modules ::
     make_module_hash settings.chemical_plant_modules ::
+    make_module_hash settings.rocket_silo_modules ::
     List.map make_resource_hash resources
   )
   |> String.concat ""
@@ -632,6 +637,8 @@ let parse_hash hash =
     (fun x -> settings.assembling_machine_3_modules <- x);
   parse_module_bonuses
     (fun x -> settings.chemical_plant_modules <- x);
+  parse_module_bonuses
+    (fun x -> settings.rocket_silo_modules <- x);
   List.iter parse_resource_hash resources;
   List.iter (fun f -> f ()) settings.update_gui
 
@@ -778,6 +785,9 @@ let () =
         ~help: " (not applied to Petroleum Gas)"
         (fun () -> settings.chemical_plant_modules)
         (fun x -> settings.chemical_plant_modules <- x);
+      module_settings "Rocket Silo"
+        (fun () -> settings.rocket_silo_modules)
+        (fun x -> settings.rocket_silo_modules <- x);
       text "Note: if you use both blue and yellow machines, \
             the productivity bonus which is used is the yellow one.";
     ]
