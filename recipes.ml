@@ -115,16 +115,16 @@ let raw_wood =
   res "Raw Wood" [] 1. ~style: Global
     []
 let coal =
-  res "Coal" drill 2. ~style: Global  ~hardness: 0.9
+  res "Coal" drill 2. ~style: Global  ~hardness: 0.9 ~allow_productivity: true
     []
 let iron_ore =
-  res "Iron Ore" drill 2. ~hardness: 0.9
+  res "Iron Ore" drill 2. ~hardness: 0.9 ~allow_productivity: true
     []
 let copper_ore =
-  res "Copper Ore" drill 2. ~hardness: 0.9
+  res "Copper Ore" drill 2. ~hardness: 0.9 ~allow_productivity: true
     []
 let stone =
-  res "Stone" drill 2. ~hardness: 0.4
+  res "Stone" drill 2. ~hardness: 0.4 ~allow_productivity: true
     []
 let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
