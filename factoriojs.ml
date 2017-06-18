@@ -235,43 +235,7 @@ let rec gui_icon alt =
     let href = "http://wiki.factorio.com/index.php?title="^href in
     a ~href [ img ~class_: "icon" ~alt ~title: alt src ]
 
-let gui_goals (goals: summary list) =
-  let rec gui_goal (goal: summary) =
-    let makers =
-      match goal.makers with
-        | [] ->
-            []
-        | hd :: tl ->
-            let gui_maker first (count, name) =
-              span [
-                if first then text "" else text " or ";
-                gui_icon name;
-                text " × ";
-                ft count;
-              ]
-            in
-            [
-              span ~class_: "makerspace" [ text " " ];
-              text "(";
-              gui_maker true hd;
-            ]
-            @ List.map (gui_maker false) tl
-            @ [
-              text ")";
-            ]
-    in
-    div ~class_: "goal" (
-      [
-        gui_icon goal.goal;
-        text " × ";
-        ft goal.throughput;
-        text "/s";
-      ]
-      @ makers
-      @ List.map gui_goal goal.subgoals
-    )
-  in
-  List.map gui_goal goals
+let last_hash = ref ""
 
 let get_resource_request (resource: gui_resource) =
   (* The user can prefix the resource count with a letter,
@@ -319,13 +283,16 @@ let get_resource_request (resource: gui_resource) =
   else
     0., resource.resource, None
 
-let last_hash = ref ""
-
 type module_settings =
   {
     speed_bonus: float;
     productivity_bonus: float;
   }
+
+type time_unit =
+  | Seconds
+  | Minutes
+  | Hours
 
 (* If you add a setting, don't forget to:
    - update [make_hash];
@@ -349,6 +316,7 @@ type settings =
     mutable assembling_machine_3_modules: module_settings;
     mutable chemical_plant_modules: module_settings;
     mutable rocket_silo_modules: module_settings;
+    mutable time_unit: time_unit;
     (* update_gui: called to copy the values above into the GUI inputs *)
     mutable update_gui: (unit -> unit) list;
   }
@@ -373,8 +341,63 @@ let settings =
     assembling_machine_3_modules = no_bonuses;
     chemical_plant_modules = no_bonuses;
     rocket_silo_modules = no_bonuses;
+    time_unit = Seconds;
     update_gui = [];
   }
+
+let gui_goals (goals: summary list) =
+  let rec gui_goal (goal: summary) =
+    let makers =
+      match goal.makers with
+        | [] ->
+            []
+        | hd :: tl ->
+            let gui_maker first (count, name) =
+              span [
+                if first then text "" else text " or ";
+                gui_icon name;
+                text " × ";
+                ft count;
+              ]
+            in
+            [
+              span ~class_: "makerspace" [ text " " ];
+              text "(";
+              gui_maker true hd;
+            ]
+            @ List.map (gui_maker false) tl
+            @ [
+              text ")";
+            ]
+    in
+    div ~class_: "goal" (
+      let throughput, unit =
+        match settings.time_unit with
+          | Seconds -> goal.throughput, "/s"
+          | Minutes -> goal.throughput *. 60., "/min"
+          | Hours -> goal.throughput *. 3600., "/h"
+      in
+      [
+        gui_icon goal.goal;
+        text " × ";
+        ft throughput;
+        text unit;
+      ]
+      @ makers
+      @ List.map gui_goal goal.subgoals
+    )
+  in
+  List.map gui_goal goals
+
+let get_resource_request_and_apply_time_unit (resource: gui_resource) =
+  let count, resource, _ = get_resource_request resource in
+  let count =
+    match settings.time_unit with
+      | Seconds -> count
+      | Minutes -> count /. 60.
+      | Hours -> count /. 3600.
+  in
+  count, resource
 
 let rec apply_settings (resource: resource) =
   let filter_maker (maker: maker) =
@@ -495,6 +518,12 @@ let make_hash () =
       | true, true, true -> "7"
   in
   (
+    (
+      match settings.time_unit with
+        | Seconds -> "s"
+        | Minutes -> "m"
+        | Hours -> "h"
+    ) ::
     bools false settings.drill_burner settings.drill_electric ::
     bools settings.furnace_stone settings.furnace_steel
       settings.furnace_electric ::
@@ -615,6 +644,13 @@ let parse_hash hash =
     let productivity_bonus = parse_module_bonus () in
     set { speed_bonus; productivity_bonus }
   in
+  (
+    match next () with
+      | 's' -> settings.time_unit <- Seconds
+      | 'm' -> settings.time_unit <- Minutes
+      | 'h' -> settings.time_unit <- Hours
+      | _ -> (* backward compatibility *) decr i
+  );
   parse_bools
     (fun _ -> ())
     (fun x -> settings.drill_burner <- x)
@@ -663,7 +699,7 @@ let () =
 
   (* [settings_changed] will be set to [update] once [update] is defined. *)
   let settings_changed = ref (fun () -> ()) in
-  let settings =
+  let settings_panel =
     let update () = !settings_changed () in
     let cb get set =
       let on_change value =
@@ -722,6 +758,21 @@ let () =
         ~on_click:
           (fun () -> settings_visible := false; !update_settings_div ())
         [ text "Hide Advanced Settings" ];
+      div ~class_: "" [
+        text "Time Unit: ";
+        rb "timeunit"
+          (fun () -> settings.time_unit = Seconds)
+          (fun () -> settings.time_unit <- Seconds);
+        text "seconds ";
+        rb "timeunit"
+          (fun () -> settings.time_unit = Minutes)
+          (fun () -> settings.time_unit <- Minutes);
+        text "minutes ";
+        rb "timeunit"
+          (fun () -> settings.time_unit = Hours)
+          (fun () -> settings.time_unit <- Hours);
+        text "hours ";
+      ];
       div ~class_: "setting" [
         text "Drills: ";
         cb
@@ -818,7 +869,7 @@ let () =
   update_settings_div := (
     fun () ->
       if !settings_visible then
-        set_settings_div settings
+        set_settings_div settings_panel
       else
         set_settings_div show_settings
   );
@@ -830,8 +881,8 @@ let () =
       let resources =
         List.map
           (fun x ->
-             let a, b, _ =
-               get_resource_request
+             let a, b =
+               get_resource_request_and_apply_time_unit
                  { x with resource = apply_settings x.resource }
              in
              a, b)
