@@ -28,7 +28,7 @@ as well as js_of_ocaml.
 
 On Debian or Ubuntu you can run:
 
-    sudo apt-get install ocaml js-of-ocaml
+    sudo apt-get install ocaml ocaml-findlib camlp4 js-of-ocaml
 
 Alternatively, you can use OPAM (OCaml Package Manager, https://opam.ocaml.org):
 
