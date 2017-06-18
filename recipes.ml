@@ -42,9 +42,8 @@ let stone_furnace = maker "Stone Furnace" 1.
 let steel_furnace = maker "Steel Furnace" 2.
 let electric_furnace = maker "Electric Furnace" 2.
 let chemical_plant_ = maker "Chemical Plant" 1.25
-let centrifuge = maker "centrifuge" 0.75
-
-(* For space science packs. *)
+let centrifuge = maker "Centrifuge" 0.75
+let pumpjack = maker "Pumpjack" 1.
 let rocket_silo = maker "Rocket Silo" 0.001
 
 (* Shorthands for some commonly-used lists of makers. *)
@@ -130,7 +129,7 @@ let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
     []
 let crude_oil =
-  res "Crude Oil" [ maker "Pumpjack" 1. ] 1. ~count: 10.
+  res "Crude Oil" [ pumpjack ] 1. ~count: 10. ~allow_productivity: true
     []
 
 (* Intermediate Products *)
