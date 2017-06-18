@@ -345,12 +345,35 @@ let settings =
     update_gui = [];
   }
 
-let gui_goals (goals: summary list) =
+let gui_goals (global: summary list) (goals: summary list) =
+  let get_global_goal_throughput goal =
+    match List.find (fun global_goal -> global_goal.goal = goal) global with
+      | exception Not_found ->
+          None
+      | global_goal ->
+          Some global_goal.throughput
+  in
   let rec gui_goal (goal: summary) =
     let makers =
       match goal.makers with
         | [] ->
-            []
+            (
+              match get_global_goal_throughput goal.goal with
+                | None ->
+                    []
+                | Some global_throughput ->
+                    let percent =
+                      int_of_float
+                        (goal.throughput *. 100. /. global_throughput)
+                    in
+                    [
+                      span ~class_: "sharedpercent" [
+                        text "  (";
+                        text (string_of_int percent);
+                        text "%)";
+                      ];
+                    ]
+            )
         | hd :: tl ->
             let gui_maker first (count, name) =
               span [
@@ -965,13 +988,13 @@ let () =
               ]
           | _ :: _, []
           | [], _ :: _ ->
-              gui_goals (global @ local)
+              gui_goals global (global @ local)
           | _ :: _, _ :: _ ->
               [
                 div ~class_: "outputh1" [ text "Shared Resources" ];
-                div ~class_: "goals" (gui_goals global);
+                div ~class_: "goals" (gui_goals global global);
                 div ~class_: "outputh1" [ text "Non-Shared Resources" ];
-                div ~class_: "goals" (gui_goals local);
+                div ~class_: "goals" (gui_goals global local);
               ]
       in
       set_result result;
