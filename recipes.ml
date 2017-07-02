@@ -480,7 +480,7 @@ let small_electric_pole =
   res "Small Electric Pole" am1 0.5
     [ 2., wood; 2., copper_cable ]
 let medium_electric_pole =
-  res "medium Electric Pole" am1 0.5
+  res "Medium Electric Pole" am1 0.5
     [ 2., steel_plate; 2., copper_plate ]
 let big_electric_pole =
   res "Big Electric Pole" am1 0.5

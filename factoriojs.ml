@@ -63,50 +63,14 @@ let ft float = text (fs float)
 let special_icons =
   let list =
     [
-      raw_wood.name, "Raw-wood";
-      heavy_oil.name, "Heavy-oil";
-      engine_unit.name, "Engine-unit";
-      electric_engine_unit.name, "Electric-engine-unit";
-      flying_robot_frame.name, "Flying-robot-frame";
-      empty_barrel.name, "Barrel-empty";
-      transport_belt.name, "Basic-transport-belt";
-      underground_belt.name, "Basic-transport-belt-to-ground";
-      fast_underground_belt.name, "Fast-transport-belt-to-ground";
-      express_underground_belt.name, "Express-transport-belt-to-ground";
-      splitter.name, "Basic-splitter";
-      inserter.name, "Inserter-icon";
-      stack_inserter.name, "Stack-inserter";
-      stack_filter_inserter.name, "Stack_filter_inserter";
-      efficiency_module.name, "Effectivity-module";
-      efficiency_module_2.name, "Effectivity-module-2";
-      efficiency_module_3.name, "Effectivity-module-3";
-      low_density_structure.name, "Rocket-structure";
-      electric_mining_drill.name, "Basic-mining-drill";
-      active_provider_chest.name, "Logistic-chest-active-provider";
-      passive_provider_chest.name, "Logistic-chest-passive-provider";
-      storage_chest.name, "Logistic-chest-storage";
-      requester_chest.name, "Logistic-chest-requester";
-      wall.name, "Stone-wall";
-      medium_electric_pole.name, "Medium-electric-pole";
-      lamp.name, "Small-lamp";
-      regular_magazine.name, "Basic-bullet-magazine";
-      piercing_rounds_magazine.name, "Piercing-bullet-magazine";
-      flamethrower_ammo.name, "Flame-thrower-ammo";
-      cannon_shells.name, "Cannon-shell";
-      explosive_cannon_shells.name, "Explosive-cannon-shell";
-      land_mine.name, "Land-mine-research";
-      cluster_grenade.name, "Cluster_grenade";
-      shotgun_shells.name, "Shotgun-shell";
-      piercing_shotgun_shells.name, "Piercing-shotgun-shell";
-      military_science_pack.name, "Military_science_pack";
-      high_tech_science_pack.name, "High_tech_science_pack";
-      production_science_pack.name, "Production_science_pack";
-      space_science_pack.name, "Space_science_pack";
-      nuclear_reactor.name, "Nuclear_reactor";
-      heat_pipe.name, "Heat_pipe";
-      steam_turbine.name, "Steam_turbine";
-      heat_exchanger.name, "Heat_exchanger";
-      fluid_wagon.name, "Fluid_wagon";
+      wall.name, "Stone_wall";
+      basic_beacon.name, "Beacon";
+      basic_accumulator.name, "Accumulator";
+      regular_magazine.name, "Firearm_magazine";
+      piercing_rounds_magazine.name, "Piercing_rounds_magazine";
+      cannon_shells.name, "Cannon_shell";
+      explosive_cannon_shells.name, "Explosive_cannon_shell";
+      basic_grenade.name, "Grenade";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -213,7 +177,7 @@ let rec gui_icon alt =
             for i = 0 to Bytes.length src - 1 do
               let chr = Bytes.get src i in
               if chr = ' ' then
-                Bytes.set src i '-'
+                Bytes.set src i '_'
               else if i > 0 then
                 Bytes.set src i (Char.lowercase_ascii chr)
             done;
