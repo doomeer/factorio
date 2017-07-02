@@ -215,7 +215,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set src i '-'
               else if i > 0 then
-                Bytes.set src i (Char.lowercase chr)
+                Bytes.set src i (Char.lowercase_ascii chr)
             done;
             src
     in
