@@ -26,13 +26,22 @@ using js_of_ocaml.
 To compile Factorio Planner you need to install the OCaml compiler
 as well as js_of_ocaml.
 
-On Debian or Ubuntu you can run:
+### Debian or Ubuntu:
 
     sudo apt-get install ocaml ocaml-findlib camlp4 js-of-ocaml
 
 Alternatively, you can use OPAM (OCaml Package Manager, https://opam.ocaml.org):
 
     sudo apt-get install opam
+    opam init
+    opam switch 4.02.3
+    opam install js_of_ocaml
+
+### Windows:
+
+Download OCaml for Windows here: https://fdopen.github.io/opam-repository-mingw/installation
+Open the OCaml terminal that the installation produces and run the following:
+
     opam init
     opam switch 4.02.3
     opam install js_of_ocaml
