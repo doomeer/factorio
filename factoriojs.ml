@@ -869,6 +869,7 @@ let () =
                     "Thanks to Nick Sheffield for the great style sheet! \
                      Thanks to s3bash, dwahler and DeCristoforis \
                      for 0.15 recipes! \
+                     Thanks to NixonK for patching image links! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
                      thanks to you.";
