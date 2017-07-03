@@ -832,6 +832,10 @@ let () =
                    Sharing the plates means having one set of furnaces \
                    to produce the plates which you then dispatch to \
                    other assemblers.";
+                p_text
+                  "When shared resources are used, they have a blue percentage \
+                   next to them which shows how much of the total is used for \
+                   this particular use.";
                 div ~class_: "outputh1" [ text "Share Your Settings" ];
                 p_text
                   "See the part after the # \
