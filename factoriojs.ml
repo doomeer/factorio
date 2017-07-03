@@ -63,50 +63,6 @@ let ft float = text (fs float)
 let special_icons =
   let list =
     [
-      raw_wood.name, "Raw-wood";
-      heavy_oil.name, "Heavy-oil";
-      engine_unit.name, "Engine-unit";
-      electric_engine_unit.name, "Electric-engine-unit";
-      flying_robot_frame.name, "Flying-robot-frame";
-      empty_barrel.name, "Barrel-empty";
-      transport_belt.name, "Basic-transport-belt";
-      underground_belt.name, "Basic-transport-belt-to-ground";
-      fast_underground_belt.name, "Fast-transport-belt-to-ground";
-      express_underground_belt.name, "Express-transport-belt-to-ground";
-      splitter.name, "Basic-splitter";
-      inserter.name, "Inserter-icon";
-      stack_inserter.name, "Stack-inserter";
-      stack_filter_inserter.name, "Stack_filter_inserter";
-      efficiency_module.name, "Effectivity-module";
-      efficiency_module_2.name, "Effectivity-module-2";
-      efficiency_module_3.name, "Effectivity-module-3";
-      low_density_structure.name, "Rocket-structure";
-      electric_mining_drill.name, "Basic-mining-drill";
-      active_provider_chest.name, "Logistic-chest-active-provider";
-      passive_provider_chest.name, "Logistic-chest-passive-provider";
-      storage_chest.name, "Logistic-chest-storage";
-      requester_chest.name, "Logistic-chest-requester";
-      wall.name, "Stone-wall";
-      medium_electric_pole.name, "Medium-electric-pole";
-      lamp.name, "Small-lamp";
-      regular_magazine.name, "Basic-bullet-magazine";
-      piercing_rounds_magazine.name, "Piercing-bullet-magazine";
-      flamethrower_ammo.name, "Flame-thrower-ammo";
-      cannon_shells.name, "Cannon-shell";
-      explosive_cannon_shells.name, "Explosive-cannon-shell";
-      land_mine.name, "Land-mine-research";
-      cluster_grenade.name, "Cluster_grenade";
-      shotgun_shells.name, "Shotgun-shell";
-      piercing_shotgun_shells.name, "Piercing-shotgun-shell";
-      military_science_pack.name, "Military_science_pack";
-      high_tech_science_pack.name, "High_tech_science_pack";
-      production_science_pack.name, "Production_science_pack";
-      space_science_pack.name, "Space_science_pack";
-      nuclear_reactor.name, "Nuclear_reactor";
-      heat_pipe.name, "Heat_pipe";
-      steam_turbine.name, "Steam_turbine";
-      heat_exchanger.name, "Heat_exchanger";
-      fluid_wagon.name, "Fluid_wagon";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -117,77 +73,6 @@ let special_hrefs =
   let list =
     [
       (* No uppercase. *)
-      raw_wood.name, "Raw_wood";
-      iron_ore.name, "Iron_ore";
-      copper_ore.name, "Copper_ore";
-      copper_cable.name, "Copper_cable";
-      plastic_bar.name, "Plastic_bar";
-      heavy_oil.name, "Heavy_oil";
-      engine_unit.name, "Engine_unit";
-      electric_engine_unit.name, "Electric_engine_unit";
-      flying_robot_frame.name, "Flying_robot_frame";
-      empty_barrel.name, "Empty_barrel";
-      fast_inserter.name, "Fast_inserter";
-      filter_inserter.name, "Filter_inserter";
-      stack_inserter.name, "Stack_inserter";
-      stack_filter_inserter.name, "Stack_filter_inserter";
-      basic_accumulator.name, "Basic_accumulator";
-      efficiency_module.name, "Efficiency_module";
-      productivity_module.name, "Productivity_module";
-      efficiency_module_2.name, "Efficiency_module_2";
-      efficiency_module_3.name, "Efficiency_module_3";
-      productivity_module_2.name, "Productivity_module_2";
-      productivity_module_3.name, "Productivity_module_3";
-      speed_module.name, "Speed_module";
-      speed_module_2.name, "Speed_module_2";
-      speed_module_3.name, "Speed_module_3";
-      logistic_robot.name, "Logistic_robot";
-      construction_robot.name, "Construction_robot";
-      low_density_structure.name, "Low_density_structure";
-      rocket_control_unit.name, "Rocket_control_unit";
-      solid_fuel.name, "Solid_fuel";
-      rocket_fuel.name, "Rocket_fuel";
-      rocket_part.name, "Rocket_part";
-      petroleum_gas_basic.name, "Basic_oil_processing";
-      assembling_machine_1.name, "Assembling_machine";
-      assembling_machine_2.name, "Assembling_machine_2";
-      assembling_machine_3.name, "Assembling_machine_3";
-      underground_belt.name, "Underground_belt";
-      fast_underground_belt.name, "Fast_underground_belt";
-      express_underground_belt.name, "Express_underground_belt";
-      long_handed_inserter.name, "Long_handed_inserter";
-      wooden_chest.name, "Wooden_chest";
-      gun_turret.name, "Gun_turret";
-      small_electric_pole.name, "Small_electric_pole";
-      medium_electric_pole.name, "Medium_electric_pole";
-      big_electric_pole.name, "Big_electric_pole";
-      steam_engine.name, "Steam_engine";
-      pipe_to_ground.name, "Pipe-to-Ground";
-      shotgun_shells.name, "Shotgun_shells";
-      piercing_shotgun_shells.name, "Piercing_shotgun_shells";
-      explosive_rocket.name, "Explosive_rocket";
-      explosive_cannon_shells.name, "Explosive_cannon_shells";
-      defender_capsule.name, "Defender_capsule";
-      poison_capsule.name, "Poison_capsule";
-      slowdown_capsule.name, "Slowdown_capsule";
-      distractor_capsule.name, "Distractor_capsule";
-      destroyer_capsule.name, "Destroyer_capsule";
-      land_mine.name, "Land_mine";
-      basic_grenade.name, "Basic_grenade";
-      cluster_grenade.name, "Cluster_grenade";
-      "Basic Oil Processing", "Basic_oil_processing";
-      "Advanced Oil Processing", "Advanced_oil_processing";
-      "Heavy Oil Cracking", "Oil_processing";
-      "Light Oil Cracking", "Oil_processing";
-      military_science_pack.name, "Military_science_pack";
-      high_tech_science_pack.name, "High_tech_science_pack";
-      production_science_pack.name, "Production_science_pack";
-      nuclear_reactor.name, "Nuclear_reactor";
-      heat_pipe.name, "Heat_pipe";
-      steam_turbine.name, "Steam_turbine";
-      heat_exchanger.name, "Heat_exchanger";
-      fluid_wagon.name, "Fluid_wagon";
-
     ]
   in
   let table = Hashtbl.create 16 in
@@ -213,9 +98,9 @@ let rec gui_icon alt =
             for i = 0 to Bytes.length src - 1 do
               let chr = Bytes.get src i in
               if chr = ' ' then
-                Bytes.set src i '-'
+                Bytes.set src i '_'
               else if i > 0 then
-                Bytes.set src i (Char.lowercase chr)
+                Bytes.set src i (Char.lowercase_ascii chr)
             done;
             src
     in
@@ -228,7 +113,10 @@ let rec gui_icon alt =
             let href = Bytes.of_string alt in
             for i = 0 to Bytes.length href - 1 do
               let chr = Bytes.get href i in
-              if chr = ' ' then Bytes.set href i '_'
+              if chr = ' ' then
+                Bytes.set href i '_'
+              else if i > 0 then
+                Bytes.set href i (Char.lowercase_ascii chr)
             done;
             href
     in

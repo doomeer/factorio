@@ -247,12 +247,12 @@ let explosives =
 let land_mine =
   res "Land Mine" am1 5.
     [ 1., steel_plate; 2., explosives ]
-let basic_grenade =
-  res "Basic Grenade" am1 8.
+let grenade =
+  res "Grenade" am1 8.
     [ 10., coal; 5., iron_plate ]
 let cluster_grenade =
   res "Cluster Grenade" am2 8.
-    [ 7., basic_grenade; 5., explosives; 5., steel_plate ]
+    [ 7., grenade; 5., explosives; 5., steel_plate ]
 let poison_capsule =
   res "Poison Capsule" am2 8.
     [ 3., steel_plate; 3., electronic_circuit; 10., coal ]
@@ -265,12 +265,12 @@ let speed_module =
 
 (* Ammo *)
 
-let regular_magazine =
-  res "Regular Magazine" am1 1.
+let firearm_magazine =
+  res "Firearm Magazine" am1 1.
     [ 4., iron_plate ]
 let piercing_rounds_magazine =
   res "Piercing Rounds Magazine" am1 3.
-    [ 1., regular_magazine; 1., steel_plate; 5., copper_plate ]
+    [ 1., firearm_magazine; 1., steel_plate; 5., copper_plate ]
 let defender_capsule =
   res "Defender Capsule" am2 8.
     [ 3., iron_gear_wheel; 2., electronic_circuit;
@@ -296,11 +296,11 @@ let explosive_rocket =
 let flamethrower_ammo =
   res "Flamethrower Ammo" chemical_plant 6.
     [ 5., steel_plate; 50., light_oil; 50., heavy_oil ]
-let cannon_shells =
-  res "Cannon Shells" am2 8.
+let cannon_shell =
+  res "Cannon Shell" am2 8.
     [ 2., steel_plate; 2., plastic_bar; 1., explosives ]
-let explosive_cannon_shells =
-  res "Explosive Cannon Shells" am2 8.
+let explosive_cannon_shell =
+  res "Explosive Cannon Shell" am2 8.
     [ 2., steel_plate; 2., plastic_bar; 2., explosives ]
 
 (* Modules *)
@@ -411,8 +411,8 @@ let requester_chest =
 
 (* Defensive Structures *)
 
-let wall =
-  res "Wall" am1 0.5
+let stone_wall =
+  res "Stone Wall" am1 0.5
     [ 5., stone_brick ]
 let gun_turret =
   res "Gun Turret" am2 8.
@@ -466,8 +466,8 @@ let r_lab =
 let r_centrifuge =
    res "Centrifuge" am2 4.
      [ 100., concrete; 50.,steel_plate; 100., advanced_circuit; 100., iron_gear_wheel]
-let basic_beacon =
-  res "Basic Beacon" am2 15.
+let beacon =
+  res "Beacon" am2 15.
     [ 20., electronic_circuit; 20., advanced_circuit; 10., steel_plate;
       10., copper_cable ]
 let radar =
@@ -480,7 +480,7 @@ let small_electric_pole =
   res "Small Electric Pole" am1 0.5
     [ 2., wood; 2., copper_cable ]
 let medium_electric_pole =
-  res "medium Electric Pole" am1 0.5
+  res "Medium Electric Pole" am1 0.5
     [ 2., steel_plate; 2., copper_plate ]
 let big_electric_pole =
   res "Big Electric Pole" am1 0.5
@@ -497,8 +497,8 @@ let steam_engine =
 let solar_panel =
   res "Solar Panel" am2 10.
     [ 5., steel_plate; 15., electronic_circuit; 5., copper_plate ]
-let basic_accumulator =
-  res "Basic Accumulator" am1 10.
+let accumulator =
+  res "Accumulator" am1 10.
     [ 2., iron_plate; 5., battery ]
 let lamp =
   res "Lamp" am2 0.5
@@ -563,7 +563,7 @@ let rocket_part =
     [ 10., low_density_structure; 10., rocket_fuel; 10., rocket_control_unit ]
 let satellite =
   res "Satellite" am3 3.
-    [ 100., low_density_structure; 100., solar_panel; 100., basic_accumulator;
+    [ 100., low_density_structure; 100., solar_panel; 100., accumulator;
       50., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (* new in 0.15 *)
@@ -596,7 +596,7 @@ let science_pack_3 =
     [ 1., advanced_circuit; 1., engine_unit; 1., r_electric_mining_drill ]
 let military_science_pack =
   res "Military science pack" am2 10. ~count: 2. ~allow_productivity: true
-    [ 1., piercing_rounds_magazine; 1., basic_grenade; 1., gun_turret ]
+    [ 1., piercing_rounds_magazine; 1., grenade; 1., gun_turret ]
 let production_science_pack =
   res "Production science pack" am2 14. ~count: 2. ~allow_productivity: true
     [ 1., electric_engine_unit; 1., r_assembling_machine_1; 1., r_electric_furnace ]
@@ -673,7 +673,7 @@ let resources =
     land_mine;
     (* shotgun; *)
     (* combat_shotgun; *)
-    basic_grenade;
+    grenade;
     cluster_grenade;
     defender_capsule;
     poison_capsule;
@@ -684,15 +684,15 @@ let resources =
     (* tank; *)
 
     (* Ammo *)
-    regular_magazine;
+    firearm_magazine;
     piercing_rounds_magazine;
     shotgun_shells;
     piercing_shotgun_shells;
     rocket;
     explosive_rocket;
     flamethrower_ammo;
-    cannon_shells;
-    explosive_cannon_shells;
+    cannon_shell;
+    explosive_cannon_shell;
 
     (* Armor *)
     (* iron_armor; *)
@@ -765,7 +765,7 @@ let resources =
     requester_chest;
 
     (* Defensive Structures *)
-    wall;
+    stone_wall;
     gun_turret;
     flamethrower_turret;
     laser_turret;
@@ -782,7 +782,7 @@ let resources =
     r_assembling_machine_3;
     r_lab;
     r_centrifuge;
-    basic_beacon;
+    beacon;
     radar;
 
     (* Electric Network *)
@@ -793,7 +793,7 @@ let resources =
     boiler;
     steam_engine;
     solar_panel;
-    basic_accumulator;
+    accumulator;
     lamp;
     nuclear_reactor;
     heat_pipe;
