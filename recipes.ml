@@ -564,7 +564,7 @@ let rocket_part =
 let satellite =
   res "Satellite" am3 3.
     [ 100., low_density_structure; 100., solar_panel; 100., accumulator;
-      50., radar; 100., processing_unit; 50., rocket_fuel ]
+      5., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (* new in 0.15 *)
 let nuclear_reactor =
