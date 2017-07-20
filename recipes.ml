@@ -414,6 +414,9 @@ let requester_chest =
 let stone_wall =
   res "Stone Wall" am1 0.5
     [ 5., stone_brick ]
+let gate =
+  res "Gate" am2 0.5
+    [ 2., electronic_circuit; 2., steel_plate; 1., stone_wall ]
 let gun_turret =
   res "Gun Turret" am2 8.
     [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
@@ -759,6 +762,7 @@ let resources =
 
     (* Defensive Structures *)
     stone_wall;
+    gate;
     gun_turret;
     flamethrower_turret;
     laser_turret;
