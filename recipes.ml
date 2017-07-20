@@ -424,12 +424,11 @@ let laser_turret =
   res "Laser Turret" am2 20.
     [ 20., steel_plate; 20., electronic_circuit; 12., battery ]
 
-    (* Miscellaneous *)
+(* Miscellaneous *)
 
 let concrete =
   res "Concrete" am2 10. ~count: 10.
     [ 5., stone_brick; 1., iron_ore; 100., water ]
-
 
 (* Machines & Furnaces *)
 
@@ -536,12 +535,6 @@ let r_pumpjack =
 let pump =
   res "Pump" am2 2.
     [ 1., engine_unit; 1., steel_plate; 1., pipe ]
-
-(* Miscellaneous *)
-
-let concrete =
-  res "Concrete" am2 10. ~count: 10.
-    [ 5., stone_brick; 1., iron_ore; 100., water ]
 
 (* Rocket Compenents *)
 
