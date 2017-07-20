@@ -245,7 +245,7 @@ let explosives =
 (* Weapons *)
 
 let land_mine =
-  res "Land Mine" am1 5.
+  res "Land Mine" am1 5. ~count: 4.
     [ 1., steel_plate; 2., explosives ]
 let grenade =
   res "Grenade" am1 8.
@@ -395,7 +395,7 @@ let iron_chest =
     [ 8., iron_plate ]
 let steel_chest =
   res "Steel Chest" am1 0.5
-    [ 8., iron_plate ]
+    [ 8., steel_plate ]
 let active_provider_chest =
   res "Active Provider Chest" am1 0.5
     [ 1., steel_chest; 3., electronic_circuit; 1., advanced_circuit ]
@@ -427,7 +427,7 @@ let laser_turret =
     (* Miscellaneous *)
 
 let concrete =
-  res "Concrete" am2 10.
+  res "Concrete" am2 10. ~count: 10.
     [ 5., stone_brick; 1., iron_ore; 100., water ]
 
 
@@ -477,7 +477,7 @@ let radar =
 (* Electric Network *)
 
 let small_electric_pole =
-  res "Small Electric Pole" am1 0.5
+  res "Small Electric Pole" am1 0.5 ~count: 2.
     [ 2., wood; 2., copper_cable ]
 let medium_electric_pole =
   res "Medium Electric Pole" am1 0.5
@@ -540,7 +540,7 @@ let pump =
 (* Miscellaneous *)
 
 let concrete =
-  res "Concrete" am2 10.
+  res "Concrete" am2 10. ~count: 10.
     [ 5., stone_brick; 1., iron_ore; 100., water ]
 
 (* Rocket Compenents *)
@@ -564,7 +564,7 @@ let rocket_part =
 let satellite =
   res "Satellite" am3 3.
     [ 100., low_density_structure; 100., solar_panel; 100., accumulator;
-      50., radar; 100., processing_unit; 50., rocket_fuel ]
+      5., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (* new in 0.15 *)
 let nuclear_reactor =
