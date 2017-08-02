@@ -239,7 +239,7 @@ let empty_barrel =
   res "Empty Barrel" am1 1. ~allow_productivity: true
     [ 1., steel_plate ]
 let explosives =
-  res "Explosives" am1 5. ~allow_productivity: true
+  res "Explosives" chemical_plant 5. ~allow_productivity: true
     [ 1., sulfur; 1., coal; 10., water ]
 
 (* Weapons *)
