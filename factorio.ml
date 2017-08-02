@@ -79,8 +79,11 @@ let rec summarize_local throughput (resource: resource): summary =
         let makers =
           let make_maker (maker: maker) =
             let maker_count =
-              throughput /. resource.count *.
-              resource.time /. maker.crafting_speed /. (maker.power -. resource.hardness)
+              throughput
+              /. resource.count
+              *. resource.time
+              /. maker.crafting_speed
+              /. (maker.power -. resource.hardness)
             in
             maker_count, maker.name
           in
