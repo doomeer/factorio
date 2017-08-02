@@ -153,10 +153,10 @@ let get_resource_request (resource: gui_resource) =
         | 'c' | 'C' -> get_maker 2
         | _ -> None
     in
-    let count, index =
+    let count, index, should_apply_time_unit =
       match maker with
         | None ->
-            parse_float resource.count, None
+            parse_float resource.count, None, true
         | Some (maker, index) ->
             let maker_count =
               parse_float
@@ -165,11 +165,12 @@ let get_resource_request (resource: gui_resource) =
             in
             maker_count *. maker.crafting_speed /.
             resource.resource.time *. resource.resource.count,
-            Some (index, maker_count)
+            Some (index, maker_count),
+            false
     in
-    count, resource.resource, index
+    count, resource.resource, index, should_apply_time_unit
   else
-    0., resource.resource, None
+    0., resource.resource, None, false
 
 type module_settings =
   {
@@ -301,12 +302,17 @@ let gui_goals (global: summary list) (goals: summary list) =
   List.map gui_goal goals
 
 let get_resource_request_and_apply_time_unit (resource: gui_resource) =
-  let count, resource, _ = get_resource_request resource in
+  let count, resource, _, should_apply_time_unit =
+    get_resource_request resource
+  in
   let count =
-    match settings.time_unit with
-      | Seconds -> count
-      | Minutes -> count /. 60.
-      | Hours -> count /. 3600.
+    if should_apply_time_unit then
+      match settings.time_unit with
+        | Seconds -> count
+        | Minutes -> count /. 60.
+        | Hours -> count /. 3600.
+    else
+      count
   in
   count, resource
 
@@ -405,7 +411,7 @@ let make_hash () =
         | Global -> "g"
         | Local -> ""
     in
-    let count, _, index = get_resource_request resource in
+    let count, _, index, _ = get_resource_request resource in
     (
       match index with
         | Some (index, maker_count) when index >= 0 && index < 26 ->
