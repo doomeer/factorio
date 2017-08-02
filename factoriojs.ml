@@ -856,8 +856,14 @@ let () =
                    at full speed. To this end, simply prefix the number by \
                    the letter A to use the fastest machine, B to use the \
                    second best or C to use the third best. For instance, \
+                   if you allow yellow and blue assembly machines in \
+                   Advanced Settings, \
                    requesting b2 laser turrets means that \
-                   2 blue assembling machines should run at full speed.";
+                   2 blue assembling machines should run at full speed. \
+                   If you only allow blue assembly machines, b2 means \
+                   nothing as there is no second-fastest machine. \
+                   In this case, a2 would mean that 2 blue assembly machines \
+                   should run at full speed.";
                 div ~class_: "outputh1" [ text "Links" ];
                 p [
                   text "Source code is available on ";
