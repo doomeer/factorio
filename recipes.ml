@@ -468,6 +468,10 @@ let r_lab =
 let r_centrifuge =
    res "Centrifuge" am2 4.
      [ 100., concrete; 50.,steel_plate; 100., advanced_circuit; 100., iron_gear_wheel]
+let r_rocket_silo =
+  res rocket_silo.name am3 30.
+    [ 1000., concrete; 200., electric_engine_unit; 100., pipe;
+      200., processing_unit; 1000., steel_plate ]
 let beacon =
   res "Beacon" am2 15.
     [ 20., electronic_circuit; 20., advanced_circuit; 10., steel_plate;
@@ -779,6 +783,7 @@ let resources =
     r_assembling_machine_3;
     r_lab;
     r_centrifuge;
+    r_rocket_silo;
     beacon;
     radar;
 
