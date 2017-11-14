@@ -886,6 +886,8 @@ let () =
                      Thanks to s3bash, dwahler and DeCristoforis \
                      for 0.15 recipes! \
                      Thanks to NixonK for patching image links! \
+                     Thanks to TheOddler for the better CSS for small \
+                     screens! \
                      Thanks to Iidebyo for patching several wrong recipes! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
