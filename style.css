@@ -44,6 +44,7 @@ a.button {
   background-color: #dddddd;
   padding: 5px;
   border-radius: 3px;
+  text-align: center;
 }
 
 .rightcolumn {
@@ -51,6 +52,13 @@ a.button {
   width: calc(100% - 36em - 20px);
   margin: 0px;
   padding: 0px;
+}
+
+@media (max-width: 72em) {
+  .leftcolumn, .rightcolumn {
+    float: unset;
+    width: unset;
+  }
 }
 
 .settings {
