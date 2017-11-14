@@ -131,6 +131,13 @@ let water =
 let crude_oil =
   res "Crude Oil" [ pumpjack ] 1. ~count: 10. ~allow_productivity: true
     []
+let uranium_ore =
+  res "Uranium Ore" drill 4. ~hardness: 0.9 ~allow_productivity: true
+    []
+(* TODO: This process also produces 0.993 Uranium 238 *)
+let uranium_235 =
+  res "Uranium-235" [ centrifuge ] 10. ~count: 0.007 ~allow_productivity: true
+    [ 10., uranium_ore ]
 
 (* Intermediate Products *)
 
@@ -259,6 +266,9 @@ let poison_capsule =
 let slowdown_capsule =
   res "Slowdown Capsule" am2 8.
     [ 2., steel_plate; 2., electronic_circuit; 5., coal ]
+let atomic_bomb =
+  res "Atomic Bomb" am2 50.
+    [ 10., explosives; 20., processing_unit; 30., uranium_235 ]
 let speed_module =
   res "Speed Module" am2 15.
     [ 5., advanced_circuit; 5., electronic_circuit ]
@@ -467,7 +477,8 @@ let r_lab =
     [ 4., transport_belt; 10., iron_gear_wheel; 10., electronic_circuit ]
 let r_centrifuge =
    res "Centrifuge" am2 4.
-     [ 100., concrete; 50.,steel_plate; 100., advanced_circuit; 100., iron_gear_wheel]
+     [ 100., concrete; 50.,steel_plate; 100., advanced_circuit;
+       100., iron_gear_wheel]
 let r_rocket_silo =
   res rocket_silo.name am3 30.
     [ 1000., concrete; 200., electric_engine_unit; 100., pipe;
@@ -625,6 +636,7 @@ let resources =
     (* raw_fish; *)
     water;
     crude_oil;
+    uranium_ore;
 
     (* Intermediate Products *)
     wood;
@@ -653,6 +665,7 @@ let resources =
     space_science_pack;
     empty_barrel;
     explosives;
+    uranium_235;
 
     (* Chemicals *)
     petroleum_gas;
@@ -682,6 +695,7 @@ let resources =
     destroyer_capsule;
     (* basic_electric_discharge_defense_remote; *)
     (* tank; *)
+    atomic_bomb;
 
     (* Ammo *)
     firearm_magazine;
