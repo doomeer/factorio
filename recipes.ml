@@ -246,7 +246,7 @@ let empty_barrel =
   res "Empty Barrel" am1 1. ~allow_productivity: true
     [ 1., steel_plate ]
 let explosives =
-  res "Explosives" chemical_plant 5. ~allow_productivity: true
+  res "Explosives" chemical_plant 5. ~count: 2. ~allow_productivity: true
     [ 1., sulfur; 1., coal; 10., water ]
 
 (* Weapons *)
@@ -349,7 +349,7 @@ let construction_robot =
   res "Construction Robot" am1 0.5
     [ 1., flying_robot_frame; 2., electronic_circuit ]
 let roboport =
-  res "Roboport" am2 10.
+  res "Roboport" am2 5.
     [ 45., steel_plate; 45., iron_gear_wheel; 45., advanced_circuit ]
 
 (* Transport Belts *)
@@ -364,7 +364,7 @@ let fast_transport_belt =
   res "Fast Transport Belt" am1 0.5
     [ 1., transport_belt; 5., iron_gear_wheel ]
 let fast_underground_belt =
-  res "Fast Underground Belt" am1 0.5 ~count: 2.
+  res "Fast Underground Belt" am1 2 ~count: 2.
     [ 40., iron_gear_wheel; 2., underground_belt ]
 let fast_splitter =
   res "Fast Splitter" am2 2.
@@ -373,7 +373,7 @@ let express_transport_belt =
   res "Express Transport Belt" am2 0.5
     [ 1., fast_transport_belt; 10., iron_gear_wheel; 20., lubricant ]
 let express_underground_belt =
-  res "Express Underground Belt" am1 0.5 ~count: 2.
+  res "Express Underground Belt" am1 2 ~count: 2.
     [ 80., iron_gear_wheel; 2., fast_underground_belt; 40., lubricant ]
 let express_splitter =
   res "Express Splitter" am2 2.
@@ -473,7 +473,7 @@ let r_assembling_machine_3 =
   res assembling_machine_3.name am1 0.5
     [ 2., r_assembling_machine_2; 4., speed_module ]
 let r_lab =
-  res "Lab" am2 3.
+  res "Lab" am2 2.
     [ 4., transport_belt; 10., iron_gear_wheel; 10., electronic_circuit ]
 let r_centrifuge =
    res "Centrifuge" am2 4.
@@ -539,7 +539,7 @@ let storage_tank =
   res "Storage Tank" am1 3.
     [ 20., iron_plate; 5., steel_plate ]
 let r_oil_refinery =
-  res "Oil Refinery" am3 10.
+  res "Oil Refinery" am3 8.
     [ 10., pipe; 15., steel_plate; 10., stone_brick; 10., iron_gear_wheel;
       10., electronic_circuit ]
 let r_chemical_plant =
@@ -573,22 +573,22 @@ let rocket_part =
   res "Rocket Part" [ maker "Rocket Silo" 1. ] 3. ~allow_productivity: true
     [ 10., low_density_structure; 10., rocket_fuel; 10., rocket_control_unit ]
 let satellite =
-  res "Satellite" am3 3.
+  res "Satellite" am3 5.
     [ 100., low_density_structure; 100., solar_panel; 100., accumulator;
       5., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (* new in 0.15 *)
 let nuclear_reactor =
-  res "Nuclear reactor" am2 4.
+  res "Nuclear reactor" am2 8.
     [ 500., concrete; 500., steel_plate; 500., advanced_circuit; 500., copper_plate ]
 let heat_pipe =
-  res "Heat pipe" am1 0.5
+  res "Heat pipe" am1 1
     [ 10., steel_plate; 20., copper_plate ]
 let heat_exchanger =
-  res "Heat exchanger" am2 0.5
+  res "Heat exchanger" am2 3
     [ 10., steel_plate; 100., copper_plate; 10., pipe ]
 let steam_turbine =
-  res "Steam turbine" am2 0.5
+  res "Steam turbine" am2 3
     [ 50., iron_gear_wheel; 50., copper_plate; 20., pipe ]
 let fluid_wagon =
   res "Fluid wagon" am2 1.5
@@ -610,7 +610,7 @@ let military_science_pack =
     [ 1., piercing_rounds_magazine; 1., grenade; 1., gun_turret ]
 let production_science_pack =
   res "Production science pack" am2 14. ~count: 2. ~allow_productivity: true
-    [ 1., electric_engine_unit; 1., r_assembling_machine_1; 1., r_electric_furnace ]
+    [ 1., electric_engine_unit; 1., r_electric_furnace ]
 let high_tech_science_pack =
   res "High tech science pack" am2 14. ~count: 2. ~allow_productivity: true
     [ 1., battery; 3., processing_unit; 1., speed_module; 30., copper_cable ]
