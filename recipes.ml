@@ -364,7 +364,7 @@ let fast_transport_belt =
   res "Fast Transport Belt" am1 0.5
     [ 1., transport_belt; 5., iron_gear_wheel ]
 let fast_underground_belt =
-  res "Fast Underground Belt" am1 2 ~count: 2.
+  res "Fast Underground Belt" am1 2. ~count: 2.
     [ 40., iron_gear_wheel; 2., underground_belt ]
 let fast_splitter =
   res "Fast Splitter" am2 2.
@@ -373,7 +373,7 @@ let express_transport_belt =
   res "Express Transport Belt" am2 0.5
     [ 1., fast_transport_belt; 10., iron_gear_wheel; 20., lubricant ]
 let express_underground_belt =
-  res "Express Underground Belt" am1 2 ~count: 2.
+  res "Express Underground Belt" am1 2. ~count: 2.
     [ 80., iron_gear_wheel; 2., fast_underground_belt; 40., lubricant ]
 let express_splitter =
   res "Express Splitter" am2 2.
@@ -582,13 +582,13 @@ let nuclear_reactor =
   res "Nuclear reactor" am2 8.
     [ 500., concrete; 500., steel_plate; 500., advanced_circuit; 500., copper_plate ]
 let heat_pipe =
-  res "Heat pipe" am1 1
+  res "Heat pipe" am1 1.
     [ 10., steel_plate; 20., copper_plate ]
 let heat_exchanger =
-  res "Heat exchanger" am2 3
+  res "Heat exchanger" am2 3.
     [ 10., steel_plate; 100., copper_plate; 10., pipe ]
 let steam_turbine =
-  res "Steam turbine" am2 3
+  res "Steam turbine" am2 3.
     [ 50., iron_gear_wheel; 50., copper_plate; 20., pipe ]
 let fluid_wagon =
   res "Fluid wagon" am2 1.5
