@@ -100,7 +100,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set src i '_'
               else if i > 0 then
-                Bytes.set src i (Char.lowercase chr)
+                Bytes.set src i (Char.lowercase_ascii chr)
             done;
             src
     in
@@ -116,7 +116,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set href i '_'
               else if i > 0 then
-                Bytes.set href i (Char.lowercase chr)
+                Bytes.set href i (Char.lowercase_ascii chr)
             done;
             href
     in
@@ -815,12 +815,8 @@ let () =
               [
                 div ~class_: "outputh1" [ text "Current Version" ];
                 p_text
-                  "Productivity bonus is now only applied to resources which \
-                   allow it. If you think a resource should support \
-                   productivity modules but does not, please tell me.";
-                p_text (* ~class_: "warning" *)
-                  "Recipes were updated to Factorio version 0.15 by s3bash, \
-                   dwahler and DeCristoforis. Many thanks to all of you!";
+                  "Recipes were updated to Factorio version 0.16 by jab416171. \
+                   Thanks a lot!";
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
@@ -885,6 +881,7 @@ let () =
                     "Thanks to Nick Sheffield for the great style sheet! \
                      Thanks to s3bash, dwahler and DeCristoforis \
                      for 0.15 recipes! \
+                     Thanks to jab416171 for 0.16 recipes! \
                      Thanks to NixonK for patching image links! \
                      Thanks to TheOddler for the better CSS for small \
                      screens! \
