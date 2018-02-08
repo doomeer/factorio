@@ -313,51 +313,6 @@ let explosive_cannon_shell =
   res "Explosive Cannon Shell" am2 8.
     [ 2., steel_plate; 2., plastic_bar; 2., explosives ]
 
-(* Armor *)
-
-(* iron_armor; *)
-(* heavy_armor; *)
-let basic_modular_armor =
-  res "Modular armor" am1 15.
-    [ 30., advanced_circuit; 50., steel_plate ]
-let power_armor =
-  res "Power armor" am2 20.
-    [ 40., processing_unit; 20., electric_engine_unit; 40., steel_plate ]
-let power_armor_mk2 =
-  res "Power armor MK2" am2 25.
-    [ 5., efficiency_module_3; 5., speed_module_3; 40., processing_unit; 40., steel_plate ]
-
-(* Modular Armor *)
-
-(* night_vision; *)
-let battery_mk1 =
-  res "Battery" am1 10.
-    [ 5., battery; 10., steel_plate ]
-let battery_mk2 =
-  res "Battery MK2" am1 10.
-    [ 10., battery_mk1; 20., processing_unit ]
-let energy_shield =
-  res "Energy shield" am1 10.
-    [ 5., advanced_circuit; 10., steel_plate ]
-let energy_shield_mk2 =
-  res "Energy Shield MK2" am1 10.
-    [ 10., energy_shield; 10., processing_unit ]
-let portable_solar_panel =
-  res "Portable solar panel" am2 10.
-    [ 5., solar_panel; 1., advanced_circuit; 5., steel_plate ]
-let portable_fusion_reactor =
-  res "Portable fusion reactor" am1 10.
-    [ 250., processing_unit ]
-let personal_laser_defense =
-  res "Personal laser defense" am2 10.
-    [ 1., processing_unit; 5., steel_plate; 5., laser_turret ]
-let discharge_defense =
-  res "Discharge defense" am2 10.
-    [ 5., processing_unit; 20., steel_plate; 10., laser_turret ]
-let basic_exoskeleton_equipment =
-  res "Exoskeleton" am2 10.
-    [ 10., processing_unit; 30., electric_engine_unit; 20., steel_plate ]
-
 (* Modules *)
 
 let efficiency_module =
@@ -392,7 +347,8 @@ let car =
     [ 8., engine_unit; 20., iron_plate; 5., steel_plate ]
 let tank =
   res "Tank" am2  5.
-    [ 32., engine_unit; 50., steel_plate; 15., iron_gear_whee; 10., advanced_circuit ]
+    [ 32., engine_unit; 50., steel_plate; 15., iron_gear_wheel;
+      10., advanced_circuit ]
 let logistic_robot =
   res "Logistic Robot" am1 0.5
     [ 1., flying_robot_frame; 2., advanced_circuit ]
@@ -645,7 +601,6 @@ let fluid_wagon =
   res "Fluid wagon" am2 1.5
     [ 10., iron_gear_wheel; 16., steel_plate; 8., pipe; 3., storage_tank]
 
-
 (* Science packs *)
 let science_pack_1 =
   res "Science Pack 1" am1 5. ~allow_productivity: true
@@ -669,6 +624,51 @@ let space_science_pack =
   (* TODO: we could replace the 1. by the time it takes to launch a rocket. *)
   res "Space Science Pack" [ rocket_silo ] 1. ~count: 1000.
     [ 100., rocket_part; 1., satellite ]
+
+(* Armor *)
+
+(* iron_armor; *)
+(* heavy_armor; *)
+let basic_modular_armor =
+  res "Modular armor" am1 15.
+    [ 30., advanced_circuit; 50., steel_plate ]
+let power_armor =
+  res "Power armor" am2 20.
+    [ 40., processing_unit; 20., electric_engine_unit; 40., steel_plate ]
+let power_armor_mk2 =
+  res "Power armor MK2" am2 25.
+    [ 5., efficiency_module_3; 5., speed_module_3; 40., processing_unit; 40., steel_plate ]
+
+(* Modular Armor *)
+
+(* night_vision; *)
+let battery_mk1 =
+  res "Battery" am1 10.
+    [ 5., battery; 10., steel_plate ]
+let battery_mk2 =
+  res "Battery MK2" am1 10.
+    [ 10., battery_mk1; 20., processing_unit ]
+let energy_shield =
+  res "Energy shield" am1 10.
+    [ 5., advanced_circuit; 10., steel_plate ]
+let energy_shield_mk2 =
+  res "Energy Shield MK2" am1 10.
+    [ 10., energy_shield; 10., processing_unit ]
+let portable_solar_panel =
+  res "Portable solar panel" am2 10.
+    [ 5., solar_panel; 1., advanced_circuit; 5., steel_plate ]
+let portable_fusion_reactor =
+  res "Portable fusion reactor" am1 10.
+    [ 250., processing_unit ]
+let personal_laser_defense =
+  res "Personal laser defense" am2 10.
+    [ 1., processing_unit; 5., steel_plate; 5., laser_turret ]
+let discharge_defense =
+  res "Discharge defense" am2 10.
+    [ 5., processing_unit; 20., steel_plate; 10., laser_turret ]
+let basic_exoskeleton_equipment =
+  res "Exoskeleton" am2 10.
+    [ 10., processing_unit; 30., electric_engine_unit; 20., steel_plate ]
 
 (******************************************************************************)
 (*                              List of Resources                             *)
