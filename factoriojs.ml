@@ -63,6 +63,9 @@ let ft float = text (fs float)
 let special_icons =
   let list =
     [
+      power_armor_mk2.name, "Power_armor_MK2";
+      battery_mk2.name, "Battery_MK2";
+      energy_shield_mk2.name, "Energy_shield_MK2";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -72,7 +75,9 @@ let special_icons =
 let special_hrefs =
   let list =
     [
-      (* No uppercase. *)
+      power_armor_mk2.name, "Power_armor_MK2";
+      battery_mk2.name, "Battery_MK2";
+      energy_shield_mk2.name, "Energy_shield_MK2";
     ]
   in
   let table = Hashtbl.create 16 in
@@ -886,6 +891,7 @@ let () =
                      Thanks to TheOddler for the better CSS for small \
                      screens! \
                      Thanks to Iidebyo for patching several wrong recipes! \
+                     Thanks to JuicyJuuce for even more recipes! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
                      thanks to you.";
