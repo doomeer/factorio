@@ -643,7 +643,7 @@ let power_armor_mk2 =
 
 (* night_vision; *)
 let battery_mk1 =
-  res "Battery" am1 10.
+  res "Battery MK1" am1 10.
     [ 5., battery; 10., steel_plate ]
 let battery_mk2 =
   res "Battery MK2" am1 10.
@@ -669,6 +669,12 @@ let discharge_defense =
 let basic_exoskeleton_equipment =
   res "Exoskeleton" am2 10.
     [ 10., processing_unit; 30., electric_engine_unit; 20., steel_plate ]
+
+(* artillery shell *)
+let artillery_shell =
+  res "Artillery Shell" am2 15.
+    [ 4., explosive_cannon_shell; 8., explosives; 1., radar ]
+
 
 (******************************************************************************)
 (*                              List of Resources                             *)
@@ -757,6 +763,7 @@ let resources =
     flamethrower_ammo;
     cannon_shell;
     explosive_cannon_shell;
+    artillery_shell;
 
     (* Armor *)
     (* iron_armor; *)
