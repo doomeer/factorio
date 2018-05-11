@@ -107,7 +107,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set src i '_'
               else if i > 0 then
-                Bytes.set src i (Char.lowercase_ascii chr)
+                Bytes.set src i (Char.lowercase chr)
             done;
             src
     in
@@ -123,7 +123,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set href i '_'
               else if i > 0 then
-                Bytes.set href i (Char.lowercase_ascii chr)
+                Bytes.set href i (Char.lowercase chr)
             done;
             href
     in
@@ -205,6 +205,7 @@ type settings =
     mutable assembling_machine_2: bool;
     mutable assembling_machine_3: bool;
     mutable petroleum_gas: [ `basic | `advanced | `cracking ];
+    mutable solid_fuel: [ `heavy | `light | `petroleum ];
     mutable drill_electric_modules: module_settings;
     mutable pumpjack_modules: module_settings;
     mutable furnace_electric_modules: module_settings;
@@ -230,6 +231,7 @@ let settings =
     assembling_machine_2 = true;
     assembling_machine_3 = true;
     petroleum_gas = `cracking;
+    solid_fuel = `petroleum;
     drill_electric_modules = no_bonuses;
     pumpjack_modules = no_bonuses;
     furnace_electric_modules = no_bonuses;
@@ -384,6 +386,15 @@ let rec apply_settings (resource: resource) =
     else
       resource
   in
+  let resource =
+    if resource.name = solid_fuel.name then
+      match settings.solid_fuel with
+        | `heavy -> solid_fuel_from_heavy_oil
+        | `light -> solid_fuel_from_light_oil
+        | `petroleum -> solid_fuel_from_petroleum_gas
+    else
+      resource
+  in
   (* Need to compute the makers first so that the [productivity_bonus]
      reference is updated before we use it. *)
   let makers =
@@ -458,6 +469,12 @@ let make_hash () =
         | `basic -> "0"
         | `advanced -> "1"
         | `cracking -> "2"
+    ) ::
+    (
+      match settings.solid_fuel with
+        | `heavy -> "H"
+        | `light -> "L"
+        | `petroleum -> "P"
     ) ::
     make_module_hash settings.drill_electric_modules ::
     make_module_hash settings.pumpjack_modules ::
@@ -592,6 +609,13 @@ let parse_hash hash =
       | '0' -> settings.petroleum_gas <- `basic
       | '1' -> settings.petroleum_gas <- `advanced
       | '2' -> settings.petroleum_gas <- `cracking
+      | _ -> ()
+  );
+  (
+    match next () with
+      | 'H' -> settings.solid_fuel <- `heavy
+      | 'L' -> settings.solid_fuel <- `light
+      | 'P' -> settings.solid_fuel <- `petroleum
       | _ -> ()
   );
   parse_module_bonuses
@@ -752,6 +776,21 @@ let () =
           (fun () -> settings.petroleum_gas = `cracking)
           (fun () -> settings.petroleum_gas <- `cracking);
         gui_icon "Advanced Oil Processing + Cracking";
+      ];
+      div ~class_: "setting" [
+        text "Solid fuel: ";
+        rb "solidfuel"
+          (fun () -> settings.solid_fuel = `heavy)
+          (fun () -> settings.solid_fuel <- `heavy);
+        gui_icon "Solid fuel from heavy oil";
+        rb "solidfuel"
+          (fun () -> settings.solid_fuel = `light)
+          (fun () -> settings.solid_fuel <- `light);
+        gui_icon "Solid fuel from light oil";
+        rb "solidfuel"
+          (fun () -> settings.solid_fuel = `petroleum)
+          (fun () -> settings.solid_fuel <- `petroleum);
+        gui_icon "Solid fuel from petroleum gas";
       ];
       module_settings "Electric Mining Drill"
         (fun () -> settings.drill_electric_modules)

@@ -569,6 +569,12 @@ let low_density_structure =
 let rocket_control_unit =
   res "Rocket Control Unit" am1 30. ~allow_productivity: true
     [ 1., processing_unit; 1., speed_module ]
+let solid_fuel_from_heavy_oil =
+  res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
+    [ 20., heavy_oil ]
+let solid_fuel_from_light_oil =
+  res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
+    [ 10., light_oil ]
 let solid_fuel_from_petroleum_gas =
   res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
     [ 20., petroleum_gas ]
