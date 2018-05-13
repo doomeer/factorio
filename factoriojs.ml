@@ -33,7 +33,7 @@ type gui_resource =
     mutable set_gui_count: string -> unit;
   }
 
-let resources =
+let resources_by_category: (string * gui_resource list) list =
   let make_resource resource =
     {
       resource;
@@ -42,7 +42,12 @@ let resources =
       set_gui_count = (fun _ -> ());
     }
   in
-  List.map make_resource resources
+  List.map
+    (fun (category, resources) -> category, List.map make_resource resources)
+    resources
+
+let resources: gui_resource list =
+  List.map snd resources_by_category |> List.flatten
 
 let parse_float string =
   try
@@ -860,9 +865,14 @@ let () =
           | [], [] ->
               [
                 div ~class_: "outputh1" [ text "Current Version" ];
-                p_text
-                  "Recipes were updated to Factorio version 0.16 by jab416171. \
-                   Thanks a lot!";
+                p [
+                  text
+                    "Check out the new solid fuel settings added by \
+                     DeCristoforis in Advanced Settings! \
+                     I also split recipes into categories. ";
+                  a ~href: "https://github.com/doomeer/factorio/issues/51"
+                    [ text "Discuss it on GitHub." ];
+                ];
                 div ~class_: "outputh1" [ text "Getting Started" ];
                 p_text
                   "Set the number next to each resource to the \
@@ -980,9 +990,13 @@ let () =
         gui_icon resource.resource.name;
       ]
     in
+    let resource_input_category (name, resources) =
+      p ~class_: "resource_category" [ text name ] ::
+      List.map resource_input resources
+    in
     div ~class_: "main" [
       div ~class_: "leftcolumn" (
-        List.map resource_input resources
+        List.flatten (List.map resource_input_category resources_by_category)
         @ [
           p ~class_: "button" [
             a ~class_: "button" ~href: "index.html" [ text "Reset" ];

@@ -690,223 +690,234 @@ let artillery_shell =
 
 let resources =
   [
-    (* Resources *)
-    raw_wood;
-    coal;
-    iron_ore;
-    copper_ore;
-    stone;
-    (* raw_fish; *)
-    water;
-    crude_oil;
-    uranium_ore;
+    "Resources",
+    [
+      raw_wood;
+      coal;
+      iron_ore;
+      copper_ore;
+      stone;
+      (* raw_fish; *)
+      water;
+      crude_oil;
+      uranium_ore;
+    ];
 
-    (* Intermediate Products *)
-    wood;
-    iron_plate;
-    copper_plate;
-    steel_plate;
-    stone_brick;
-    sulfur;
-    plastic_bar;
-    battery;
-    iron_stick;
-    iron_gear_wheel;
-    copper_cable;
-    electronic_circuit;
-    advanced_circuit;
-    processing_unit;
-    engine_unit;
-    electric_engine_unit;
-    flying_robot_frame;
-    science_pack_1;
-    science_pack_2;
-    science_pack_3;
-    military_science_pack;
-    production_science_pack;
-    high_tech_science_pack;
-    space_science_pack;
-    empty_barrel;
-    explosives;
-    uranium_235;
+    "Intermediate Products",
+    [
+      wood;
+      iron_plate;
+      copper_plate;
+      steel_plate;
+      stone_brick;
+      sulfur;
+      plastic_bar;
+      battery;
+      iron_stick;
+      iron_gear_wheel;
+      copper_cable;
+      electronic_circuit;
+      advanced_circuit;
+      processing_unit;
+      engine_unit;
+      electric_engine_unit;
+      flying_robot_frame;
+      science_pack_1;
+      science_pack_2;
+      science_pack_3;
+      military_science_pack;
+      production_science_pack;
+      high_tech_science_pack;
+      space_science_pack;
+      empty_barrel;
+      explosives;
+      uranium_235;
 
-    (* Chemicals *)
-    petroleum_gas;
-    light_oil;
-    heavy_oil;
-    sulfuric_acid;
-    lubricant;
+      petroleum_gas;
+      light_oil;
+      heavy_oil;
+      sulfuric_acid;
+      lubricant;
+    ];
 
-    (* Player Equipment *)
-    (* iron_axe; *)
-    (* steel_axe; *)
+    "Player Equipment",
+    [
+      (* iron_axe; *)
+      (* steel_axe; *)
 
-    (* Weapons *)
-    (* pistol; *)
-    (* submachine_gun; *)
-    (* rocket_launcher; *)
-    (* flamethrower; *)
-    land_mine;
-    (* shotgun; *)
-    (* combat_shotgun; *)
-    grenade;
-    cluster_grenade;
-    defender_capsule;
-    poison_capsule;
-    slowdown_capsule;
-    distractor_capsule;
-    destroyer_capsule;
-    (* basic_electric_discharge_defense_remote; *)
-    atomic_bomb;
+      (* Weapons *)
+      (* pistol; *)
+      (* submachine_gun; *)
+      (* rocket_launcher; *)
+      (* flamethrower; *)
+      land_mine;
+      (* shotgun; *)
+      (* combat_shotgun; *)
+      grenade;
+      cluster_grenade;
+      defender_capsule;
+      poison_capsule;
+      slowdown_capsule;
+      distractor_capsule;
+      destroyer_capsule;
+      (* basic_electric_discharge_defense_remote; *)
+      atomic_bomb;
 
-    (* Ammo *)
-    firearm_magazine;
-    piercing_rounds_magazine;
-    shotgun_shells;
-    piercing_shotgun_shells;
-    rocket;
-    explosive_rocket;
-    flamethrower_ammo;
-    cannon_shell;
-    explosive_cannon_shell;
-    artillery_shell;
+      (* Ammo *)
+      firearm_magazine;
+      piercing_rounds_magazine;
+      shotgun_shells;
+      piercing_shotgun_shells;
+      rocket;
+      explosive_rocket;
+      flamethrower_ammo;
+      cannon_shell;
+      explosive_cannon_shell;
+      artillery_shell;
 
-    (* Armor *)
-    (* iron_armor; *)
-    (* heavy_armor; *)
-    basic_modular_armor;
-    power_armor;
-    power_armor_mk2;
+      (* Armor *)
+      (* iron_armor; *)
+      (* heavy_armor; *)
+      basic_modular_armor;
+      power_armor;
+      power_armor_mk2;
 
-    (* Modular Armor *)
-    (* night_vision; *)
-    battery_mk1;
-    battery_mk2;
-    energy_shield;
-    energy_shield_mk2;
-    portable_solar_panel;
-    portable_fusion_reactor;
-    personal_laser_defense;
-    discharge_defense;
-    basic_exoskeleton_equipment;
+      (* Modular Armor *)
+      (* night_vision; *)
+      battery_mk1;
+      battery_mk2;
+      energy_shield;
+      energy_shield_mk2;
+      portable_solar_panel;
+      portable_fusion_reactor;
+      personal_laser_defense;
+      discharge_defense;
+      basic_exoskeleton_equipment;
+    ];
 
-    (* Modules *)
-    efficiency_module;
-    efficiency_module_2;
-    efficiency_module_3;
-    productivity_module;
-    productivity_module_2;
-    productivity_module_3;
-    speed_module;
-    speed_module_2;
-    speed_module_3;
+    "Modules",
+    [
+      efficiency_module;
+      efficiency_module_2;
+      efficiency_module_3;
+      productivity_module;
+      productivity_module_2;
+      productivity_module_3;
+      speed_module;
+      speed_module_2;
+      speed_module_3;
+    ];
 
-    (* Special *)
-    car;
-    tank;
-    (* red_wire; *)
-    (* green_wire; *)
-    logistic_robot;
-    construction_robot;
-    roboport;
-    (* blueprint; *)
-    (* deconstruction_planner; *)
-    solid_fuel;
+    "Logistics",
+    [
+      transport_belt;
+      underground_belt;
+      splitter;
+      fast_transport_belt;
+      fast_underground_belt;
+      fast_splitter;
+      express_transport_belt;
+      express_underground_belt;
+      express_splitter;
 
-    (* Transport Belts *)
-    transport_belt;
-    underground_belt;
-    splitter;
-    fast_transport_belt;
-    fast_underground_belt;
-    fast_splitter;
-    express_transport_belt;
-    express_underground_belt;
-    express_splitter;
+      burner_inserter;
+      inserter;
+      long_handed_inserter;
+      fast_inserter;
+      filter_inserter;
+      stack_inserter;
+      stack_filter_inserter;
 
-    (* Inserters *)
-    burner_inserter;
-    inserter;
-    long_handed_inserter;
-    fast_inserter;
-    filter_inserter;
-    stack_inserter;
-    stack_filter_inserter;
+      wooden_chest;
+      iron_chest;
+      steel_chest;
+      active_provider_chest;
+      passive_provider_chest;
+      storage_chest;
+      requester_chest;
 
-    (* Storage *)
-    wooden_chest;
-    iron_chest;
-    steel_chest;
-    active_provider_chest;
-    passive_provider_chest;
-    storage_chest;
-    requester_chest;
+      straight_rail;
+      fluid_wagon;
+      (* train_stop; *)
+      (* rail_signal; *)
+      (* rail_chain_signal; *)
+      (* diesel_locomotive; *)
+      (* cargo_wagon; *)
 
-    (* Defensive Structures *)
-    stone_wall;
-    gate;
-    gun_turret;
-    flamethrower_turret;
-    laser_turret;
-    (* Rocket Silo *)
+      (* Liquid Network *)
+      pipe;
+      pipe_to_ground;
+      storage_tank;
+    ];
 
-    (* Machines & Furnaces *)
-    r_burner_mining_drill;
-    r_electric_mining_drill;
-    r_stone_furnace;
-    r_steel_furnace;
-    r_electric_furnace;
-    r_assembling_machine_1;
-    r_assembling_machine_2;
-    r_assembling_machine_3;
-    r_lab;
-    r_centrifuge;
-    r_rocket_silo;
-    beacon;
-    radar;
+    "Machines & Furnaces & Pumps",
+    [
+      r_burner_mining_drill;
+      r_electric_mining_drill;
+      r_stone_furnace;
+      r_steel_furnace;
+      r_electric_furnace;
+      r_assembling_machine_1;
+      r_assembling_machine_2;
+      r_assembling_machine_3;
+      r_lab;
+      r_centrifuge;
+      r_rocket_silo;
+      r_oil_refinery;
+      r_chemical_plant;
+      r_pumpjack;
+      r_offshore_pump;
+      pump;
+    ];
 
-    (* Electric Network *)
-    small_electric_pole;
-    medium_electric_pole;
-    big_electric_pole;
-    substation;
-    boiler;
-    steam_engine;
-    solar_panel;
-    accumulator;
-    lamp;
-    nuclear_reactor;
-    heat_pipe;
-    heat_exchanger;
-    steam_turbine;
+    "Electric Network",
+    [
+      small_electric_pole;
+      medium_electric_pole;
+      big_electric_pole;
+      substation;
+      boiler;
+      steam_engine;
+      solar_panel;
+      accumulator;
+      lamp;
+      nuclear_reactor;
+      heat_pipe;
+      heat_exchanger;
+      steam_turbine;
+    ];
 
+    "Miscellaneous",
+    [
+      concrete;
+      solid_fuel;
+      car;
+      tank;
+      (* red_wire; *)
+      (* green_wire; *)
+      logistic_robot;
+      construction_robot;
+      roboport;
+      (* blueprint; *)
+      (* deconstruction_planner; *)
 
-    (* Railway Network *)
-    straight_rail;
-    fluid_wagon;
-    (* train_stop; *)
-    (* rail_signal; *)
-    (* rail_chain_signal; *)
-    (* diesel_locomotive; *)
-    (* cargo_wagon; *)
+      stone_wall;
+      gate;
+      gun_turret;
+      flamethrower_turret;
+      laser_turret;
+      (* Rocket Silo *)
 
-    (* Liquid Network *)
-    pipe;
-    pipe_to_ground;
-    r_offshore_pump;
-    storage_tank;
-    r_oil_refinery;
-    r_chemical_plant;
-    r_pumpjack;
-    pump;
+      beacon;
+      radar;
+    ];
 
-    (* Miscellaneous *)
-    concrete;
-
-    (* Rocket Components *)
-    low_density_structure;
-    rocket_fuel;
-    rocket_part;
-    rocket_control_unit;
-    satellite;
+    "Rocket Components",
+    [
+      low_density_structure;
+      rocket_fuel;
+      rocket_part;
+      rocket_control_unit;
+      satellite;
+    ];
   ]

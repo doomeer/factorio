@@ -154,3 +154,9 @@ a.button {
 .sharedpercent {
   color: #80aaff;
 }
+
+.resource_category {
+  font-weight: bold;
+  margin-top: 0.2em;
+  margin-bottom: 0;
+}
