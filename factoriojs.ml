@@ -933,6 +933,7 @@ let () =
                      screens! \
                      Thanks to Iidebyo for patching several wrong recipes! \
                      Thanks to JuicyJuuce for even more recipes! \
+                     Thanks to DeCristoforis for the Solid Fuel setting! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
                      thanks to you.";
