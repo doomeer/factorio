@@ -107,7 +107,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set src i '_'
               else if i > 0 then
-                Bytes.set src i (Char.lowercase chr)
+                Bytes.set src i (Char.lowercase_ascii chr)
             done;
             src
     in
@@ -123,7 +123,7 @@ let rec gui_icon alt =
               if chr = ' ' then
                 Bytes.set href i '_'
               else if i > 0 then
-                Bytes.set href i (Char.lowercase chr)
+                Bytes.set href i (Char.lowercase_ascii chr)
             done;
             href
     in
