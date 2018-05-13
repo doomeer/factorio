@@ -569,6 +569,12 @@ let low_density_structure =
 let rocket_control_unit =
   res "Rocket Control Unit" am1 30. ~allow_productivity: true
     [ 1., processing_unit; 1., speed_module ]
+let solid_fuel_from_heavy_oil =
+  res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
+    [ 20., heavy_oil ]
+let solid_fuel_from_light_oil =
+  res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
+    [ 10., light_oil ]
 let solid_fuel_from_petroleum_gas =
   res "Solid Fuel" chemical_plant 3. ~allow_productivity: true
     [ 20., petroleum_gas ]
@@ -643,7 +649,7 @@ let power_armor_mk2 =
 
 (* night_vision; *)
 let battery_mk1 =
-  res "Battery" am1 10.
+  res "Battery MK1" am1 10.
     [ 5., battery; 10., steel_plate ]
 let battery_mk2 =
   res "Battery MK2" am1 10.
@@ -669,6 +675,12 @@ let discharge_defense =
 let basic_exoskeleton_equipment =
   res "Exoskeleton" am2 10.
     [ 10., processing_unit; 30., electric_engine_unit; 20., steel_plate ]
+
+(* artillery shell *)
+let artillery_shell =
+  res "Artillery Shell" am2 15.
+    [ 4., explosive_cannon_shell; 8., explosives; 1., radar ]
+
 
 (******************************************************************************)
 (*                              List of Resources                             *)
@@ -757,6 +769,7 @@ let resources =
     flamethrower_ammo;
     cannon_shell;
     explosive_cannon_shell;
+    artillery_shell;
 
     (* Armor *)
     (* iron_armor; *)
