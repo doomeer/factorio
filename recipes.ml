@@ -722,13 +722,6 @@ let resources =
       engine_unit;
       electric_engine_unit;
       flying_robot_frame;
-      science_pack_1;
-      science_pack_2;
-      science_pack_3;
-      military_science_pack;
-      production_science_pack;
-      high_tech_science_pack;
-      space_science_pack;
       empty_barrel;
       explosives;
       uranium_235;
@@ -738,6 +731,17 @@ let resources =
       heavy_oil;
       sulfuric_acid;
       lubricant;
+    ];
+
+    "Science Packs",
+    [
+      science_pack_1;
+      science_pack_2;
+      science_pack_3;
+      military_science_pack;
+      production_science_pack;
+      high_tech_science_pack;
+      space_science_pack;
     ];
 
     "Player Equipment",
