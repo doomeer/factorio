@@ -944,6 +944,7 @@ let () =
                      Thanks to Iidebyo for patching several wrong recipes! \
                      Thanks to JuicyJuuce for even more recipes! \
                      Thanks to DeCristoforis for the Solid Fuel setting! \
+                     Thanks to Saintis for the science pack category! \
                      And thanks to everyone who helped finding bugs \
                      or posted suggestions. This tool greatly improved \
                      thanks to you.";
