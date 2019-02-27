@@ -33,8 +33,11 @@ open Factorio
 
 (* Usage: maker name crafting_speed *)
 
-let burner_mining_drill = maker "Burner Mining Drill" 0.35    ~power: 2.5
-let electric_mining_drill = maker "Electric Mining Drill" 0.5 ~power: 3.
+(* Lava84flow: miners now have a just mining speed function instead
+ of needing power as wellso this might break everything *)
+
+let burner_mining_drill = maker "Burner Mining Drill" 0.25
+let electric_mining_drill = maker "Electric Mining Drill" 0.5
 let assembling_machine_1 = maker "Assembling Machine 1" 0.5
 let assembling_machine_2 = maker "Assembling Machine 2" 0.75
 let assembling_machine_3 = maker "Assembling Machine 3" 1.25
@@ -110,20 +113,24 @@ let chemical_plant = [ chemical_plant_ ]
 
 (* Resources *)
 
-let raw_wood =
-  res "Raw Wood" [] 1. ~style: Global
+let wood =
+  res "Wood" [] 1. ~style: Global
     []
+
+    (* Lava84flow: the mining thing also means that ore hardness is no
+    longer a thing, so more things to break here*)
+
 let coal =
-  res "Coal" drill 2. ~style: Global  ~hardness: 0.9 ~allow_productivity: true
+  res "Coal" drill 2. ~style: Global ~allow_productivity: true
     []
 let iron_ore =
-  res "Iron Ore" drill 2. ~hardness: 0.9 ~allow_productivity: true
+  res "Iron Ore" drill 2. ~allow_productivity: true
     []
 let copper_ore =
-  res "Copper Ore" drill 2. ~hardness: 0.9 ~allow_productivity: true
+  res "Copper Ore" drill 2. ~allow_productivity: true
     []
 let stone =
-  res "Stone" drill 2. ~hardness: 0.4 ~allow_productivity: true
+  res "Stone" drill 2. ~allow_productivity: true
     []
 let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
@@ -132,7 +139,7 @@ let crude_oil =
   res "Crude Oil" [ pumpjack ] 1. ~count: 10. ~allow_productivity: true
     []
 let uranium_ore =
-  res "Uranium Ore" drill 4. ~hardness: 0.9 ~allow_productivity: true
+  res "Uranium Ore" drill 4. ~allow_productivity: true
     []
 (* TODO: This process also produces 0.993 Uranium 238 *)
 let uranium_235 =
@@ -141,20 +148,23 @@ let uranium_235 =
 
 (* Intermediate Products *)
 
-let wood =
+(* Lava84flow: wood and raw wood have been merged*)
+
+(* let wood =
   res "Wood" am1 0.5 ~count: 2. ~allow_productivity: true
-    [ 1., raw_wood ]
+    [ 1., raw_wood ] *)
+
 let iron_plate =
-  res "Iron Plate" furnace 3.5 ~style: Global ~allow_productivity: true
+  res "Iron Plate" furnace 3.2 ~style: Global ~allow_productivity: true
     [ 1., iron_ore ]
 let copper_plate =
-  res "Copper Plate" furnace 3.5 ~style: Global ~allow_productivity: true
+  res "Copper Plate" furnace 3.2 ~style: Global ~allow_productivity: true
     [ 1., copper_ore ]
 let steel_plate =
-  res "Steel Plate" furnace 17.5 ~allow_productivity: true
+  res "Steel Plate" furnace 16 ~allow_productivity: true
     [ 5., iron_plate ]
 let stone_brick =
-  res "Stone Brick" furnace 3.5 ~allow_productivity: true
+  res "Stone Brick" furnace 3.2 ~allow_productivity: true
     [ 2., stone ]
 
 let petroleum_gas_basic =
@@ -591,6 +601,7 @@ let satellite =
       5., radar; 100., processing_unit; 50., rocket_fuel ]
 
 (* new in 0.15 *)
+
 let nuclear_reactor =
   res "Nuclear reactor" am2 8.
     [ 500., concrete; 500., steel_plate; 500., advanced_circuit; 500., copper_plate ]
@@ -608,24 +619,32 @@ let fluid_wagon =
     [ 10., iron_gear_wheel; 16., steel_plate; 8., pipe; 3., storage_tank]
 
 (* Science packs *)
-let science_pack_1 =
-  res "Science Pack 1" am1 5. ~allow_productivity: true
-    [ 1., copper_plate; 1., iron_gear_wheel ]
-let science_pack_2 =
-  res "Science Pack 2" am1 6. ~allow_productivity: true
-    [ 1., inserter; 1., transport_belt ]
-let science_pack_3 =
-  res "Science Pack 3" am2 12. ~allow_productivity: true
-    [ 1., advanced_circuit; 1., engine_unit; 1., r_electric_mining_drill ]
+
+let automation_science_pack =
+  res "Automation Science Pack" am2 5. ~allow_productivity: true
+    [ 1., copper_plate; 1., iron_gear_wheel; ]
+
+let logistic_science_pack =
+  res "Logistic Science Pack" am2 6. ~allow_productivity: true
+    [ 1., inserter; 1., transport_belt; ]
+
+(* Lava84flow: solid fuel for this one might need some fixing*)
+let chemical_science_pack =
+  res "Chemical Science Pack" am2 24. ~count: 2. ~allow_productivity: true
+    [ 3., advanced_circuit; 2., engine_unit; 1., solid_fuel; ]
+
 let military_science_pack =
-  res "Military science pack" am2 10. ~count: 2. ~allow_productivity: true
-    [ 1., piercing_rounds_magazine; 1., grenade; 1., gun_turret ]
+  res "Military Science Pack" am2 10. ~count: 2. ~allow_productivity: true
+    [  1., grenade; 1., piercing_rounds_magazine; 2., stone_wall; ]
+
 let production_science_pack =
-  res "Production science pack" am2 14. ~count: 2. ~allow_productivity: true
-    [ 1., electric_engine_unit; 1., r_electric_furnace ]
-let high_tech_science_pack =
-  res "High tech science pack" am2 14. ~count: 2. ~allow_productivity: true
-    [ 1., battery; 3., processing_unit; 1., speed_module; 30., copper_cable ]
+  res "Production Science Pack" am2 21. ~count: 3. ~allow_productivity: true
+    [ 1., r_electric_furnace; 1., productivity_module; 30., rail; ]
+
+let utility_science_pack =
+  res "Utility Science Pack" am2 21. ~count: 3. ~allow_productivity: true
+    [ 1., flying_robot_frame; 3., low_density_structure; 2., processing_unit; ]
+
 let space_science_pack =
   (* TODO: we could replace the 1. by the time it takes to launch a rocket. *)
   res "Space Science Pack" [ rocket_silo ] 1. ~count: 1000.
