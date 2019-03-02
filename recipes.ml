@@ -574,8 +574,8 @@ let pump =
 (* Rocket Compenents *)
 
 let low_density_structure =
-  res "Low Density Structure" am2 30. ~allow_productivity: true
-    [ 10., steel_plate; 5., copper_plate; 5., plastic_bar ]
+  res "Low Density Structure" am2 20. ~allow_productivity: true
+    [ 2., steel_plate; 20., copper_plate; 5., plastic_bar ]
 let rocket_control_unit =
   res "Rocket Control Unit" am1 30. ~allow_productivity: true
     [ 1., processing_unit; 1., speed_module ]
