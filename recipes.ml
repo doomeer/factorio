@@ -438,12 +438,12 @@ let requester_chest =
 
 (* Defensive Structures *)
 
-let stone_wall =
-  res "Stone Wall" am1 0.5
+let wall =
+  res "Wall" am1 0.5
     [ 5., stone_brick ]
 let gate =
   res "Gate" am2 0.5
-    [ 2., electronic_circuit; 2., steel_plate; 1., stone_wall ]
+    [ 2., electronic_circuit; 2., steel_plate; 1., wall ]
 let gun_turret =
   res "Gun Turret" am2 8.
     [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
@@ -635,7 +635,7 @@ let chemical_science_pack =
 
 let military_science_pack =
   res "Military Science Pack" am2 10. ~count: 2. ~allow_productivity: true
-    [  1., grenade; 1., piercing_rounds_magazine; 2., stone_wall; ]
+    [  1., grenade; 1., piercing_rounds_magazine; 2., wall; ]
 
 let production_science_pack =
   res "Production Science Pack" am2 21. ~count: 3. ~allow_productivity: true
@@ -923,7 +923,7 @@ let resources =
       (* blueprint; *)
       (* deconstruction_planner; *)
 
-      stone_wall;
+      wall;
       gate;
       gun_turret;
       flamethrower_turret;
