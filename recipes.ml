@@ -161,7 +161,7 @@ let copper_plate =
   res "Copper Plate" furnace 3.2 ~style: Global ~allow_productivity: true
     [ 1., copper_ore ]
 let steel_plate =
-  res "Steel Plate" furnace 16 ~allow_productivity: true
+  res "Steel Plate" furnace 16. ~allow_productivity: true
     [ 5., iron_plate ]
 let stone_brick =
   res "Stone Brick" furnace 3.2 ~allow_productivity: true
@@ -438,12 +438,12 @@ let requester_chest =
 
 (* Defensive Structures *)
 
-let stone_wall =
-  res "Stone Wall" am1 0.5
+let wall =
+  res "Wall" am1 0.5
     [ 5., stone_brick ]
 let gate =
   res "Gate" am2 0.5
-    [ 2., electronic_circuit; 2., steel_plate; 1., stone_wall ]
+    [ 2., electronic_circuit; 2., steel_plate; 1., wall ]
 let gun_turret =
   res "Gun Turret" am2 8.
     [ 20., iron_plate; 10., copper_plate; 10., iron_gear_wheel ]
@@ -574,8 +574,8 @@ let pump =
 (* Rocket Compenents *)
 
 let low_density_structure =
-  res "Low Density Structure" am2 30. ~allow_productivity: true
-    [ 10., steel_plate; 5., copper_plate; 5., plastic_bar ]
+  res "Low Density Structure" am2 20. ~allow_productivity: true
+    [ 2., steel_plate; 20., copper_plate; 5., plastic_bar ]
 let rocket_control_unit =
   res "Rocket Control Unit" am1 30. ~allow_productivity: true
     [ 1., processing_unit; 1., speed_module ]
@@ -635,11 +635,11 @@ let chemical_science_pack =
 
 let military_science_pack =
   res "Military Science Pack" am2 10. ~count: 2. ~allow_productivity: true
-    [  1., grenade; 1., piercing_rounds_magazine; 2., stone_wall; ]
+    [  1., grenade; 1., piercing_rounds_magazine; 2., wall; ]
 
 let production_science_pack =
   res "Production Science Pack" am2 21. ~count: 3. ~allow_productivity: true
-    [ 1., r_electric_furnace; 1., productivity_module; 30., rail; ]
+    [ 1., r_electric_furnace; 1., productivity_module; 30., straight_rail; ]
 
 let utility_science_pack =
   res "Utility Science Pack" am2 21. ~count: 3. ~allow_productivity: true
@@ -711,7 +711,7 @@ let resources =
   [
     "Resources",
     [
-      raw_wood;
+      wood;
       coal;
       iron_ore;
       copper_ore;
@@ -723,8 +723,7 @@ let resources =
     ];
 
     "Intermediate Products",
-    [
-      wood;
+    [      
       iron_plate;
       copper_plate;
       steel_plate;
@@ -754,12 +753,12 @@ let resources =
 
     "Science Packs",
     [
-      science_pack_1;
-      science_pack_2;
-      science_pack_3;
+      automation_science_pack;
+      logistic_science_pack;
+      chemical_science_pack;
       military_science_pack;
       production_science_pack;
-      high_tech_science_pack;
+      utility_science_pack;
       space_science_pack;
     ];
 
@@ -924,7 +923,7 @@ let resources =
       (* blueprint; *)
       (* deconstruction_planner; *)
 
-      stone_wall;
+      wall;
       gate;
       gun_turret;
       flamethrower_turret;
