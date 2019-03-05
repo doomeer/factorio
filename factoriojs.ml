@@ -69,8 +69,8 @@ let special_icons =
   let list =
     [
       power_armor_mk2.name, "Power_armor_MK2";
-      battery_mk1.name, "Battery-equipment";
-      battery_mk2.name, "Battery_MK2";
+      personal_battery.name, "Battery-equipment";
+      personal_battery_mk2.name, "Battery_MK2";
       energy_shield_mk2.name, "Energy_shield_MK2";
     ]
   in
@@ -82,8 +82,8 @@ let special_hrefs =
   let list =
     [
       power_armor_mk2.name, "Power_armor_MK2";
-      battery_mk1.name, "Battery_MK1";
-      battery_mk2.name, "Battery_MK2";
+      personal_battery.name, "Battery_MK1";
+      personal_battery_mk2.name, "Battery_MK2";
       energy_shield_mk2.name, "Energy_shield_MK2";
     ]
   in

@@ -44,8 +44,8 @@ let assembling_machine_3 = maker "Assembling Machine 3" 1.25
 let stone_furnace = maker "Stone Furnace" 1.
 let steel_furnace = maker "Steel Furnace" 2.
 let electric_furnace = maker "Electric Furnace" 2.
-let chemical_plant_ = maker "Chemical Plant" 1
-let centrifuge = maker "Centrifuge" 1
+let chemical_plant_ = maker "Chemical Plant" 1.
+let centrifuge = maker "Centrifuge" 1.
 let pumpjack = maker "Pumpjack" 1.
 let rocket_silo = maker "Rocket Silo" 0.001
 
@@ -517,10 +517,10 @@ let small_electric_pole =
     [ 1., wood; 2., copper_cable ]
 let medium_electric_pole =
   res "Medium Electric Pole" am1 0.5
-    [ 2., steel_plate; 2., copper_plate, 4., iron_stick ]
+    [ 2., steel_plate; 2., copper_plate; 4., iron_stick ]
 let big_electric_pole =
   res "Big Electric Pole" am1 0.5
-    [ 5., steel_plate; 5., copper_plate, 8., iron_stick ]
+    [ 5., steel_plate; 5., copper_plate; 8., iron_stick ]
 let substation =
   res "Substation" am1 0.5
     [ 10., steel_plate; 5., advanced_circuit; 5., copper_plate ]
@@ -677,7 +677,7 @@ let personal_battery =
 
 let personal_battery_mk2 =
   res "Personal battery MK2" am1 10.
-    [ 10., battery_mk1; 15., processing_unit; 5., low_density_stucture ]
+    [ 10., personal_battery; 15., processing_unit; 5., low_density_structure ]
 
 let energy_shield =
   res "Energy shield" am1 10.
@@ -685,7 +685,7 @@ let energy_shield =
 
 let energy_shield_mk2 =
   res "Energy Shield MK2" am1 10.
-    [ 10., energy_shield; 10., processing_unit; 5., low_density_stucture ]
+    [ 10., energy_shield; 10., processing_unit; 5., low_density_structure ]
 
 let portable_solar_panel =
   res "Portable solar panel" am2 10.
@@ -693,11 +693,11 @@ let portable_solar_panel =
 
 let portable_fusion_reactor =
   res "Portable fusion reactor" am1 10.
-    [ 250., processing_unit; 50., low_density_stucture ]
+    [ 250., processing_unit; 50., low_density_structure ]
 
 let personal_laser_defense =
   res "Personal laser defense" am1 10.
-    [ 20., processing_unit; 5., low_density_stucture; 5., laser_turret ]
+    [ 20., processing_unit; 5., low_density_structure; 5., laser_turret ]
 
 let discharge_defense =
   res "Discharge defense" am1 10.
@@ -818,8 +818,8 @@ let resources =
 
       (* Modular Armor *)
       (* night_vision; *)
-      battery_mk1;
-      battery_mk2;
+      personal_battery;
+      personal_battery_mk2;
       energy_shield;
       energy_shield_mk2;
       portable_solar_panel;
