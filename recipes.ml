@@ -145,7 +145,7 @@ let uranium_ore =
     []
 (* TODO: This process also produces 0.993 Uranium 238 *)
 let uranium_235 =
-  res "Uranium-235" [ centrifuge ] 10. ~count: 0.007 ~allow_productivity: true
+  res "Uranium-235" [ centrifuge ] 12. ~count: 0.007 ~allow_productivity: true
     [ 10., uranium_ore ]
 
 (* Intermediate Products *)
@@ -735,7 +735,7 @@ let resources =
     ];
 
     "Intermediate Products",
-    [      
+    [
       iron_plate;
       copper_plate;
       steel_plate;
