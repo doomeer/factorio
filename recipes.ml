@@ -123,16 +123,16 @@ let wood =
     (* Lava84flow: Someone double check the craft times for raws *)
 
 let coal =
-  res "Coal" drill 2. ~style: Global ~allow_productivity: true
+  res "Coal" drill 1. ~style: Global ~allow_productivity: true
     []
 let iron_ore =
-  res "Iron Ore" drill 2. ~allow_productivity: true
+  res "Iron Ore" drill 1. ~allow_productivity: true
     []
 let copper_ore =
-  res "Copper Ore" drill 2. ~allow_productivity: true
+  res "Copper Ore" drill 1. ~allow_productivity: true
     []
 let stone =
-  res "Stone" drill 2. ~allow_productivity: true
+  res "Stone" drill 1. ~allow_productivity: true
     []
 let water =
   res "Water" [ maker "Offshore Pump" 1. ] 1. ~count: 1200. ~style: Global
@@ -141,11 +141,11 @@ let crude_oil =
   res "Crude Oil" [ pumpjack ] 1. ~count: 10. ~allow_productivity: true
     []
 let uranium_ore =
-  res "Uranium Ore" drill 4. ~allow_productivity: true
+  res "Uranium Ore" drill 2. ~allow_productivity: true
     []
 (* TODO: This process also produces 0.993 Uranium 238 *)
 let uranium_235 =
-  res "Uranium-235" [ centrifuge ] 10. ~count: 0.007 ~allow_productivity: true
+  res "Uranium-235" [ centrifuge ] 12. ~count: 0.007 ~allow_productivity: true
     [ 10., uranium_ore ]
 
 (* Intermediate Products *)
@@ -735,7 +735,7 @@ let resources =
     ];
 
     "Intermediate Products",
-    [      
+    [
       iron_plate;
       copper_plate;
       steel_plate;
