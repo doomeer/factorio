@@ -114,7 +114,7 @@ let rec gui_icon alt =
               else if i > 0 then
                 Bytes.set src i (Char.lowercase_ascii chr)
             done;
-            src
+            Bytes.to_string src
     in
     let src = "https://wiki.factorio.com/images/"^src^".png" in
     let href =
@@ -130,7 +130,7 @@ let rec gui_icon alt =
               else if i > 0 then
                 Bytes.set href i (Char.lowercase_ascii chr)
             done;
-            href
+            Bytes.to_string href
     in
     let href = "https://wiki.factorio.com/index.php?title="^href in
     a ~href [ img ~class_: "icon" ~alt ~title: alt src ]

@@ -39,7 +39,7 @@ Alternatively, you can use OPAM (OCaml Package Manager, https://opam.ocaml.org):
     sudo apt-get install opam
     opam init
     opam switch 4.03.0
-    opam install js_of_ocaml
+    opam install js_of_ocaml js_of_ocaml-camlp4
 
 ### Windows:
 
@@ -48,7 +48,7 @@ Open the OCaml terminal that the installation produces and run the following:
 
     opam init
     opam switch 4.03.0
-    opam install js_of_ocaml
+    opam install js_of_ocaml js_of_ocaml-camlp4
 
 ## Compile Factorio Planner
 
