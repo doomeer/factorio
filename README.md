@@ -4,6 +4,10 @@ Factorio Planner helps you plan your factories by computing how many
 resources and machines you need to produce a given throughput of
 resources. Try it here: http://doomeer.com/factorio
 
+## Current Version
+
+Recipes for Factorio version 0.17.
+
 ## Architecture
 
 Factorio Planner is written in OCaml, but is then compiled to Javascript
