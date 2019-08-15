@@ -317,7 +317,7 @@ let explosive_rocket =
     [ 1., rocket; 2., explosives ]
 let flamethrower_ammo =
   res "Flamethrower Ammo" chemical_plant 6.
-    [ 5., steel_plate; 50., light_oil; 50., heavy_oil ]
+    [ 5., steel_plate; 100., crude_oil ]
 let cannon_shell =
   res "Cannon Shell" am1 8.
     [ 2., steel_plate; 2., plastic_bar; 1., explosives ]
@@ -593,7 +593,7 @@ let solid_fuel_from_petroleum_gas =
 let solid_fuel = solid_fuel_from_petroleum_gas
 let rocket_fuel =
   res "Rocket Fuel" am1 30. ~allow_productivity: true
-    [ 10., solid_fuel ]
+    [ 10., solid_fuel; 10., light_oil ]
 let rocket_part =
   res "Rocket Part" [ maker "Rocket Silo" 1. ] 3. ~allow_productivity: true
     [ 10., low_density_structure; 10., rocket_fuel; 10., rocket_control_unit ]
@@ -633,7 +633,7 @@ let logistic_science_pack =
 (* Lava84flow: solid fuel for this one might need some fixing*)
 let chemical_science_pack =
   res "Chemical Science Pack" am1 24. ~count: 2. ~allow_productivity: true
-    [ 3., advanced_circuit; 2., engine_unit; 1., solid_fuel; ]
+    [ 3., advanced_circuit; 2., engine_unit; 1., sulfur; ]
 
 let military_science_pack =
   res "Military Science Pack" am1 10. ~count: 2. ~allow_productivity: true
