@@ -198,7 +198,7 @@ let plastic_bar =
   res "Plastic Bar" chemical_plant 1. ~count: 2. ~allow_productivity: true
     [ 1., coal; 20., petroleum_gas ]
 let battery =
-  res "Battery" chemical_plant 5. ~allow_productivity: true
+  res "Battery" chemical_plant 4. ~allow_productivity: true
     [ 1., iron_plate; 1., copper_plate; 20., sulfuric_acid ]
 let iron_stick =
   res "Iron Stick" am1 0.5 ~count: 2. ~allow_productivity: true
