@@ -2,6 +2,22 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+::-moz-selection {
+  background: #dddddd;
+}
+::selection {
+  background: #dddddd;
+}
+
+a {
+  color: #80aaff;
+  text-decoration: none;
+}
+a:hover, a:active, a:focus {
+  color: #80aaff;
+  text-decoration: underline;
+}
+
 p {
   line-height: 1.5;
 }
@@ -22,6 +38,10 @@ button.setvisible, a.button {
   cursor: pointer;
 }
 
+button.setvisible:hover, a.button:hover {
+  background-color: #333;
+}
+
 a.button {
   width: 100px;
   text-decoration: none;
@@ -30,6 +50,8 @@ a.button {
 
 .count {
   width: 3em;
+  border: 0;
+  padding: 0.5em;
 }
 
 .resourceinput {
@@ -68,7 +90,7 @@ a.button {
 }
 
 .setting {
-  margin: 0.5em 0
+  margin: 0.5em 0;
 }
 
 .setting input[type=checkbox] {
@@ -122,6 +144,7 @@ a.button {
 .outputh1 {
   margin-bottom: 1em;
   font-size: large;
+  color: #666;
 }
 
 .goals > .goal {
@@ -145,6 +168,11 @@ a.button {
 .icon {
   vertical-align: middle;
   width: 32px;
+  margin-left: 0.5em;
+}
+
+.icon:hover {
+  opacity: 0.8;
 }
 
 .warning {
@@ -157,6 +185,6 @@ a.button {
 
 .resource_category {
   font-weight: bold;
-  margin-top: 0.2em;
-  margin-bottom: 0;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
 }
