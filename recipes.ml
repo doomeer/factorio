@@ -693,7 +693,7 @@ let portable_solar_panel =
 
 let portable_fusion_reactor =
   res "Portable fusion reactor" am1 10.
-    [ 250., processing_unit; 50., low_density_structure ]
+    [ 200., processing_unit; 50., low_density_structure ]
 
 let personal_laser_defense =
   res "Personal laser defense" am1 10.
